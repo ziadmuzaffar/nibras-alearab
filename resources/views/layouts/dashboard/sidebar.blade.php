@@ -59,7 +59,18 @@
                 <svg class="w-5 h-5 {{ request()->routeIs('admin.categories.*') ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }} transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
-                <span>التصنيفات</span>
+                <span>إدارة التصنيفات</span>
+            </div>
+        </a>
+
+        <!-- Users -->
+        <a href="{{ route('admin.users.index') }}"
+            class="flex items-center justify-between px-3.5 py-3 rounded-xl font-medium text-sm transition-all duration-150 {{ request()->routeIs('admin.users.*') ? 'bg-gradient-to-l from-blue-600 to-blue-700 text-white shadow-md shadow-blue-900/40 border-r-4 border-red-500' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }} group">
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 {{ request()->routeIs('admin.users.*') ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }} transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <span>إدارة المستخدمين</span>
             </div>
         </a>
 

@@ -15,27 +15,11 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'مدير النظام (Admin)',
-                'email' => 'admin@nibras.com',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-            ],
-            [
-                'name' => 'سارة أحمد - مسؤولة المبيعات',
-                'email' => 'sales@nibras.com',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-            ],
-            [
-                'name' => 'محمد الغامدي - مشرف الإنتاج والطباعة',
-                'email' => 'production@nibras.com',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-            ],
-            [
-                'name' => 'عميل تجريبي',
-                'email' => 'client@example.com',
-                'password' => Hash::make('password'),
+                'name' => 'مدير النظام',
+                'email' => 'admin@example.com',
+                'phone' => '0501234567',
+                'is_active' => true,
+                'password' => 'password',
                 'email_verified_at' => now(),
             ],
         ];

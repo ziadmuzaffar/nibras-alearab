@@ -1,12 +1,6 @@
-@import 'tailwindcss';
-
-@source '../views/**/*.blade.php';
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-
-@theme {
-    --font-sans: 'Cairo', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* Custom styles and brand variables */
+:root {
+    --font-sans: 'Cairo', system-ui, -apple-system, sans-serif;
     --color-brand-blue-50: #eff6ff;
     --color-brand-blue-100: #dbeafe;
     --color-brand-blue-500: #2563eb;
@@ -20,6 +14,10 @@
     --color-brand-red-600: #dc2626;
     --color-brand-red-700: #b91c1c;
     --color-brand-red-800: #991b1b;
+}
+
+body {
+    font-family: 'Cairo', system-ui, -apple-system, sans-serif;
 }
 
 /* Custom scrollbar for dashboard */

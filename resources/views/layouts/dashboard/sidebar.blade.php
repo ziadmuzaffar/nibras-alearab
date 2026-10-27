@@ -6,7 +6,7 @@
     <div class="h-20 flex items-center justify-between px-6 border-b border-slate-800/80 bg-slate-950/40">
         <a href="{{ url('/admin') }}" class="flex items-center gap-3 group">
             <div class="relative w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 shadow-lg shadow-blue-950/50 flex items-center justify-center overflow-hidden">
-                <img src="{{ asset('logo.png') }}" alt="شعار نبراس العرب" class="w-full h-full object-contain p-1 bg-white rounded-[10px]" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e3a8a/white?text=NA';">
+                <img src="{{ asset('logo.png') }}" alt="شعار نبراس العرب" class="w-full h-full object-contain p-1 bg-white rounded-[10px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
             </div>
             <div class="flex flex-col">
                 <span class="font-extrabold text-base tracking-wide text-white group-hover:text-red-400 transition-colors">نبراس العرب</span>

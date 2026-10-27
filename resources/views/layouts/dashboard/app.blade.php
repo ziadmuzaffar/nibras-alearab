@@ -8,22 +8,47 @@
 
     <title>@yield('title', 'لوحة التحكم') | مطبعة نبراس العرب</title>
 
-    <!-- Google Fonts: Cairo -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Local Fonts: Cairo -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/cairo/cairo.css') }}">
 
-    <!-- Font Awesome 6 Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Local Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}">
 
-    <!-- Styles & Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <style>
-        body {
-            font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    <!-- Local Tailwind CSS (Standalone) -->
+    <script src="{{ asset('assets/vendor/tailwindcss/tailwind.min.js') }}"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-blue': {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                            900: '#0f172a',
+                        },
+                        'brand-red': {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
         }
-    </style>
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/css/app.css') }}">
 </head>
 
 <body class="h-full text-slate-800 antialiased overflow-x-hidden selection:bg-red-500 selection:text-white">

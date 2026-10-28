@@ -100,14 +100,18 @@
             <button id="user-menu-btn"
                     onclick="toggleUserMenu()"
                     class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-slate-100 focus:outline-none transition-colors">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 flex items-center justify-center shadow-sm">
-                    <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center text-xs font-bold text-white">
-                        ن
-                    </div>
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 flex items-center justify-center shadow-sm overflow-hidden">
+                    @if(auth()->check() && auth()->user()->avatar)
+                        <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover rounded-[10px]">
+                    @else
+                        <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center text-xs font-bold text-white uppercase">
+                            {{ mb_substr(auth()->user()->name ?? 'ن', 0, 1) }}
+                        </div>
+                    @endif
                 </div>
-                <div class="hidden xl:flex flex-col text-right">
-                    <span class="text-xs font-bold text-slate-900">نبراس الإدارة</span>
-                    <span class="text-[10px] text-slate-400">مدير عام</span>
+                <div class="hidden xl:flex flex-col text-right max-w-[130px]">
+                    <span class="text-xs font-bold text-slate-900 truncate">{{ auth()->user()->name ?? 'نبراس الإدارة' }}</span>
+                    <span class="text-[10px] text-slate-400 truncate">مدير عام</span>
                 </div>
                 <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -118,17 +122,17 @@
             <div id="user-dropdown-menu" 
                  class="hidden absolute left-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-slate-200/80 py-2 z-50 animate-fade-in">
                 <div class="px-4 py-2 border-b border-slate-100">
-                    <p class="text-xs font-bold text-slate-900">نبراس العرب للمطبوعات</p>
-                    <p class="text-[11px] text-slate-500">info@nebras-press.com</p>
+                    <p class="text-xs font-bold text-slate-900 truncate">{{ auth()->user()->name ?? 'نبراس العرب للمطبوعات' }}</p>
+                    <p class="text-[11px] text-slate-500 font-mono truncate" dir="ltr">{{ auth()->user()->email ?? 'info@nebras-press.com' }}</p>
                 </div>
                 <div class="py-1">
-                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-900 transition-colors">
+                    <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-900 transition-colors {{ request()->routeIs('admin.profile.*') ? 'bg-blue-50/70 text-blue-900 font-bold' : '' }}">
                         <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                         <span>الملف الشخصي</span>
                     </a>
-                    <a href="{{ route('admin.settings.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-900 transition-colors">
+                    <a href="{{ route('admin.settings.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-900 transition-colors {{ request()->routeIs('admin.settings.*') ? 'bg-blue-50/70 text-blue-900 font-bold' : '' }}">
                         <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

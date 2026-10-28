@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="h-full bg-slate-950">
+<html lang="ar" dir="rtl" class="h-full bg-slate-950 overflow-x-hidden">
 
 <head>
     <meta charset="utf-8">
@@ -52,6 +52,12 @@
     <link rel="stylesheet" href="{{ asset('assets/dashboard/css/app.css') }}">
 
     <style>
+        html,
+        body {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+
         /* Ambient Glow Animations */
         @keyframes float-slow {
 
@@ -93,12 +99,12 @@
     </style>
 </head>
 
-<body class="h-full font-sans text-slate-800 antialiased selection:bg-red-500 selection:text-white bg-slate-950 overflow-x-hidden">
+<body class="min-h-full font-sans text-slate-800 antialiased selection:bg-red-500 selection:text-white bg-slate-950 overflow-x-hidden">
 
-    <div class="min-h-screen flex">
+    <div class="min-h-screen w-full flex flex-col lg:flex-row overflow-x-hidden">
 
         <!-- Left Side: Interactive & Artistic Brand Showcase (Visible on Large Screens) -->
-        <div class="hidden lg:flex lg:w-1/2 xl:w-7/12 relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 flex-col justify-between p-12 xl:p-16 text-white border-l border-slate-800/80">
+        <div class="hidden lg:flex lg:w-1/2 xl:w-7/12 relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 flex-col justify-between p-8 xl:p-14 text-white border-l border-slate-800/80">
 
             <!-- Background Decorative Grid & Glows -->
             <div class="absolute inset-0 pattern-grid pointer-events-none opacity-40"></div>
@@ -108,7 +114,7 @@
             <div class="absolute top-1/2 left-1/3 -translate-y-1/2 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
             <!-- Top Header in Showcase -->
-            <div class="relative z-10 flex items-center justify-between">
+            <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
                 <a href="{{ url('/') }}" class="flex items-center gap-3 group" title="الانتقال للموقع الرئيسي">
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 shadow-xl shadow-blue-950/60 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
                         <img src="{{ asset('logo.png') }}" alt="شعار نبراس العرب" class="w-full h-full object-contain p-1.5 bg-white rounded-[14px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
@@ -126,24 +132,24 @@
             </div>
 
             <!-- Central Content: Visual Feature Cards & Statement -->
-            <div class="relative z-10 my-auto py-8">
+            <div class="relative z-10 my-auto py-6 xl:py-8">
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold mb-6 backdrop-blur-md">
                     <i class="fa-solid fa-shield-halved text-red-500"></i>
                     <span>بوابة الإدارة المركزية</span>
                 </div>
 
-                <h1 class="text-3xl xl:text-4xl font-extrabold text-white leading-tight mb-4">
+                <h1 class="text-2xl xl:text-4xl font-extrabold text-white leading-tight mb-4">
                     إدارة متطورة لكافة
                     <span class="bg-gradient-to-l from-red-500 via-red-400 to-blue-400 bg-clip-text text-transparent">عمليات الطباعة والتوزيع</span>
                 </h1>
 
-                <p class="text-slate-400 text-sm xl:text-base leading-relaxed max-w-xl mb-10">
+                <p class="text-slate-400 text-sm xl:text-base leading-relaxed max-w-xl mb-8 xl:mb-10">
                     منظومة إدارية شاملة ومصممة بأعلى معايير الدقة والسرعة لمتابعة المنتجات، التصنيفات، الطلبات، والتقارير الحية في مطبعة نبراس العرب.
                 </p>
 
                 <!-- 3 Highlights Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-3.5 max-w-2xl">
                     <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/90 backdrop-blur-md hover:border-slate-700 transition-all duration-300">
                         <div class="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center mb-3 text-lg">
                             <i class="fa-solid fa-boxes-stacked"></i>
@@ -171,7 +177,7 @@
             </div>
 
             <!-- Bottom Footer in Showcase -->
-            <div class="relative z-10 pt-6 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+            <div class="relative z-10 pt-6 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-red-500"></span>
                     <span>جميع الحقوق محفوظة &copy; {{ date('Y') }} مطبعة نبراس العرب</span>
@@ -185,64 +191,64 @@
         </div>
 
         <!-- Right Side: Login Form (Visible & Centered across all devices) -->
-        <div class="w-full lg:w-1/2 xl:w-5/12 flex items-center justify-center p-6 sm:p-10 lg:p-12 xl:p-16 bg-slate-900/90 relative">
+        <div class="w-full lg:w-1/2 xl:w-5/12 min-h-screen lg:min-h-0 flex items-center justify-center p-4 sm:p-8 lg:p-10 xl:p-14 bg-slate-900/90 relative overflow-hidden">
 
-            <!-- Mobile Ambient Glows -->
-            <div class="lg:hidden absolute -top-24 -left-24 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="lg:hidden absolute -bottom-24 -right-24 w-72 h-72 bg-red-600/15 rounded-full blur-3xl pointer-events-none"></div>
+            <!-- Mobile Ambient Glows (Clipped by overflow-hidden on parent) -->
+            <div class="lg:hidden absolute -top-24 -left-24 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl pointer-events-none select-none"></div>
+            <div class="lg:hidden absolute -bottom-24 -right-24 w-72 h-72 bg-red-600/15 rounded-full blur-3xl pointer-events-none select-none"></div>
 
-            <div class="w-full max-w-md relative z-10">
+            <div class="w-full max-w-md relative z-10 mx-auto">
 
                 <!-- Mobile Brand Header (Hidden on Large Screens) -->
-                <div class="lg:hidden flex flex-col items-center text-center mb-8">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 shadow-xl shadow-blue-950/70 flex items-center justify-center overflow-hidden mb-3">
-                        <img src="{{ asset('logo.png') }}" alt="شعار نبراس العرب" class="w-full h-full object-contain p-2 bg-white rounded-[14px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
+                <div class="lg:hidden flex flex-col items-center text-center mb-6 sm:mb-8">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 shadow-xl shadow-blue-950/70 flex items-center justify-center overflow-hidden mb-2.5">
+                        <img src="{{ asset('logo.png') }}" alt="شعار نبراس العرب" class="w-full h-full object-contain p-1.5 sm:p-2 bg-white rounded-[14px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
                     </div>
-                    <h2 class="text-xl font-extrabold text-white">مطبعة نبراس العرب</h2>
-                    <p class="text-xs text-slate-400 mt-1">بوابة تسجيل دخول المشرفين والمديرين</p>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-white">مطبعة نبراس العرب</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">بوابة تسجيل دخول المشرفين والمديرين</p>
                 </div>
 
                 <!-- Form Card -->
-                <div class="bg-slate-900/95 border border-slate-800 shadow-2xl rounded-3xl p-7 sm:p-9 backdrop-blur-xl transition-all">
+                <div class="bg-slate-900/95 border border-slate-800 shadow-2xl rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-9 backdrop-blur-xl transition-all">
 
                     <!-- Form Header -->
-                    <div class="mb-8">
+                    <div class="mb-6 sm:mb-8">
                         <div class="flex items-center justify-between mb-2">
-                            <h2 class="text-2xl font-black text-white tracking-tight">تسجيل الدخول</h2>
+                            <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">تسجيل الدخول</h2>
                         </div>
-                        <p class="text-sm text-slate-400 leading-relaxed">
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
                             مرحباً بك مجدداً! أدخل بيانات حسابك للوصول إلى لوحة الإدارة.
                         </p>
                     </div>
 
                     <!-- Flash / Error Alerts -->
                     @if (session('status'))
-                    <div class="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm flex items-start gap-3">
+                    <div class="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-sm flex items-start gap-3 break-words">
                         <div class="w-6 h-6 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <i class="fa-solid fa-check text-emerald-400 text-xs"></i>
                         </div>
-                        <div class="flex-1 font-medium">{{ session('status') }}</div>
+                        <div class="flex-1 font-medium break-words">{{ session('status') }}</div>
                     </div>
                     @endif
 
                     @if (session('error'))
-                    <div class="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm flex items-start gap-3">
+                    <div class="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm flex items-start gap-3 break-words">
                         <div class="w-6 h-6 rounded-lg bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <i class="fa-solid fa-triangle-exclamation text-red-400 text-xs"></i>
                         </div>
-                        <div class="flex-1 font-medium">{{ session('error') }}</div>
+                        <div class="flex-1 font-medium break-words">{{ session('error') }}</div>
                     </div>
                     @endif
 
                     @if ($errors->any())
-                    <div class="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm">
+                    <div class="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm break-words">
                         <div class="flex items-center gap-2 font-bold mb-1.5 text-red-400">
                             <i class="fa-solid fa-circle-exclamation text-xs"></i>
                             <span>تعذر تسجيل الدخول:</span>
                         </div>
                         <ul class="list-disc list-inside space-y-1 text-xs text-red-300/90 pr-2">
                             @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li class="break-words">{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
@@ -323,8 +329,8 @@
                                     name="remember"
                                     id="remember"
                                     {{ old('remember') ? 'checked' : '' }}
-                                    class="w-4 h-4 rounded border-slate-700 bg-slate-950 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-slate-900 accent-blue-600 transition cursor-pointer">
-                                <span class="text-xs font-medium text-slate-300 group-hover:text-white transition-colors">
+                                    class="w-4 h-4 shrink-0 rounded border-slate-700 bg-slate-950 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-slate-900 accent-blue-600 transition cursor-pointer">
+                                <span class="text-xs font-medium text-slate-300 group-hover:text-white transition-colors leading-relaxed">
                                     تذكر تسجيل الدخول على هذا الجهاز
                                 </span>
                             </label>

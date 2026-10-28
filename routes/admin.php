@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
@@ -34,6 +35,9 @@ Route::middleware(['auth', EnsureUserIsActive::class])->group(function () {
     Route::patch('/products/{product}/toggle-featured', [ProductController::class, 'toggleFeatured'])->name('products.toggle-featured');
     Route::delete('/products/images/{image}', [ProductController::class, 'destroyImage'])->name('products.images.destroy');
     Route::resource('products', ProductController::class);
+
+    // Portfolios / Projects Management
+    Route::resource('portfolios', PortfolioController::class);
 
     // Users Management
     Route::patch('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');

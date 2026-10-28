@@ -86,10 +86,10 @@
         </a>
 
         <!-- Portfolio Showcase -->
-        <a href="#"
-            class="flex items-center justify-between px-3.5 py-3 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all duration-150 group">
+        <a href="{{ route('admin.portfolios.index') }}"
+            class="flex items-center justify-between px-3.5 py-3 rounded-xl font-medium text-sm transition-all duration-150 {{ request()->routeIs('admin.portfolios.*') ? 'bg-gradient-to-l from-blue-600 to-blue-700 text-white shadow-md shadow-blue-900/40 border-r-4 border-red-500' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }} group">
             <div class="flex items-center gap-3">
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-blue-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-5 h-5 {{ request()->routeIs('admin.portfolios.*') ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }} transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <span>معرض الأعمال والمشاريع</span>

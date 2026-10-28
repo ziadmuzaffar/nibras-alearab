@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\QuoteRequestController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Middleware\EnsureUserIsActive;
@@ -39,7 +41,17 @@ Route::middleware(['auth', EnsureUserIsActive::class])->group(function () {
     // Portfolios / Projects Management
     Route::resource('portfolios', PortfolioController::class);
 
+    // Quote Requests Management
+    Route::patch('/quote-requests/{quoteRequest}/update-status', [QuoteRequestController::class, 'updateStatus'])->name('quote-requests.update-status');
+    Route::resource('quote-requests', QuoteRequestController::class);
+
     // Users Management
     Route::patch('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
     Route::resource('users', UserController::class);
+
+    // System Settings & Branding Management
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+    Route::post('/settings/reset', [SettingController::class, 'resetDefaults'])->name('settings.reset');
 });
+

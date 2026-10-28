@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'لوحة التحكم') | مطبعة نبراس العرب</title>
+    <title>@yield('title', 'لوحة التحكم') | {{ setting('site_name', 'مطبعة نبراس العرب') }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ setting_image('site_favicon', 'favicon.ico') }}">
 
     <!-- Local Fonts: Cairo -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/cairo/cairo.css') }}">

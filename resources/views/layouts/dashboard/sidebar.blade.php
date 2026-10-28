@@ -6,11 +6,11 @@
     <div class="h-20 flex items-center justify-between px-6 border-b border-slate-800/80 bg-slate-950/40">
         <a href="{{ url('/admin') }}" class="flex items-center gap-3 group">
             <div class="relative w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 shadow-lg shadow-blue-950/50 flex items-center justify-center overflow-hidden">
-                <img src="{{ asset('logo.png') }}" alt="شعار نبراس العرب" class="w-full h-full object-contain p-1 bg-white rounded-[10px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
+                <img src="{{ setting_image('site_logo', 'logo.png') }}" alt="{{ setting('site_name', 'نبراس العرب') }}" class="w-full h-full object-contain p-1 bg-white rounded-[10px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
             </div>
             <div class="flex flex-col">
-                <span class="font-extrabold text-base tracking-wide text-white group-hover:text-red-400 transition-colors">نبراس العرب</span>
-                <span class="text-[10px] font-medium text-slate-400 tracking-wider">للمطبوعات | لوحة التحكم</span>
+                <span class="font-extrabold text-base tracking-wide text-white group-hover:text-red-400 transition-colors">{{ setting('site_name', 'نبراس العرب') }}</span>
+                <span class="text-[10px] font-medium text-slate-400 tracking-wider truncate max-w-[140px]">{{ setting('site_tagline', 'للمطبوعات | لوحة التحكم') }}</span>
             </div>
         </a>
 
@@ -75,14 +75,22 @@
         </a>
 
         <!-- Inquiries / Quotes with RED BADGE -->
-        <a href="#"
-            class="flex items-center justify-between px-3.5 py-3 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all duration-150 group">
+        @php
+        $pendingQuotesCount = \App\Models\QuoteRequest::where('status', 'pending')->count();
+        @endphp
+        <a href="{{ route('admin.quote-requests.index') }}"
+            class="flex items-center justify-between px-3.5 py-3 rounded-xl font-medium text-sm transition-all duration-150 {{ request()->routeIs('admin.quote-requests.*') ? 'bg-gradient-to-l from-blue-600 to-blue-700 text-white shadow-md shadow-blue-900/40 border-r-4 border-red-500' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }} group">
             <div class="flex items-center gap-3">
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-5 h-5 {{ request()->routeIs('admin.quote-requests.*') ? 'text-white' : 'text-slate-400 group-hover:text-red-400' }} transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <span>طلبات عروض الأسعار</span>
             </div>
+            @if($pendingQuotesCount > 0)
+            <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold font-mono rounded-full {{ request()->routeIs('admin.quote-requests.*') ? 'bg-white text-blue-800' : 'bg-red-500 text-white animate-pulse' }} shadow-xs">
+                {{ $pendingQuotesCount }}
+            </span>
+            @endif
         </a>
 
         <!-- Portfolio Showcase -->
@@ -117,18 +125,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 <span>التقارير والإحصائيات</span>
-            </div>
-        </a>
-
-        <!-- Store & Contact Settings -->
-        <a href="#"
-            class="flex items-center justify-between px-3.5 py-3 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all duration-150 group">
-            <div class="flex items-center gap-3">
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-blue-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>إعدادات المطبعة والهوية</span>
             </div>
         </a>
 

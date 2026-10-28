@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\QuoteRequestController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
@@ -24,9 +26,7 @@ Route::middleware(['auth', EnsureUserIsActive::class])->group(function () {
     Route::get('/', function () {
         return redirect()->route('admin.dashboard');
     });
-    Route::get('/dashboard', function () {
-        return view('pages.admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Categories Management
     Route::patch('/categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggle-status');
@@ -53,5 +53,8 @@ Route::middleware(['auth', EnsureUserIsActive::class])->group(function () {
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
     Route::post('/settings/reset', [SettingController::class, 'resetDefaults'])->name('settings.reset');
-});
 
+    // Analytics & Reports
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
+});

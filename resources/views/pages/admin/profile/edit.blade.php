@@ -8,16 +8,11 @@
     <!-- Header & Breadcrumbs -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <div class="flex items-center gap-2 text-xs font-medium text-slate-400 mb-1">
-                <a href="{{ route('admin.dashboard') }}" class="hover:text-blue-600 transition-colors">لوحة التحكم</a>
-                <span>/</span>
-                <span class="text-slate-600">الملف الشخصي</span>
-            </div>
             <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
                 <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-sm shadow-xs">
                     <i class="fa-solid fa-user-gear"></i>
                 </div>
-                <span>الملف الشخصي وحساب المسؤول</span>
+                <span>الملف الشخصي</span>
             </h1>
             <p class="text-xs sm:text-sm text-slate-500 mt-1">إدارة معلوماتك الشخصية، بيانات الاتصال، وتحديث كلمة المرور الخاصة بحسابك</p>
         </div>

@@ -20,6 +20,24 @@
         
 
         <!-- Notifications Dropdown Container -->
+        @php
+            $pendingQuotesCount = \App\Models\QuoteRequest::where('status', 'pending')->count();
+            $headerQuotes = \App\Models\QuoteRequest::with('product')
+                ->where('status', 'pending')
+                ->latest()
+                ->take(4)
+                ->get();
+
+            if ($headerQuotes->isEmpty()) {
+                $headerQuotes = \App\Models\QuoteRequest::with('product')
+                    ->latest()
+                    ->take(3)
+                    ->get();
+            }
+
+            $latestPortfolio = \App\Models\Portfolio::latest()->first();
+            $hasNewNotifications = $pendingQuotesCount > 0;
+        @endphp
         <div class="static sm:relative">
             <button id="notifications-btn"
                     onclick="toggleNotifications()"
@@ -30,9 +48,15 @@
                 </svg>
                 <!-- Red Alert Badge -->
                 <span class="absolute top-2 left-2 flex h-2.5 w-2.5">
+                @if($hasNewNotifications)
+                <span class="absolute top-1.5 left-1.5 flex h-4 min-w-[16px] px-1 items-center justify-center">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
+                    <span class="relative inline-flex items-center justify-center rounded-full h-4 min-w-[16px] px-1 bg-red-600 text-[10px] font-bold font-mono text-white leading-none">
+                        {{ $pendingQuotesCount > 99 ? '99+' : $pendingQuotesCount }}
+                    </span>
                 </span>
+                @endif
             </button>
 
             <!-- Notifications Panel -->
@@ -42,6 +66,11 @@
                     <div class="flex items-center gap-2">
                         <span class="font-bold text-sm text-slate-900">الإشعارات والتنبيهات</span>
                         <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-red-100 text-red-700">3 جديدة</span>
+                        @if($pendingQuotesCount > 0)
+                            <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-red-100 text-red-700">{{ $pendingQuotesCount }} جديدة</span>
+                        @else
+                            <span class="px-2 py-0.5 text-[11px] font-medium rounded-full bg-slate-100 text-slate-500">لا توجد جديدة</span>
+                        @endif
                     </div>
                     <button onclick="toggleNotifications()" class="sm:hidden p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors" aria-label="إغلاق">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,18 +78,73 @@
                         </svg>
                     </button>
                 </div>
+
                 <div class="max-h-72 sm:max-h-80 overflow-y-auto divide-y divide-slate-100 overscroll-contain">
                     <a href="#" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors">
                         <div class="w-9 h-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    @forelse($headerQuotes as $notifQuote)
+                        <a href="{{ route('admin.quote-requests.show', $notifQuote->id) }}" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors {{ $notifQuote->status === 'pending' ? 'bg-red-50/20' : '' }}">
+                            <div class="w-9 h-9 rounded-xl {{ $notifQuote->status === 'pending' ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-600' }} flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col text-xs min-w-0 flex-1">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-bold text-slate-800 leading-snug break-words truncate">
+                                        طلب تسعير: {{ $notifQuote->product ? $notifQuote->product->name : 'طلب مخصص عام' }}
+                                    </span>
+                                    @if($notifQuote->status === 'pending')
+                                        <span class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" title="قيد الانتظار"></span>
+                                    @endif
+                                </div>
+                                <span class="text-slate-500 mt-0.5 leading-relaxed break-words">
+                                    العميل: {{ $notifQuote->customer_name }}
+                                    @if($notifQuote->quantity)
+                                        (الكمية: {{ number_format($notifQuote->quantity) }} قطعة)
+                                    @endif
+                                </span>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-slate-400 text-[10px]">{{ $notifQuote->created_at ? $notifQuote->created_at->locale('ar')->diffForHumans() : '' }}</span>
+                                    <span class="text-[10px] font-semibold px-1.5 py-0.2 rounded {{ $notifQuote->status_badge_classes }}">{{ $notifQuote->status_label }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    @empty
+                        <div class="px-4 py-8 text-center text-slate-400">
+                            <svg class="w-8 h-8 mx-auto mb-2 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
+                            <p class="text-xs font-semibold text-slate-500">لا توجد طلبات أو إشعارات جديدة حالياً</p>
                         </div>
                         <div class="flex flex-col text-xs min-w-0 flex-1">
                             <span class="font-bold text-slate-800 leading-snug break-words">طلب عرض سعر جديد (علب شحن فاخرة)</span>
                             <span class="text-slate-500 mt-0.5 leading-relaxed break-words">من العميل: شركة الأفق للتجارة (الكمية: 2,000 قطعة)</span>
                             <span class="text-slate-400 text-[10px] mt-1">منذ 10 دقائق</span>
                         </div>
+                    @endforelse
+
+                    @if($latestPortfolio)
+                        <a href="{{ route('admin.portfolios.show', $latestPortfolio->id) }}" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors">
+                            <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col text-xs min-w-0 flex-1">
+                                <span class="font-bold text-slate-800 leading-snug break-words">آخر مشروع مضاف لمعرض الأعمال</span>
+                                <span class="text-slate-500 mt-0.5 leading-relaxed break-words">{{ $latestPortfolio->title }}{{ $latestPortfolio->client_name ? ' - ' . $latestPortfolio->client_name : '' }}</span>
+                                <span class="text-slate-400 text-[10px] mt-1">{{ $latestPortfolio->created_at ? $latestPortfolio->created_at->locale('ar')->diffForHumans() : '' }}</span>
+                            </div>
+                        </a>
+                    @endif
+                </div>
+
+                <div class="px-4 py-2.5 border-t border-slate-100 flex items-center justify-between bg-slate-50/50 text-xs">
+                    <a href="{{ route('admin.quote-requests.index', ['status' => 'pending']) }}" class="font-bold text-red-600 hover:text-red-700 transition-colors">
+                        الطلبات المعلقة ({{ $pendingQuotesCount }})
                     </a>
                     <a href="#" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors">
                         <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -73,6 +157,8 @@
                             <span class="text-slate-500 mt-0.5 leading-relaxed break-words">عميل يستفسر عن طباعة كروت شخصية مع بصمة ذهبية</span>
                             <span class="text-slate-400 text-[10px] mt-1">منذ 35 دقيقة</span>
                         </div>
+                    <a href="{{ route('admin.quote-requests.index') }}" class="font-bold text-blue-800 hover:text-blue-600 transition-colors">
+                        عرض كافة الطلبات ←
                     </a>
                     <a href="#" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors">
                         <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center flex-shrink-0 mt-0.5">

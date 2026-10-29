@@ -82,4 +82,20 @@ class Product extends Model
     {
         return $query->where('is_featured', true);
     }
+
+    /**
+     * Get the accessible featured image URL.
+     */
+    public function getFeaturedImageUrlAttribute(): string
+    {
+        if (empty($this->featured_image)) {
+            return '';
+        }
+
+        if (str_starts_with($this->featured_image, 'http://') || str_starts_with($this->featured_image, 'https://')) {
+            return $this->featured_image;
+        }
+
+        return asset($this->featured_image);
+    }
 }

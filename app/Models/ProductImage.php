@@ -40,4 +40,20 @@ class ProductImage extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    /**
+     * Get the accessible gallery image URL.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if (empty($this->image_path)) {
+            return '';
+        }
+
+        if (str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://')) {
+            return $this->image_path;
+        }
+
+        return asset($this->image_path);
+    }
 }

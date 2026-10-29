@@ -69,4 +69,20 @@ class Category extends Model
     {
         return $query->orderBy('order', 'asc');
     }
+
+    /**
+     * Get the accessible category image URL.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if (empty($this->image)) {
+            return '';
+        }
+
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
+        return asset($this->image);
+    }
 }

@@ -21,22 +21,26 @@
 
         <!-- Notifications Dropdown Container -->
         @php
+            $unreadQuotesCount = \App\Models\QuoteRequest::unread()->count();
             $pendingQuotesCount = \App\Models\QuoteRequest::where('status', 'pending')->count();
             $headerQuotes = \App\Models\QuoteRequest::with('product')
                 ->where('status', 'pending')
+                ->whereNull('read_at')
                 ->latest()
                 ->take(4)
                 ->get();
 
-            if ($headerQuotes->isEmpty()) {
-                $headerQuotes = \App\Models\QuoteRequest::with('product')
+            if ($headerQuotes->count() < 4) {
+                $moreQuotes = \App\Models\QuoteRequest::with('product')
+                    ->whereNotIn('id', $headerQuotes->pluck('id'))
                     ->latest()
-                    ->take(3)
+                    ->take(4 - $headerQuotes->count())
                     ->get();
+                $headerQuotes = $headerQuotes->concat($moreQuotes);
             }
 
             $latestPortfolio = \App\Models\Portfolio::latest()->first();
-            $hasNewNotifications = $pendingQuotesCount > 0;
+            $hasNewNotifications = $unreadQuotesCount > 0;
         @endphp
         <div class="static sm:relative">
             <button id="notifications-btn"
@@ -47,16 +51,12 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
                 <!-- Red Alert Badge -->
-                <span class="absolute top-2 left-2 flex h-2.5 w-2.5">
-                @if($hasNewNotifications)
-                <span class="absolute top-1.5 left-1.5 flex h-4 min-w-[16px] px-1 items-center justify-center">
+                <span id="notifications-badge-wrapper" class="{{ $hasNewNotifications ? 'flex' : 'hidden' }} absolute top-1.5 left-1.5 h-4 min-w-[16px] px-1 items-center justify-center">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
-                    <span class="relative inline-flex items-center justify-center rounded-full h-4 min-w-[16px] px-1 bg-red-600 text-[10px] font-bold font-mono text-white leading-none">
-                        {{ $pendingQuotesCount > 99 ? '99+' : $pendingQuotesCount }}
+                    <span id="notifications-badge-count" data-count="{{ $unreadQuotesCount }}" class="relative inline-flex items-center justify-center rounded-full h-4 min-w-[16px] px-1 bg-red-600 text-[10px] font-bold font-mono text-white leading-none">
+                        {{ $unreadQuotesCount > 99 ? '99+' : $unreadQuotesCount }}
                     </span>
                 </span>
-                @endif
             </button>
 
             <!-- Notifications Panel -->
@@ -65,28 +65,37 @@
                 <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                     <div class="flex items-center gap-2">
                         <span class="font-bold text-sm text-slate-900">الإشعارات والتنبيهات</span>
-                        <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-red-100 text-red-700">3 جديدة</span>
-                        @if($pendingQuotesCount > 0)
-                            <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-red-100 text-red-700">{{ $pendingQuotesCount }} جديدة</span>
-                        @else
-                            <span class="px-2 py-0.5 text-[11px] font-medium rounded-full bg-slate-100 text-slate-500">لا توجد جديدة</span>
-                        @endif
+                        <span id="notifications-header-badge" class="px-2 py-0.5 text-[11px] {{ $unreadQuotesCount > 0 ? 'font-bold bg-red-100 text-red-700' : 'font-medium bg-slate-100 text-slate-500' }} rounded-full">
+                            {{ $unreadQuotesCount > 0 ? $unreadQuotesCount . ' غير مقروءة' : 'لا توجد جديدة' }}
+                        </span>
                     </div>
-                    <button onclick="toggleNotifications()" class="sm:hidden p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors" aria-label="إغلاق">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button id="mark-all-read-btn"
+                                type="button"
+                                onclick="markAllNotificationsAsRead()"
+                                class="{{ $unreadQuotesCount > 0 ? '' : 'hidden' }} text-[11px] font-bold text-blue-600 hover:text-blue-800 transition-colors">
+                            تحديد الكل كمقروء
+                        </button>
+                        <button onclick="toggleNotifications()" class="sm:hidden p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors" aria-label="إغلاق">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="max-h-72 sm:max-h-80 overflow-y-auto divide-y divide-slate-100 overscroll-contain">
-                    <a href="#" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors">
-                        <div class="w-9 h-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     @forelse($headerQuotes as $notifQuote)
-                        <a href="{{ route('admin.quote-requests.show', $notifQuote->id) }}" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors {{ $notifQuote->status === 'pending' ? 'bg-red-50/20' : '' }}">
-                            <div class="w-9 h-9 rounded-xl {{ $notifQuote->status === 'pending' ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-600' }} flex items-center justify-center flex-shrink-0 mt-0.5">
+                        @php
+                            $isUnread = $notifQuote->is_unread;
+                        @endphp
+                        <a href="{{ route('admin.quote-requests.show', $notifQuote->id) }}"
+                           data-notification-id="{{ $notifQuote->id }}"
+                           data-mark-read-url="{{ route('admin.quote-requests.mark-read', $notifQuote->id) }}"
+                           data-unread="{{ $isUnread ? '1' : '0' }}"
+                           onclick="markNotificationAsRead({{ $notifQuote->id }})"
+                           class="notification-item flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors {{ $isUnread ? 'bg-red-50/20' : '' }}">
+                            <div class="notification-icon w-9 h-9 rounded-xl {{ $isUnread ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-600' }} flex items-center justify-center flex-shrink-0 mt-0.5">
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
@@ -96,8 +105,8 @@
                                     <span class="font-bold text-slate-800 leading-snug break-words truncate">
                                         طلب تسعير: {{ $notifQuote->product ? $notifQuote->product->name : 'طلب مخصص عام' }}
                                     </span>
-                                    @if($notifQuote->status === 'pending')
-                                        <span class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" title="قيد الانتظار"></span>
+                                    @if($isUnread)
+                                        <span class="notification-unread-dot w-2 h-2 rounded-full bg-red-500 flex-shrink-0" title="غير مقروء"></span>
                                     @endif
                                 </div>
                                 <span class="text-slate-500 mt-0.5 leading-relaxed break-words">
@@ -108,7 +117,7 @@
                                 </span>
                                 <div class="flex items-center justify-between mt-1">
                                     <span class="text-slate-400 text-[10px]">{{ $notifQuote->created_at ? $notifQuote->created_at->locale('ar')->diffForHumans() : '' }}</span>
-                                    <span class="text-[10px] font-semibold px-1.5 py-0.2 rounded {{ $notifQuote->status_badge_classes }}">{{ $notifQuote->status_label }}</span>
+                                    <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded {{ $notifQuote->status_badge_classes }}">{{ $notifQuote->status_label }}</span>
                                 </div>
                             </div>
                         </a>
@@ -118,11 +127,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
                             <p class="text-xs font-semibold text-slate-500">لا توجد طلبات أو إشعارات جديدة حالياً</p>
-                        </div>
-                        <div class="flex flex-col text-xs min-w-0 flex-1">
-                            <span class="font-bold text-slate-800 leading-snug break-words">طلب عرض سعر جديد (علب شحن فاخرة)</span>
-                            <span class="text-slate-500 mt-0.5 leading-relaxed break-words">من العميل: شركة الأفق للتجارة (الكمية: 2,000 قطعة)</span>
-                            <span class="text-slate-400 text-[10px] mt-1">منذ 10 دقائق</span>
                         </div>
                     @endforelse
 
@@ -146,35 +150,9 @@
                     <a href="{{ route('admin.quote-requests.index', ['status' => 'pending']) }}" class="font-bold text-red-600 hover:text-red-700 transition-colors">
                         الطلبات المعلقة ({{ $pendingQuotesCount }})
                     </a>
-                    <a href="#" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                        </div>
-                        <div class="flex flex-col text-xs min-w-0 flex-1">
-                            <span class="font-bold text-slate-800 leading-snug break-words">استفسار واتساب مباشر</span>
-                            <span class="text-slate-500 mt-0.5 leading-relaxed break-words">عميل يستفسر عن طباعة كروت شخصية مع بصمة ذهبية</span>
-                            <span class="text-slate-400 text-[10px] mt-1">منذ 35 دقيقة</span>
-                        </div>
                     <a href="{{ route('admin.quote-requests.index') }}" class="font-bold text-blue-800 hover:text-blue-600 transition-colors">
                         عرض كافة الطلبات ←
                     </a>
-                    <a href="#" class="flex items-start gap-3 px-4 py-3 hover:bg-blue-50/50 transition-colors">
-                        <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <div class="flex flex-col text-xs min-w-0 flex-1">
-                            <span class="font-bold text-slate-800 leading-snug break-words">تم إضافة مشروع لمعرض الأعمال</span>
-                            <span class="text-slate-500 mt-0.5 leading-relaxed break-words">مشروع طباعة هوية متجر ركن القهوة</span>
-                            <span class="text-slate-400 text-[10px] mt-1">منذ ساعتين</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="px-4 py-2.5 border-t border-slate-100 text-center bg-slate-50/50">
-                    <a href="#" class="text-xs font-bold text-blue-800 hover:text-red-600 transition-colors block">عرض كافة الإشعارات</a>
                 </div>
             </div>
         </div>
@@ -241,4 +219,112 @@
         </div>
 
     </div>
+
+    <script>
+        function updateUnreadNotificationsUI(newCount) {
+            const count = Math.max(0, parseInt(newCount, 10) || 0);
+            const badgeWrapper = document.getElementById('notifications-badge-wrapper');
+            const badgeCount = document.getElementById('notifications-badge-count');
+            const headerBadge = document.getElementById('notifications-header-badge');
+            const markAllBtn = document.getElementById('mark-all-read-btn');
+            const sidebarBadge = document.getElementById('sidebar-quotes-badge');
+
+            if (badgeCount) {
+                badgeCount.dataset.count = count;
+                badgeCount.textContent = count > 99 ? '99+' : count;
+            }
+
+            if (sidebarBadge) {
+                sidebarBadge.textContent = count;
+                if (count > 0) {
+                    sidebarBadge.classList.remove('hidden');
+                    sidebarBadge.classList.add('inline-flex');
+                } else {
+                    sidebarBadge.classList.add('hidden');
+                    sidebarBadge.classList.remove('inline-flex');
+                }
+            }
+
+            if (badgeWrapper) {
+                if (count > 0) {
+                    badgeWrapper.classList.remove('hidden');
+                    badgeWrapper.classList.add('flex');
+                } else {
+                    badgeWrapper.classList.add('hidden');
+                    badgeWrapper.classList.remove('flex');
+                }
+            }
+
+            if (headerBadge) {
+                if (count > 0) {
+                    headerBadge.textContent = count + ' غير مقروءة';
+                    headerBadge.className = 'px-2 py-0.5 text-[11px] font-bold bg-red-100 text-red-700 rounded-full';
+                } else {
+                    headerBadge.textContent = 'لا توجد جديدة';
+                    headerBadge.className = 'px-2 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-500 rounded-full';
+                }
+            }
+
+            if (markAllBtn) {
+                if (count > 0) {
+                    markAllBtn.classList.remove('hidden');
+                } else {
+                    markAllBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        function markItemVisuallyAsRead(itemEl) {
+            if (!itemEl) return;
+            itemEl.dataset.unread = '0';
+            itemEl.classList.remove('bg-red-50/20');
+            const icon = itemEl.querySelector('.notification-icon');
+            if (icon) {
+                icon.classList.remove('bg-red-100', 'text-red-600');
+                icon.classList.add('bg-amber-100', 'text-amber-600');
+            }
+            const dot = itemEl.querySelector('.notification-unread-dot');
+            if (dot) {
+                dot.remove();
+            }
+        }
+
+        function markNotificationAsRead(notificationId) {
+            const itemEl = document.querySelector(`.notification-item[data-notification-id="${notificationId}"]`);
+            if (!itemEl || itemEl.dataset.unread !== '1') return;
+
+            markItemVisuallyAsRead(itemEl);
+
+            const badgeCount = document.getElementById('notifications-badge-count');
+            const currentCount = badgeCount ? (parseInt(badgeCount.dataset.count, 10) || 0) : 0;
+            updateUnreadNotificationsUI(currentCount - 1);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            const markReadUrl = itemEl.dataset.markReadUrl || `/admin/quote-requests/${notificationId}/mark-read`;
+            fetch(markReadUrl, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken || '',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                keepalive: true
+            }).catch(() => {});
+        }
+
+        function markAllNotificationsAsRead() {
+            document.querySelectorAll('.notification-item[data-unread="1"]').forEach(markItemVisuallyAsRead);
+            updateUnreadNotificationsUI(0);
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            fetch(`{{ route('admin.quote-requests.mark-all-read') }}`, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken || '',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).catch(() => {});
+        }
+    </script>
 </header>

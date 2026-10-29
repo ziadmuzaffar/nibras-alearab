@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PortfolioController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\Admin\QuoteRequestController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Auth\AuthController;
 use App\Http\Middleware\EnsureUserIsActive;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +43,8 @@ Route::middleware(['auth', EnsureUserIsActive::class])->group(function () {
     Route::resource('portfolios', PortfolioController::class);
 
     // Quote Requests Management
+    Route::patch('/quote-requests/mark-all-read', [QuoteRequestController::class, 'markAllAsRead'])->name('quote-requests.mark-all-read');
+    Route::patch('/quote-requests/{quoteRequest}/mark-read', [QuoteRequestController::class, 'markAsRead'])->name('quote-requests.mark-read');
     Route::patch('/quote-requests/{quoteRequest}/update-status', [QuoteRequestController::class, 'updateStatus'])->name('quote-requests.update-status');
     Route::resource('quote-requests', QuoteRequestController::class);
 

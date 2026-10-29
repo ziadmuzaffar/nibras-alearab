@@ -76,7 +76,7 @@
 
         <!-- Inquiries / Quotes with RED BADGE -->
         @php
-        $pendingQuotesCount = \App\Models\QuoteRequest::where('status', 'pending')->count();
+        $unreadQuotesCount = \App\Models\QuoteRequest::unread()->count();
         @endphp
         <a href="{{ route('admin.quote-requests.index') }}"
             class="flex items-center justify-between px-3.5 py-3 rounded-xl font-medium text-sm transition-all duration-150 {{ request()->routeIs('admin.quote-requests.*') ? 'bg-gradient-to-l from-blue-600 to-blue-700 text-white shadow-md shadow-blue-900/40 border-r-4 border-red-500' : 'text-slate-300 hover:text-white hover:bg-slate-800/80' }} group">
@@ -86,11 +86,9 @@
                 </svg>
                 <span>طلبات عروض الأسعار</span>
             </div>
-            @if($pendingQuotesCount > 0)
-            <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold font-mono rounded-full {{ request()->routeIs('admin.quote-requests.*') ? 'bg-white text-blue-800' : 'bg-red-500 text-white animate-pulse' }} shadow-xs">
-                {{ $pendingQuotesCount }}
+            <span id="sidebar-quotes-badge" class="{{ $unreadQuotesCount > 0 ? 'inline-flex' : 'hidden' }} items-center justify-center px-2 py-0.5 text-xs font-bold font-mono rounded-full {{ request()->routeIs('admin.quote-requests.*') ? 'bg-white text-blue-800' : 'bg-red-500 text-white animate-pulse' }} shadow-xs">
+                {{ $unreadQuotesCount }}
             </span>
-            @endif
         </a>
 
         <!-- Portfolio Showcase -->

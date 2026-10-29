@@ -143,6 +143,10 @@ class QuoteRequestController extends Controller
      */
     public function show(QuoteRequest $quoteRequest): View
     {
+        if (is_null($quoteRequest->read_at)) {
+            $quoteRequest->update(['read_at' => now()]);
+        }
+
         $quoteRequest->load(['product.category']);
 
         // Related requests (same customer by phone/email or same product)
@@ -173,6 +177,10 @@ class QuoteRequestController extends Controller
      */
     public function edit(QuoteRequest $quoteRequest): View
     {
+        if (is_null($quoteRequest->read_at)) {
+            $quoteRequest->update(['read_at' => now()]);
+        }
+
         $products = Product::orderBy('name')->get(['id', 'name']);
         $statuses = QuoteRequest::STATUSES;
 
@@ -222,10 +230,51 @@ class QuoteRequestController extends Controller
             'status' => ['required', Rule::in(array_keys(QuoteRequest::STATUSES))],
         ]);
 
-        $quoteRequest->update(['status' => $validated['status']]);
+        $quoteRequest->update([
+            'status' => $validated['status'],
+            'read_at' => $quoteRequest->read_at ?? now(),
+        ]);
 
         return redirect()->back()
             ->with('success', "تم تحديث حالة الطلب #{$quoteRequest->id} إلى \"{$quoteRequest->status_label}\" بنجاح!");
+    }
+
+    /**
+     * Mark a single quote request notification as read.
+     */
+    public function markAsRead(Request $request, QuoteRequest $quoteRequest)
+    {
+        if (is_null($quoteRequest->read_at)) {
+            $quoteRequest->update(['read_at' => now()]);
+        }
+
+        $unreadCount = QuoteRequest::unread()->count();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'unread_count' => $unreadCount,
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Mark all unread quote request notifications as read.
+     */
+    public function markAllAsRead(Request $request)
+    {
+        QuoteRequest::unread()->update(['read_at' => now()]);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'unread_count' => 0,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'تم تحديد جميع الإشعارات كمقروءة.');
     }
 
     /**

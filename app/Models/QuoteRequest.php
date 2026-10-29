@@ -23,6 +23,7 @@ class QuoteRequest extends Model
         'quantity',
         'notes',
         'status',
+        'read_at',
     ];
 
     /**
@@ -45,7 +46,24 @@ class QuoteRequest extends Model
     {
         return [
             'quantity' => 'integer',
+            'read_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Scope a query to only include unread pending quote requests.
+     */
+    public function scopeUnread($query)
+    {
+        return $query->where('status', 'pending')->whereNull('read_at');
+    }
+
+    /**
+     * Determine if the quote request notification is unread.
+     */
+    public function getIsUnreadAttribute(): bool
+    {
+        return $this->status === 'pending' && is_null($this->read_at);
     }
 
     /**

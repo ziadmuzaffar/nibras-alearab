@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -70,3 +70,4 @@ class AuthController extends Controller
         return redirect()->route('admin.login')->with('status', 'تم تسجيل الخروج بنجاح. نراك قريباً!');
     }
 }
+

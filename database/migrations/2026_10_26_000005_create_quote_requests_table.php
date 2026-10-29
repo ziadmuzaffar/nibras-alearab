@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('quantity')->nullable();
             $table->text('notes')->nullable();
             $table->string('status')->default('pending');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }

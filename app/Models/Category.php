@@ -6,10 +6,20 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Translatable\HasTranslations;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
+
+    /**
+     * Translatable attributes.
+     *
+     * @var array<int, string>
+     */
+    public array $translatable = [
+        'name',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +46,20 @@ class Category extends Model
             'order' => 'integer',
             'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Safely decode JSON or fallback to a bilingual array if plain string is stored.
+     */
+    public function fromJson($value, $asObject = false): mixed
+    {
+        $decoded = parent::fromJson($value, $asObject);
+
+        if ($decoded === null && is_string($value) && $value !== '') {
+            return ['ar' => $value, 'en' => $value];
+        }
+
+        return is_array($decoded) ? $decoded : [];
     }
 
     /**

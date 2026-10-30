@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.app')
 
-@section('title', 'تعديل المنتج: ' . $product->name)
+@section('title', __('تعديل المنتج') . ': ' . $product->name)
 
 @section('content')
 <div class="space-y-6">
@@ -9,9 +9,9 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-                <span>تعديل المنتج</span>
+                <span>{{ __('تعديل المنتج') }}</span>
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">تحديث بيانات ومواصفات المنتج وصوره في الكتالوج</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">{{ __('تحديث بيانات ومواصفات المنتج وصوره في الكتالوج') }}</p>
         </div>
 
         <div class="flex items-center gap-3">
@@ -20,7 +20,7 @@
                 <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                <span>العودة للمنتجات</span>
+                <span>{{ __('العودة للمنتجات') }}</span>
             </a>
         </div>
     </div>
@@ -42,13 +42,13 @@
                 <div class="bg-white p-5 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                        <span>البيانات الأساسية للمنتج</span>
+                        <span>{{ __('البيانات الأساسية للمنتج') }}</span>
                     </h3>
 
                     <!-- Category Field -->
                     <div>
                         <label for="category_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            التصنيف أو القسم <span class="text-red-500">*</span>
+                            {{ __('التصنيف أو القسم') }} <span class="text-red-500">*</span>
                         </label>
                         <select id="category_id"
                             name="category_id"
@@ -68,7 +68,7 @@
                     <!-- Name Field -->
                     <div>
                         <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            اسم المنتج <span class="text-red-500">*</span>
+                            {{ __('اسم المنتج') }} <span class="text-red-500">*</span>
                         </label>
                         <input type="text"
                             id="name"
@@ -84,8 +84,8 @@
                     <!-- Slug Field -->
                     <div>
                         <label for="slug" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            الرابط المخصص (Slug)
-                            <span class="text-[11px] font-normal text-slate-400 mr-2">(يُستخدم في روابط التصفح)</span>
+                            {{ __('الرابط المخصص (Slug)') }}
+                            <span class="text-[11px] font-normal text-slate-400 mr-2">{{ __('(يُستخدم في روابط التصفح)') }}</span>
                         </label>
                         <input type="text"
                             id="slug"
@@ -101,7 +101,7 @@
                     <!-- Short Description -->
                     <div>
                         <label for="short_description" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            الوصف المختصر (يظهر في بطاقات الكتالوج)
+                            {{ __('الوصف المختصر (يظهر في بطاقات الكتالوج)') }}
                         </label>
                         <textarea id="short_description"
                             name="short_description"
@@ -115,7 +115,7 @@
                     <!-- Detailed Description -->
                     <div>
                         <label for="description" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            الوصف الشامل وتفاصيل التنفيذ
+                            {{ __('الوصف الشامل وتفاصيل التنفيذ') }}
                         </label>
                         <textarea id="description"
                             name="description"
@@ -133,15 +133,15 @@
                         <div>
                             <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
-                                <span>المواصفات الفنية وخيارات التنفيذ</span>
+                                <span>{{ __('المواصفات الفنية وخيارات التنفيذ') }}</span>
                             </h3>
-                            <p class="text-xs text-slate-400 mt-1">تحديد خامات الورق، المقاسات، والتشطيبات لعرضها في صفحة المنتج</p>
+                            <p class="text-xs text-slate-400 mt-1">{{ __('تحديد خامات الورق، المقاسات، والتشطيبات لعرضها في صفحة المنتج') }}</p>
                         </div>
                         <button type="button"
                             onclick="addSpecificationRow()"
                             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200/70 hover:bg-blue-100 transition-colors shadow-2xs">
                             <i class="fa-solid fa-plus text-[10px]"></i>
-                            <span>إضافة خاصية</span>
+                            <span>{{ __('إضافة خاصية') }}</span>
                         </button>
                     </div>
 
@@ -160,20 +160,20 @@
                                 <input type="text"
                                     name="spec_keys[]"
                                     value="{{ $key }}"
-                                    placeholder="اسم الخاصية"
+                                    placeholder="{{ __('اسم الخاصية') }}"
                                     class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-800 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600">
                             </div>
                             <div class="flex-1">
                                 <input type="text"
                                     name="spec_values[]"
                                     value="{{ $val }}"
-                                    placeholder="القيمة أو التفاصيل"
+                                    placeholder="{{ __('القيمة أو التفاصيل') }}"
                                     class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
                             </div>
                             <button type="button"
                                 onclick="removeSpecificationRow(this)"
                                 class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                                title="حذف الخاصية">
+                                title="{{ __('حذف الخاصية') }}">
                                 <i class="fa-solid fa-trash-can text-sm"></i>
                             </button>
                         </div>
@@ -183,21 +183,21 @@
                             <div class="w-1/3">
                                 <input type="text"
                                     name="spec_keys[]"
-                                    value="المقاسات"
-                                    placeholder="اسم الخاصية"
+                                    value="{{ __('المقاسات') }}"
+                                    placeholder="{{ __('اسم الخاصية') }}"
                                     class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-800 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600">
                             </div>
                             <div class="flex-1">
                                 <input type="text"
                                     name="spec_values[]"
-                                    value="مخصص حسب رغبة العميل"
-                                    placeholder="القيمة أو التفاصيل"
+                                    value="{{ __('مخصص حسب رغبة العميل') }}"
+                                    placeholder="{{ __('القيمة أو التفاصيل') }}"
                                     class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
                             </div>
                             <button type="button"
                                 onclick="removeSpecificationRow(this)"
                                 class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                                title="حذف الخاصية">
+                                title="{{ __('حذف الخاصية') }}">
                                 <i class="fa-solid fa-trash-can text-sm"></i>
                             </button>
                         </div>
@@ -205,11 +205,11 @@
                     </div>
 
                     <div class="flex flex-wrap items-center gap-2 pt-2 text-[11px] text-slate-500">
-                        <span class="font-bold text-slate-600">اقتراحات سريعة للإضافة:</span>
-                        <button type="button" onclick="addSuggestedSpec('نوع الورق', 'كوشيه 350 جرام')" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">+ نوع الورق</button>
-                        <button type="button" onclick="addSuggestedSpec('نوع الطباعة', 'ألوان كاملة CMYK عالية الدقة')" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">+ نوع الطباعة</button>
-                        <button type="button" onclick="addSuggestedSpec('خيارات التشطيب', 'سلوفان حراري مطفي / لامع')" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">+ خيارات التشطيب</button>
-                        <button type="button" onclick="addSuggestedSpec('أقل كمية مقترحة', '100 حبة')" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">+ أقل كمية</button>
+                        <span class="font-bold text-slate-600">{{ __('اقتراحات سريعة للإضافة:') }}</span>
+                        <button type="button" onclick="addSuggestedSpec('{{ __('نوع الورق') }}', '{{ __('كوشيه 350 جرام') }}')" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">{{ __('+ نوع الورق') }}</button>
+                        <button type="button" onclick="addSuggestedSpec('{{ __('نوع الطباعة') }}', '{{ __('ألوان كاملة CMYK عالية الدقة') }}')" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">{{ __('+ نوع الطباعة') }}</button>
+                        <button type="button" onclick="addSuggestedSpec('{{ __('خيارات التشطيب') }}', '{{ __('سلوفان حراري مطفي / لامع') }}')" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">{{ __('+ خيارات التشطيب') }}</button>
+                        <button type="button" onclick="addSuggestedSpec('{{ __('أقل كمية مقترحة') }}', '{{ __('100 حبة') }}')" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">{{ __('+ أقل كمية') }}</button>
                     </div>
                 </div>
 
@@ -222,7 +222,7 @@
                 <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-                        <span>صورة المنتج الرئيسية</span>
+                        <span>{{ __('صورة المنتج الرئيسية') }}</span>
                     </h3>
 
                     <!-- Image Display / Replacement -->
@@ -233,11 +233,11 @@
                             <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
                                 <a href="{{ asset($product->featured_image) }}" target="_blank" class="px-3 py-1.5 bg-white/90 text-slate-800 text-xs font-bold rounded-lg shadow-sm hover:bg-white transition-all flex items-center gap-1.5">
                                     <i class="fa-solid fa-up-right-from-square text-[11px]"></i>
-                                    <span>عرض الصورة الأصلية</span>
+                                    <span>{{ __('عرض الصورة الأصلية') }}</span>
                                 </a>
                             </div>
                             <span class="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-black/60 text-white text-[10px] font-bold backdrop-blur-xs">
-                                الصورة الحالية
+                                {{ __('الصورة الحالية') }}
                             </span>
                         </div>
 
@@ -250,18 +250,18 @@
                                     id="remove_featured_image"
                                     onchange="toggleRemoveImageState(this.checked)"
                                     class="rounded border-slate-300 text-red-600 focus:ring-red-500">
-                                <span>حذف الصورة الرئيسية الحالية</span>
+                                <span>{{ __('حذف الصورة الرئيسية الحالية') }}</span>
                             </label>
                         </div>
                         @endif
 
                         <!-- Preview for new upload -->
                         <div id="image-preview-wrapper" class="hidden relative w-full h-44 rounded-xl border border-slate-200 overflow-hidden bg-slate-100 group">
-                            <img id="image-preview" src="#" alt="معاينة الصورة الجديدة" class="w-full h-full object-cover">
+                            <img id="image-preview" src="#" alt="{{ __('معاينة الصورة الجديدة') }}" class="w-full h-full object-cover">
                             <button type="button"
                                 onclick="clearNewImageSelection()"
                                 class="absolute top-2 left-2 p-1.5 rounded-lg bg-red-600/90 text-white hover:bg-red-700 shadow-md transition-colors"
-                                title="إلغاء الصورة الجديدة">
+                                title="{{ __('إلغاء الصورة الجديدة') }}">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -273,8 +273,8 @@
                             <div class="w-9 h-9 rounded-full bg-blue-100/70 text-blue-700 flex items-center justify-center mb-1.5">
                                 <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
                             </div>
-                            <span class="text-xs font-bold text-slate-700">{{ $product->featured_image ? 'تغيير / استبدال الصورة الرئيسية' : 'اضغط لرفع الصورة الرئيسية' }}</span>
-                            <span class="text-[10px] text-slate-400 mt-0.5">PNG, JPG, WEBP حتى 3MB</span>
+                            <span class="text-xs font-bold text-slate-700">{{ $product->featured_image ? __('تغيير / استبدال الصورة الرئيسية') : __('اضغط لرفع الصورة الرئيسية') }}</span>
+                            <span class="text-[10px] text-slate-400 mt-0.5">{{ __('PNG, JPG, WEBP حتى 3MB') }}</span>
                             <input type="file"
                                 id="image-input"
                                 name="featured_image"
@@ -293,24 +293,24 @@
                     <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                         <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-purple-600"></span>
-                            <span>معرض الصور الإضافية</span>
+                            <span>{{ __('معرض الصور الإضافية') }}</span>
                         </h3>
                         <span class="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md">
-                            {{ $product->images->count() }} صور
+                            {{ $product->images->count() }} {{ __('صور') }}
                         </span>
                     </div>
 
                     <!-- Existing Gallery Images -->
                     @if($product->images->isNotEmpty())
                     <div class="space-y-2">
-                        <p class="text-[11px] font-bold text-slate-600">الصور الحالية (حدد ما ترغب بحذفه):</p>
+                        <p class="text-[11px] font-bold text-slate-600">{{ __('الصور الحالية (حدد ما ترغب بحذفه):') }}</p>
                         <div class="grid grid-cols-3 gap-2">
                             @foreach($product->images as $img)
                             <div class="relative w-full h-20 rounded-xl border border-slate-200 overflow-hidden bg-slate-100 group shadow-2xs">
                                 <img src="{{ asset($img->image_path) }}" class="w-full h-full object-cover">
                                 <label class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer p-1 text-center">
                                     <input type="checkbox" name="delete_images[]" value="{{ $img->id }}" class="rounded text-red-600 focus:ring-red-500 mb-1">
-                                    <span class="text-[9px] text-white font-bold leading-tight">تحديد للحذف</span>
+                                    <span class="text-[9px] text-white font-bold leading-tight">{{ __('تحديد للحذف') }}</span>
                                 </label>
                             </div>
                             @endforeach
@@ -322,8 +322,8 @@
                     <div>
                         <label class="flex flex-col items-center justify-center w-full py-3.5 border-2 border-dashed border-slate-300 hover:border-purple-500 rounded-xl cursor-pointer bg-slate-50/50 hover:bg-purple-50/20 transition-all text-center">
                             <i class="fa-solid fa-plus text-purple-600 text-sm mb-1"></i>
-                            <span class="text-xs font-bold text-slate-700">إضافة صور جديدة للمعرض</span>
-                            <span class="text-[10px] text-slate-400">يمكنك اختيار ملفات متعددة</span>
+                            <span class="text-xs font-bold text-slate-700">{{ __('إضافة صور جديدة للمعرض') }}</span>
+                            <span class="text-[10px] text-slate-400">{{ __('يمكنك اختيار ملفات متعددة') }}</span>
                             <input type="file"
                                 id="gallery-input"
                                 name="gallery_images[]"
@@ -340,7 +340,7 @@
                 <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-slate-600"></span>
-                        <span>خيارات العرض والتمييز</span>
+                        <span>{{ __('خيارات العرض والتمييز') }}</span>
                     </h3>
 
                     <!-- Featured Toggle -->
@@ -349,9 +349,9 @@
                             <span class="flex flex-col">
                                 <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
                                     <i class="fa-solid fa-star text-amber-500 text-xs"></i>
-                                    <span>منتج مميز (Featured)</span>
+                                    <span>{{ __('منتج مميز (Featured)') }}</span>
                                 </span>
-                                <span class="text-[11px] text-slate-500">يظهر في القسم المميز بالصفحة الرئيسية</span>
+                                <span class="text-[11px] text-slate-500">{{ __('يظهر في القسم المميز بالصفحة الرئيسية') }}</span>
                             </span>
                             <div class="relative inline-flex items-center">
                                 <input type="checkbox"
@@ -368,8 +368,8 @@
                     <div>
                         <label class="flex items-center justify-between cursor-pointer p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:bg-slate-100/70 transition-colors">
                             <span class="flex flex-col">
-                                <span class="text-xs font-bold text-slate-800">حالة التفعيل</span>
-                                <span class="text-[11px] text-slate-500">عرض المنتج في الكتالوج للعملاء</span>
+                                <span class="text-xs font-bold text-slate-800">{{ __('حالة التفعيل') }}</span>
+                                <span class="text-[11px] text-slate-500">{{ __('عرض المنتج في الكتالوج للعملاء') }}</span>
                             </span>
                             <div class="relative inline-flex items-center">
                                 <input type="checkbox"
@@ -390,11 +390,11 @@
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                         </svg>
-                        <span>تحديث وحفظ التعديلات</span>
+                        <span>{{ __('تحديث وحفظ التعديلات') }}</span>
                     </button>
                     <a href="{{ route('admin.products.index') }}"
                         class="block w-full py-2.5 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 rounded-xl hover:bg-slate-50 transition-colors">
-                        إلغاء والتراجع
+                        {{ __('إلغاء والتراجع') }}
                     </a>
                 </div>
 
@@ -462,20 +462,20 @@
                 <input type="text"
                     name="spec_keys[]"
                     value="${key}"
-                    placeholder="اسم الخاصية"
+                    placeholder="{{ __('اسم الخاصية') }}"
                     class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-800 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-600">
             </div>
             <div class="flex-1">
                 <input type="text"
                     name="spec_values[]"
                     value="${val}"
-                    placeholder="القيمة أو التفاصيل"
+                    placeholder="{{ __('القيمة أو التفاصيل') }}"
                     class="w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
             </div>
             <button type="button"
                 onclick="removeSpecificationRow(this)"
                 class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                title="حذف الخاصية">
+                title="{{ __('حذف الخاصية') }}">
                 <i class="fa-solid fa-trash-can text-sm"></i>
             </button>
         `;

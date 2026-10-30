@@ -94,19 +94,20 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug'],
             'icon' => ['nullable', 'string', 'max:100'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:3072'],
             'order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ], [
-            'name.required' => 'يرجى إدخال اسم التصنيف.',
-            'name.max' => 'اسم التصنيف طويل جداً (الحد الأقصى 255 حرفاً).',
-            'slug.unique' => 'الرابط المخصص (Slug) مستخدم بالفعل، يرجى اختيار رابط آخر.',
-            'image.image' => 'الملف المرفق يجب أن يكون صورة صالحة.',
-            'image.mimes' => 'صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.',
-            'image.max' => 'حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.',
-            'order.integer' => 'قيمة الترتيب يجب أن تكون رقماً صحيحاً.',
+            'name.required' => __('يرجى إدخال اسم التصنيف.'),
+            'name.max' => __('اسم التصنيف طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'slug.unique' => __('الرابط المخصص (Slug) مستخدم بالفعل، يرجى اختيار رابط آخر.'),
+            'image.image' => __('الملف المرفق يجب أن يكون صورة صالحة.'),
+            'image.mimes' => __('صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.'),
+            'image.max' => __('حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.'),
+            'order.integer' => __('قيمة الترتيب يجب أن تكون رقماً صحيحاً.'),
         ]);
 
         // Auto generate slug if empty
@@ -141,8 +142,13 @@ class CategoryController extends Controller
             ? (int) $validated['order'] 
             : ((Category::max('order') ?? 0) + 1);
 
+        $nameTranslations = [
+            'ar' => $validated['name'],
+            'en' => !empty($validated['name_en']) ? $validated['name_en'] : $validated['name'],
+        ];
+
         $category = Category::create([
-            'name' => $validated['name'],
+            'name' => $nameTranslations,
             'slug' => $slug,
             'icon' => $validated['icon'] ?? 'box',
             'image' => $imagePath,
@@ -152,7 +158,7 @@ class CategoryController extends Controller
 
         return redirect()
             ->route('admin.categories.index')
-            ->with('success', "تم إضافة التصنيف \"{$category->name}\" بنجاح!");
+            ->with('success', __('تم إضافة التصنيف ":name" بنجاح!', ['name' => $category->name]));
     }
 
     /**
@@ -199,6 +205,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
             'slug' => [
                 'nullable',
                 'string',
@@ -211,13 +218,13 @@ class CategoryController extends Controller
             'order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ], [
-            'name.required' => 'يرجى إدخال اسم التصنيف.',
-            'name.max' => 'اسم التصنيف طويل جداً (الحد الأقصى 255 حرفاً).',
-            'slug.unique' => 'الرابط المخصص (Slug) مستخدم بالفعل في تصنيف آخر.',
-            'image.image' => 'الملف المرفق يجب أن يكون صورة صالحة.',
-            'image.mimes' => 'صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.',
-            'image.max' => 'حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.',
-            'order.integer' => 'قيمة الترتيب يجب أن تكون رقماً صحيحاً.',
+            'name.required' => __('يرجى إدخال اسم التصنيف.'),
+            'name.max' => __('اسم التصنيف طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'slug.unique' => __('الرابط المخصص (Slug) مستخدم بالفعل في تصنيف آخر.'),
+            'image.image' => __('الملف المرفق يجب أن يكون صورة صالحة.'),
+            'image.mimes' => __('صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.'),
+            'image.max' => __('حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.'),
+            'order.integer' => __('قيمة الترتيب يجب أن تكون رقماً صحيحاً.'),
         ]);
 
         // Process slug
@@ -266,8 +273,16 @@ class CategoryController extends Controller
             ? (int) $validated['order'] 
             : $category->order;
 
+        $existingEn = $category->getTranslation('name', 'en', false);
+        $nameTranslations = [
+            'ar' => $validated['name'],
+            'en' => !empty($validated['name_en'])
+                ? $validated['name_en']
+                : ($existingEn ?: $validated['name']),
+        ];
+
         $category->update([
-            'name' => $validated['name'],
+            'name' => $nameTranslations,
             'slug' => $slug,
             'icon' => $validated['icon'] ?? $category->icon ?? 'box',
             'image' => $imagePath,
@@ -277,7 +292,7 @@ class CategoryController extends Controller
 
         return redirect()
             ->route('admin.categories.index')
-            ->with('success', "تم تحديث بيانات التصنيف \"{$category->name}\" بنجاح!");
+            ->with('success', __('تم تحديث بيانات التصنيف ":name" بنجاح!', ['name' => $category->name]));
     }
 
     /**
@@ -292,7 +307,7 @@ class CategoryController extends Controller
         if ($productsCount > 0) {
             return redirect()
                 ->route('admin.categories.index')
-                ->with('error', "لا يمكن حذف التصنيف \"{$name}\" لوجود {$productsCount} منتج مرتبط به. يرجى نقل أو حذف المنتجات أولاً.");
+                ->with('error', __('لا يمكن حذف التصنيف ":name" لوجود :count منتج مرتبط به. يرجى نقل أو حذف المنتجات أولاً.', ['name' => $name, 'count' => $productsCount]));
         }
 
         // Delete image file if exists
@@ -304,7 +319,7 @@ class CategoryController extends Controller
 
         return redirect()
             ->route('admin.categories.index')
-            ->with('success', "تم حذف التصنيف \"{$name}\" بنجاح.");
+            ->with('success', __('تم حذف التصنيف ":name" بنجاح.', ['name' => $name]));
     }
 
     /**
@@ -316,8 +331,8 @@ class CategoryController extends Controller
             'is_active' => !$category->is_active,
         ]);
 
-        $statusText = $category->is_active ? 'تفعيل' : 'تعطيل';
+        $statusText = $category->is_active ? __('تفعيل') : __('تعطيل');
 
-        return back()->with('success', "تم {$statusText} التصنيف \"{$category->name}\" بنجاح.");
+        return back()->with('success', __('تم :status التصنيف ":name" بنجاح.', ['status' => $statusText, 'name' => $category->name]));
     }
 }

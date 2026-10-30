@@ -27,7 +27,7 @@ class QuoteRequest extends Model
     ];
 
     /**
-     * Available statuses and their human-readable labels.
+     * Available statuses and their default human-readable labels.
      */
     public const STATUSES = [
         'pending' => 'قيد الانتظار',
@@ -36,6 +36,16 @@ class QuoteRequest extends Model
         'completed' => 'مكتمل / تم تقديم العرض',
         'cancelled' => 'ملغي',
     ];
+
+    /**
+     * Get localized statuses array.
+     *
+     * @return array<string, string>
+     */
+    public static function localizedStatuses(): array
+    {
+        return array_map(fn(string $label) => __($label), self::STATUSES);
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -75,11 +85,13 @@ class QuoteRequest extends Model
     }
 
     /**
-     * Get the human-readable Arabic status label.
+     * Get the human-readable localized status label.
      */
     public function getStatusLabelAttribute(): string
     {
-        return self::STATUSES[$this->status] ?? $this->status;
+        $label = self::STATUSES[$this->status] ?? $this->status;
+
+        return __($label);
     }
 
     /**
@@ -117,14 +129,19 @@ class QuoteRequest extends Model
      */
     public function getWhatsappUrlAttribute(): string
     {
-        $phone = preg_replace('/[^0-9]/', '', (string)$this->phone);
+        $phone = preg_replace('/[^0-9]/', '', (string) $this->phone);
         if (str_starts_with($phone, '05')) {
             $phone = '966' . substr($phone, 1);
         } elseif (str_starts_with($phone, '5')) {
             $phone = '966' . $phone;
         }
 
-        $message = urlencode("مرحباً {$this->customer_name}، نتواصل معك من مطبعة نبراس العرب بخصوص طلب تسعير رقم #{$this->id}" . ($this->product ? " لمنتج: {$this->product->name}" : "") . ".");
+        if (app()->getLocale() === 'en') {
+            $message = urlencode("Hello {$this->customer_name}, we are contacting you from Nibras Al-Arab Printing Press regarding quote request #{$this->id}" . ($this->product ? " for product: {$this->product->name}" : '') . '.');
+        } else {
+            $message = urlencode("مرحباً {$this->customer_name}، نتواصل معك من مطبعة نبراس العرب بخصوص طلب تسعير رقم #{$this->id}" . ($this->product ? " لمنتج: {$this->product->name}" : '') . '.');
+        }
+
         return "https://wa.me/{$phone}?text={$message}";
     }
 }

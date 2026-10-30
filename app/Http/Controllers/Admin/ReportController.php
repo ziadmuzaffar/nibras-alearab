@@ -69,7 +69,13 @@ class ReportController extends Controller
 
         // 2. Chart: Status breakdown
         $statusBreakdown = [
-            'labels' => ['قيد الانتظار', 'تم التواصل', 'قيد التسعير والدراسة', 'مكتمل / تم تقديم العرض', 'ملغي'],
+            'labels' => [
+                __('قيد الانتظار'),
+                __('تم التواصل'),
+                __('قيد التسعير والدراسة'),
+                __('مكتمل / تم تقديم العرض'),
+                __('ملغي'),
+            ],
             'counts' => [$pendingQuotes, $contactedQuotes, $inProgressQuotes, $completedQuotes, $cancelledQuotes],
             'colors' => ['#f59e0b', '#3b82f6', '#8b5cf6', '#10b981', '#64748b'],
         ];
@@ -173,16 +179,16 @@ class ReportController extends Controller
 
             // Write Header
             fputcsv($output, [
-                'رقم الطلب',
-                'تاريخ الطلب',
-                'اسم العميل',
-                'رقم الهاتف',
-                'البريد الإلكتروني',
-                'اسم المنتج المطلوب',
-                'تصنيف المنتج',
-                'الكمية المطلوبة',
-                'حالة الطلب',
-                'ملاحظات ومواصفات العميل',
+                __('رقم الطلب'),
+                __('تاريخ الطلب'),
+                __('اسم العميل'),
+                __('رقم الهاتف'),
+                __('البريد الإلكتروني'),
+                __('اسم المنتج المطلوب'),
+                __('تصنيف المنتج'),
+                __('الكمية المطلوبة'),
+                __('حالة الطلب'),
+                __('ملاحظات ومواصفات العميل'),
             ]);
 
             foreach ($records as $item) {
@@ -192,7 +198,7 @@ class ReportController extends Controller
                     $item->customer_name,
                     $item->phone,
                     $item->email ?: '-',
-                    $item->product ? $item->product->name : 'منتج غير محدد',
+                    $item->product ? $item->product->name : __('منتج غير محدد'),
                     $item->product && $item->product->category ? $item->product->category->name : '-',
                     $item->quantity,
                     $item->status_label,
@@ -252,7 +258,7 @@ class ReportController extends Controller
 
         if ($quotes->isEmpty()) {
             return [
-                'labels' => ['لا توجد بيانات'],
+                'labels' => [__('لا توجد بيانات')],
                 'counts' => [0],
                 'quantities' => [0],
             ];
@@ -361,10 +367,11 @@ class ReportController extends Controller
         foreach ($requests as $req) {
             if ($req->product && $req->product->category_id) {
                 $catId = $req->product->category_id;
-                $catName = $allCategories->get($catId)?->name ?? 'قسم آخر';
+                $catName = $allCategories->get($catId)?->name ?? __('قسم آخر');
                 $categoryCounts[$catName] = ($categoryCounts[$catName] ?? 0) + 1;
             } else {
-                $categoryCounts['بدون تصنيف'] = ($categoryCounts['بدون تصنيف'] ?? 0) + 1;
+                $uncat = __('بدون تصنيف');
+                $categoryCounts[$uncat] = ($categoryCounts[$uncat] ?? 0) + 1;
             }
         }
 
@@ -387,7 +394,12 @@ class ReportController extends Controller
         $above5k = (clone $query)->where('quantity', '>', 5000)->count();
 
         return [
-            'labels' => ['أقل من 500 قطعة', '500 - 1,000 قطعة', '1,001 - 5,000 قطعة', 'أكثر من 5,000 قطعة'],
+            'labels' => [
+                __('أقل من 500 قطعة'),
+                __('500 - 1,000 قطعة'),
+                __('1,001 - 5,000 قطعة'),
+                __('أكثر من 5,000 قطعة'),
+            ],
             'counts' => [$under500, $from500To1k, $from1kTo5k, $above5k],
         ];
     }

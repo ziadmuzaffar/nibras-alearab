@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.app')
 
-@section('title', 'تفاصيل المنتج: ' . $product->name)
+@section('title', __('تفاصيل المنتج') . ': ' . $product->name)
 
 @php
 $stats = $stats ?? [
@@ -17,10 +17,10 @@ $stats = $stats ?? [
         <div>
             <div class="flex items-center gap-3 flex-wrap">
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
-                    <span>تفاصيل المنتج</span>
+                    <span>{{ __('تفاصيل المنتج') }}</span>
                 </h1>
             </div>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1.5">عرض كافة البيانات والمواصفات الفنية وصور المعرض لمنتج نبراس العرب</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1.5">{{ __('عرض كافة البيانات والمواصفات الفنية وصور المعرض لمنتج نبراس العرب') }}</p>
         </div>
 
         <!-- Header Actions -->
@@ -28,7 +28,7 @@ $stats = $stats ?? [
             <a href="{{ route('admin.products.index') }}"
                 class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-700 bg-white border border-slate-200/80 hover:bg-slate-50 hover:text-slate-900 shadow-2xs transition-all duration-200 active:scale-[0.98]">
                 <i class="fa-solid fa-arrow-right text-xs"></i>
-                <span>العودة للقائمة</span>
+                <span>{{ __('العودة للقائمة') }}</span>
             </a>
         </div>
     </div>
@@ -38,7 +38,7 @@ $stats = $stats ?? [
         <!-- Category -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">التصنيف التابع له</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('التصنيف التابع له') }}</p>
                 <a href="{{ route('admin.categories.show', $product->category) }}" class="text-base sm:text-lg font-black text-blue-700 hover:underline mt-1 block truncate max-w-[170px]" title="{{ $product->category->name }}">
                     {{ $product->category->name }}
                 </a>
@@ -51,7 +51,7 @@ $stats = $stats ?? [
         <!-- Gallery Images Count -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">صور المعرض الإضافية</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('صور المعرض الإضافية') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-purple-600 mt-1">{{ number_format($stats['images_count']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
@@ -62,7 +62,7 @@ $stats = $stats ?? [
         <!-- Quote Requests -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">طلبات عروض الأسعار</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('طلبات عروض الأسعار') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-rose-600 mt-1">{{ number_format($stats['quotes_count']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
@@ -73,7 +73,7 @@ $stats = $stats ?? [
         <!-- Specifications Count -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">بنود المواصفات الفنية</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('بنود المواصفات الفنية') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-indigo-600 mt-1">
                     {{ is_array($product->specifications) ? count($product->specifications) : 0 }}
                 </p>
@@ -97,7 +97,7 @@ $stats = $stats ?? [
                         <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
                             <i class="fa-solid fa-circle-info text-sm"></i>
                         </div>
-                        <span>معلومات وبيانات المنتج الأساسية</span>
+                        <span>{{ __('معلومات وبيانات المنتج الأساسية') }}</span>
                     </h3>
                 </div>
 
@@ -106,7 +106,7 @@ $stats = $stats ?? [
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-tag text-slate-400 w-4"></i>
-                            <span>اسم المنتج الكامل</span>
+                            <span>{{ __('اسم المنتج الكامل') }}</span>
                         </div>
                         <span class="font-bold text-slate-900 text-sm sm:text-base">{{ $product->name }}</span>
                     </div>
@@ -115,7 +115,7 @@ $stats = $stats ?? [
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-link text-slate-400 w-4"></i>
-                            <span>الرابط المخصص (Slug)</span>
+                            <span>{{ __('الرابط المخصص (Slug)') }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span dir="ltr" class="font-mono font-bold text-blue-700 bg-blue-50 border border-blue-100 px-3 py-1 rounded-lg text-xs">
@@ -124,7 +124,7 @@ $stats = $stats ?? [
                             <button type="button"
                                 onclick="copySlugToClipboard('{{ $product->slug }}')"
                                 class="text-slate-400 hover:text-blue-600 transition-colors p-1"
-                                title="نسخ الرابط">
+                                title="{{ __('نسخ الرابط') }}">
                                 <i class="fa-regular fa-copy text-xs"></i>
                             </button>
                         </div>
@@ -134,7 +134,7 @@ $stats = $stats ?? [
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-folder-tree text-slate-400 w-4"></i>
-                            <span>التصنيف المعتمد</span>
+                            <span>{{ __('التصنيف المعتمد') }}</span>
                         </div>
                         <a href="{{ route('admin.categories.show', $product->category) }}" class="inline-flex items-center gap-2 text-blue-700 font-bold hover:underline">
                             <x-category-icon :icon="$product->category->icon ?? 'box'" class="w-4 h-4" />
@@ -146,10 +146,10 @@ $stats = $stats ?? [
                     <div class="py-3.5 space-y-1.5">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-align-right text-slate-400 w-4"></i>
-                            <span>الوصف المختصر</span>
+                            <span>{{ __('الوصف المختصر') }}</span>
                         </div>
                         <p class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50/70 p-3 rounded-xl border border-slate-100">
-                            {{ $product->short_description ?: 'لا يوجد وصف مختصر مضاف لهذا المنتج.' }}
+                            {{ $product->short_description ?: __('لا يوجد وصف مختصر مضاف لهذا المنتج.') }}
                         </p>
                     </div>
 
@@ -158,7 +158,7 @@ $stats = $stats ?? [
                     <div class="py-3.5 space-y-1.5">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-file-lines text-slate-400 w-4"></i>
-                            <span>الوصف التفصيلي والتعليمات</span>
+                            <span>{{ __('الوصف التفصيلي والتعليمات') }}</span>
                         </div>
                         <div class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50/70 p-4 rounded-xl border border-slate-100 whitespace-pre-line">
                             {{ $product->description }}
@@ -170,7 +170,7 @@ $stats = $stats ?? [
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-calendar-plus text-slate-400 w-4"></i>
-                            <span>تاريخ الإنشاء</span>
+                            <span>{{ __('تاريخ الإنشاء') }}</span>
                         </div>
                         <span class="font-mono font-medium text-slate-700 text-xs">
                             {{ $product->created_at ? $product->created_at->format('Y/m/d - h:i A') : '—' }}
@@ -181,7 +181,7 @@ $stats = $stats ?? [
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-clock-rotate-left text-slate-400 w-4"></i>
-                            <span>تاريخ آخر تعديل</span>
+                            <span>{{ __('تاريخ آخر تعديل') }}</span>
                         </div>
                         <span class="font-mono font-medium text-slate-700 text-xs">
                             {{ $product->updated_at ? $product->updated_at->format('Y/m/d - h:i A') : '—' }}
@@ -198,7 +198,7 @@ $stats = $stats ?? [
                         <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center">
                             <i class="fa-solid fa-file-invoice-dollar text-sm"></i>
                         </div>
-                        <span>طلبات عروض الأسعار الواردة لهذا المنتج</span>
+                        <span>{{ __('طلبات عروض الأسعار الواردة لهذا المنتج') }}</span>
                     </h3>
                 </div>
 
@@ -207,7 +207,7 @@ $stats = $stats ?? [
                     <div class="py-3 flex items-center justify-between gap-3 text-xs sm:text-sm">
                         <div>
                             <p class="font-bold text-slate-800">{{ $quote->customer_name }}</p>
-                            <p class="text-xs text-slate-400 font-mono mt-0.5">{{ $quote->phone }} | الكمية: {{ $quote->quantity }}</p>
+                            <p class="text-xs text-slate-400 font-mono mt-0.5">{{ $quote->phone }} | {{ __('الكمية:') }} {{ $quote->quantity }}</p>
                         </div>
                         <span class="text-xs text-slate-400 font-mono">{{ $quote->created_at ? $quote->created_at->format('Y-m-d') : '' }}</span>
                     </div>
@@ -226,11 +226,11 @@ $stats = $stats ?? [
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                     <h3 class="text-sm font-black text-slate-900 flex items-center gap-2">
                         <i class="fa-regular fa-image text-blue-700"></i>
-                        <span>الصورة الرئيسية للمنتج</span>
+                        <span>{{ __('الصورة الرئيسية للمنتج') }}</span>
                     </h3>
                     @if($product->featured_image)
                     <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                        مرفوعة
+                        {{ __('مرفوعة') }}
                     </span>
                     @endif
                 </div>
@@ -244,7 +244,7 @@ $stats = $stats ?? [
                         <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                             <a href="{{ asset($product->featured_image) }}" target="_blank" class="px-3 py-1.5 bg-white/95 text-slate-800 text-xs font-bold rounded-xl shadow-lg hover:bg-white transition-all flex items-center gap-1.5">
                                 <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
-                                <span>عرض بالحجم الكامل</span>
+                                <span>{{ __('عرض بالحجم الكامل') }}</span>
                             </a>
                         </div>
                     </div>
@@ -252,7 +252,7 @@ $stats = $stats ?? [
                         <span class="text-slate-400 text-[11px] font-mono truncate max-w-[200px]" dir="ltr">{{ basename($product->featured_image) }}</span>
                         <a href="{{ route('admin.products.edit', $product) }}" class="text-blue-700 hover:text-blue-800 font-bold text-[11px] flex items-center gap-1">
                             <i class="fa-solid fa-pen text-[10px]"></i>
-                            <span>تغيير الصورة</span>
+                            <span>{{ __('تغيير الصورة') }}</span>
                         </a>
                     </div>
                     @else
@@ -260,11 +260,11 @@ $stats = $stats ?? [
                         <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2">
                             <i class="fa-solid fa-box-open text-2xl"></i>
                         </div>
-                        <p class="text-xs font-bold text-slate-700">لا توجد صورة رئيسية مرفوعة</p>
-                        <p class="text-[11px] text-slate-400 mt-1">يُنصح برفع صورة عالية الجودة لزيادة رغبة العملاء في طلب التسعير</p>
+                        <p class="text-xs font-bold text-slate-700">{{ __('لا توجد صورة رئيسية مرفوعة') }}</p>
+                        <p class="text-[11px] text-slate-400 mt-1">{{ __('يُنصح برفع صورة عالية الجودة لزيادة رغبة العملاء في طلب التسعير') }}</p>
                         <a href="{{ route('admin.products.edit', $product) }}" class="inline-flex items-center gap-1.5 text-xs text-blue-700 font-bold hover:underline mt-3">
                             <i class="fa-solid fa-upload text-[11px]"></i>
-                            <span>رفع صورة الآن</span>
+                            <span>{{ __('رفع صورة الآن') }}</span>
                         </a>
                     </div>
                     @endif
@@ -277,10 +277,10 @@ $stats = $stats ?? [
                 <div class="relative z-10 space-y-3.5">
                     <h3 class="text-sm font-black flex items-center gap-2">
                         <i class="fa-solid fa-bolt text-amber-400"></i>
-                        <span>إجراءات وتحكم سريع</span>
+                        <span>{{ __('إجراءات وتحكم سريع') }}</span>
                     </h3>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        تحكم بإعدادات وحالة هذا المنتج مباشرة أو قم بإجراء التعديلات المطلوبة.
+                        {{ __('تحكم بإعدادات وحالة هذا المنتج مباشرة أو قم بإجراء التعديلات المطلوبة.') }}
                     </p>
 
                     <div class="space-y-2 pt-1">
@@ -289,7 +289,7 @@ $stats = $stats ?? [
                             class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors">
                             <span class="flex items-center gap-2">
                                 <i class="fa-solid fa-pen text-blue-300"></i>
-                                <span>تعديل بيانات ومواصفات المنتج</span>
+                                <span>{{ __('تعديل بيانات ومواصفات المنتج') }}</span>
                             </span>
                             <i class="fa-solid fa-chevron-left text-[10px] text-slate-400"></i>
                         </a>
@@ -299,10 +299,10 @@ $stats = $stats ?? [
                             @csrf
                             @method('PATCH')
                             <button type="submit"
-                                class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors text-right">
+                                class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors text-start">
                                 <span class="flex items-center gap-2">
                                     <i class="fa-solid {{ $product->is_active ? 'fa-pause text-amber-300' : 'fa-play text-emerald-300' }}"></i>
-                                    <span>{{ $product->is_active ? 'تعطيل وإخفاء المنتج' : 'تفعيل وإظهار المنتج' }}</span>
+                                    <span>{{ $product->is_active ? __('تعطيل وإخفاء المنتج') : __('تفعيل وإظهار المنتج') }}</span>
                                 </span>
                                 <i class="fa-solid fa-chevron-left text-[10px] text-slate-400"></i>
                             </button>
@@ -313,10 +313,10 @@ $stats = $stats ?? [
                             @csrf
                             @method('PATCH')
                             <button type="submit"
-                                class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors text-right">
+                                class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors text-start">
                                 <span class="flex items-center gap-2">
                                     <i class="fa-solid fa-star text-amber-300"></i>
-                                    <span>{{ $product->is_featured ? 'إلغاء تمييز المنتج' : 'تمييز المنتج بالرئيسية' }}</span>
+                                    <span>{{ $product->is_featured ? __('إلغاء تمييز المنتج') : __('تمييز المنتج بالرئيسية') }}</span>
                                 </span>
                                 <i class="fa-solid fa-chevron-left text-[10px] text-slate-400"></i>
                             </button>
@@ -327,7 +327,7 @@ $stats = $stats ?? [
                             class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors">
                             <span class="flex items-center gap-2">
                                 <i class="fa-solid fa-boxes-stacked text-purple-300"></i>
-                                <span>استعراض كافة المنتجات</span>
+                                <span>{{ __('استعراض كافة المنتجات') }}</span>
                             </span>
                             <i class="fa-solid fa-chevron-left text-[10px] text-slate-400"></i>
                         </a>
@@ -335,10 +335,10 @@ $stats = $stats ?? [
                         <!-- Delete Button -->
                         <button type="button"
                             onclick="openDeleteModal('{{ $product->id }}', '{{ addslashes($product->name) }}', {{ $product->quoteRequests->count() }})"
-                            class="w-full flex items-center justify-between p-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-xs font-bold text-red-300 hover:text-red-200 transition-colors text-right">
+                            class="w-full flex items-center justify-between p-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-xs font-bold text-red-300 hover:text-red-200 transition-colors text-start">
                             <span class="flex items-center gap-2">
                                 <i class="fa-solid fa-trash-can text-red-400"></i>
-                                <span>حذف هذا المنتج</span>
+                                <span>{{ __('حذف هذا المنتج') }}</span>
                             </span>
                             <i class="fa-solid fa-chevron-left text-[10px] text-red-400"></i>
                         </button>
@@ -358,14 +358,14 @@ $stats = $stats ?? [
                 <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
                     <i class="fa-solid fa-sliders text-sm"></i>
                 </div>
-                <span>المواصفات الفنية وخيارات التنفيذ للمطبوعة</span>
+                <span>{{ __('المواصفات الفنية وخيارات التنفيذ للمطبوعة') }}</span>
             </h3>
         </div>
 
         <div class="mt-4">
-            @if(!empty($product->specifications) && is_array($product->specifications) && count($product->specifications) > 0)
+            @if(!empty($product->localized_specifications) && is_array($product->localized_specifications) && count($product->localized_specifications) > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                @foreach($product->specifications as $specKey => $specVal)
+                @foreach($product->localized_specifications as $specKey => $specVal)
                 <div class="group relative flex flex-col justify-between p-4 rounded-xl bg-slate-50/70 hover:bg-white border border-slate-200/80 hover:border-indigo-200 hover:shadow-xs transition-all duration-200">
                     <!-- Card Header: Icon & Spec Title -->
                     <div class="flex items-start justify-between gap-2 pb-2.5 border-b border-slate-200/60">
@@ -394,10 +394,10 @@ $stats = $stats ?? [
             @else
             <div class="p-6 rounded-xl border-2 border-dashed border-slate-200 text-center bg-slate-50/50">
                 <i class="fa-solid fa-sliders text-slate-400 text-xl mb-2"></i>
-                <p class="text-xs font-bold text-slate-700">لم يتم تحديد مواصفات فنية لهذا المنتج</p>
-                <p class="text-[11px] text-slate-400 mt-1">تساعد المواصفات الفنية العميل في معرفة نوع الورق، المقاسات، والتشطيبات المتاحة</p>
+                <p class="text-xs font-bold text-slate-700">{{ __('لم يتم تحديد مواصفات فنية لهذا المنتج') }}</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('تساعد المواصفات الفنية العميل في معرفة نوع الورق، المقاسات، والتشطيبات المتاحة') }}</p>
                 <a href="{{ route('admin.products.edit', $product) }}" class="inline-flex items-center gap-1 text-xs text-blue-700 font-bold hover:underline mt-2">
-                    <span>إضافة مواصفات فنية</span>
+                    <span>{{ __('إضافة مواصفات فنية') }}</span>
                 </a>
             </div>
             @endif
@@ -414,9 +414,9 @@ $stats = $stats ?? [
                     <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
                         <i class="fa-solid fa-images text-sm"></i>
                     </div>
-                    <span>معرض الصور الواقعية والإضافية</span>
+                    <span>{{ __('معرض الصور الواقعية والإضافية') }}</span>
                 </h3>
-                <p class="text-xs text-slate-500 mt-1">صور زوايا المنتج والتشطيبات الفاخرة</p>
+                <p class="text-xs text-slate-500 mt-1">{{ __('صور زوايا المنتج والتشطيبات الفاخرة') }}</p>
             </div>
         </div>
 
@@ -432,10 +432,10 @@ $stats = $stats ?? [
             @else
             <div class="p-6 rounded-xl border-2 border-dashed border-slate-200 text-center bg-slate-50/50">
                 <i class="fa-regular fa-images text-slate-400 text-xl mb-2"></i>
-                <p class="text-xs font-bold text-slate-700">لا توجد صور إضافية في المعرض</p>
-                <p class="text-[11px] text-slate-400 mt-1">يمكنك إضافة صور واقعية من زوايا متعددة لإظهار تفاصيل الطباعة وجودة القص</p>
+                <p class="text-xs font-bold text-slate-700">{{ __('لا توجد صور إضافية في المعرض') }}</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ __('يمكنك إضافة صور واقعية من زوايا متعددة لإظهار تفاصيل الطباعة وجودة القص') }}</p>
                 <a href="{{ route('admin.products.edit', $product) }}" class="inline-flex items-center gap-1 text-xs text-blue-700 font-bold hover:underline mt-2">
-                    <span>رفع صور للمعرض</span>
+                    <span>{{ __('رفع صور للمعرض') }}</span>
                 </a>
             </div>
             @endif
@@ -446,20 +446,20 @@ $stats = $stats ?? [
 
 <!-- Delete Confirmation Modal -->
 <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-200">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-right space-y-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-start space-y-4">
 
         <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center">
             <i class="fa-solid fa-triangle-exclamation text-xl"></i>
         </div>
 
         <div>
-            <h3 class="text-lg font-bold text-slate-900">تأكيد حذف المنتج</h3>
+            <h3 class="text-lg font-bold text-slate-900">{{ __('تأكيد حذف المنتج') }}</h3>
             <p class="text-sm text-slate-500 mt-1">
-                هل أنت متأكد من رغبتك في حذف المنتج: <strong id="modal-product-name" class="text-slate-800"></strong>؟
+                {{ __('هل أنت متأكد من رغبتك في حذف المنتج:') }} <strong id="modal-product-name" class="text-slate-800"></strong>؟
             </p>
             <div id="modal-quotes-warning" class="hidden mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start gap-2">
                 <i class="fa-solid fa-circle-exclamation text-amber-600 mt-0.5"></i>
-                <span>تنبيه: هذا المنتج يحتوي على طلبات تسعير سابقة في النظام. سيتم حذف المنتج وصوره المرفقة نهائياً.</span>
+                <span>{{ __('تنبيه: هذا المنتج يحتوي على طلبات تسعير سابقة في النظام. سيتم حذف المنتج وصوره المرفقة نهائياً.') }}</span>
             </div>
         </div>
 
@@ -470,11 +470,11 @@ $stats = $stats ?? [
                 <button type="button"
                     onclick="closeDeleteModal()"
                     class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition-colors">
-                    إلغاء
+                    {{ __('إلغاء') }}
                 </button>
                 <button type="submit"
                     class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-md shadow-red-900/20 transition-all">
-                    تأكيد الحذف
+                    {{ __('تأكيد الحذف') }}
                 </button>
             </div>
         </form>
@@ -486,7 +486,7 @@ $stats = $stats ?? [
 <script>
     function copySlugToClipboard(slug) {
         navigator.clipboard.writeText(slug).then(() => {
-            alert('تم نسخ الرابط المخصص بنجاح: ' + slug);
+            alert('{{ __('تم نسخ الرابط المخصص بنجاح:') }} ' + slug);
         });
     }
 

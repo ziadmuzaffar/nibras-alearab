@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="h-full bg-slate-950 overflow-x-hidden">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="h-full bg-slate-950 overflow-x-hidden">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>تسجيل الدخول إلى لوحة التحكم | مطبعة نبراس العرب</title>
+    <title>{{ __('تسجيل الدخول إلى لوحة التحكم') }} | {{ setting('site_name', 'مطبعة نبراس العرب') }}</title>
 
     <!-- Local Fonts: Cairo -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/cairo/cairo.css') }}">
@@ -115,19 +115,19 @@
 
             <!-- Top Header in Showcase -->
             <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
-                <a href="{{ url('/') }}" class="flex items-center gap-3 group" title="الانتقال للموقع الرئيسي">
+                <a href="{{ url('/') }}" class="flex items-center gap-3 group" title="{{ __('الانتقال للموقع الرئيسي') }}">
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 shadow-xl shadow-blue-950/60 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105">
-                        <img src="{{ asset('logo.png') }}" alt="شعار نبراس العرب" class="w-full h-full object-contain p-1.5 bg-white rounded-[14px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
+                        <img src="{{ asset('logo.png') }}" alt="{{ __('شعار نبراس العرب') }}" class="w-full h-full object-contain p-1.5 bg-white rounded-[14px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-extrabold text-lg tracking-wide text-white group-hover:text-red-400 transition-colors">مطبعة نبراس العرب</span>
-                        <span class="text-xs font-medium text-slate-400 tracking-wider">الريادة والإتقان في عالم الطباعة</span>
+                        <span class="font-extrabold text-lg tracking-wide text-white group-hover:text-red-400 transition-colors">{{ __('مطبعة نبراس العرب') }}</span>
+                        <span class="text-xs font-medium text-slate-400 tracking-wider">{{ __('الريادة والإتقان في عالم الطباعة') }}</span>
                     </div>
                 </a>
 
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs font-semibold text-slate-300 backdrop-blur-md">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>النظام متصل وآمن</span>
+                    <span>{{ __('النظام متصل وآمن') }}</span>
                 </div>
             </div>
 
@@ -136,16 +136,16 @@
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold mb-6 backdrop-blur-md">
                     <i class="fa-solid fa-shield-halved text-red-500"></i>
-                    <span>بوابة الإدارة المركزية</span>
+                    <span>{{ __('بوابة الإدارة المركزية') }}</span>
                 </div>
 
                 <h1 class="text-2xl xl:text-4xl font-extrabold text-white leading-tight mb-4">
-                    إدارة متطورة لكافة
-                    <span class="bg-gradient-to-l from-red-500 via-red-400 to-blue-400 bg-clip-text text-transparent">عمليات الطباعة والتوزيع</span>
+                    {{ __('إدارة متطورة لكافة') }}
+                    <span class="bg-gradient-to-l from-red-500 via-red-400 to-blue-400 bg-clip-text text-transparent">{{ __('عمليات الطباعة والتوزيع') }}</span>
                 </h1>
 
                 <p class="text-slate-400 text-sm xl:text-base leading-relaxed max-w-xl mb-8 xl:mb-10">
-                    منظومة إدارية شاملة ومصممة بأعلى معايير الدقة والسرعة لمتابعة المنتجات، التصنيفات، الطلبات، والتقارير الحية في مطبعة نبراس العرب.
+                    {{ __('منظومة إدارية شاملة ومصممة بأعلى معايير الدقة والسرعة لمتابعة المنتجات، التصنيفات، الطلبات، والتقارير الحية في مطبعة نبراس العرب.') }}
                 </p>
 
                 <!-- 3 Highlights Cards -->
@@ -154,24 +154,24 @@
                         <div class="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center mb-3 text-lg">
                             <i class="fa-solid fa-boxes-stacked"></i>
                         </div>
-                        <h4 class="text-sm font-bold text-white mb-1">المنتجات والتصنيفات</h4>
-                        <p class="text-xs text-slate-400 leading-normal">تحكم فوري بكافة الكتالوجات والأسعار والمخزون.</p>
+                        <h4 class="text-sm font-bold text-white mb-1">{{ __('المنتجات والتصنيفات') }}</h4>
+                        <p class="text-xs text-slate-400 leading-normal">{{ __('تحكم فوري بكافة الكتالوجات والأسعار والمخزون.') }}</p>
                     </div>
 
                     <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/90 backdrop-blur-md hover:border-slate-700 transition-all duration-300">
                         <div class="w-10 h-10 rounded-xl bg-red-600/20 text-red-400 flex items-center justify-center mb-3 text-lg">
                             <i class="fa-solid fa-bolt"></i>
                         </div>
-                        <h4 class="text-sm font-bold text-white mb-1">أداء فائق السرعة</h4>
-                        <p class="text-xs text-slate-400 leading-normal">معالجة فورية للبيانات وتحديثات مستمرة في الوقت الفعلي.</p>
+                        <h4 class="text-sm font-bold text-white mb-1">{{ __('أداء فائق السرعة') }}</h4>
+                        <p class="text-xs text-slate-400 leading-normal">{{ __('معالجة فورية للبيانات وتحديثات مستمرة في الوقت الفعلي.') }}</p>
                     </div>
 
                     <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800/90 backdrop-blur-md hover:border-slate-700 transition-all duration-300">
                         <div class="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center mb-3 text-lg">
                             <i class="fa-solid fa-lock"></i>
                         </div>
-                        <h4 class="text-sm font-bold text-white mb-1">حماية وتشفير عالي</h4>
-                        <p class="text-xs text-slate-400 leading-normal">صلاحيات دقيقة وتأمين كامل لبيانات النظام والعملاء.</p>
+                        <h4 class="text-sm font-bold text-white mb-1">{{ __('حماية وتشفير عالي') }}</h4>
+                        <p class="text-xs text-slate-400 leading-normal">{{ __('صلاحيات دقيقة وتأمين كامل لبيانات النظام والعملاء.') }}</p>
                     </div>
                 </div>
             </div>
@@ -180,12 +180,12 @@
             <div class="relative z-10 pt-6 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                    <span>جميع الحقوق محفوظة &copy; {{ date('Y') }} مطبعة نبراس العرب</span>
+                    <span>{{ __('جميع الحقوق محفوظة') }} &copy; {{ date('Y') }} {{ __('مطبعة نبراس العرب') }}</span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="hover:text-slate-300 transition-colors">نظام الإدارة الآمن</span>
+                    <span class="hover:text-slate-300 transition-colors">{{ __('نظام الإدارة الآمن') }}</span>
                     <span>•</span>
-                    <span class="hover:text-slate-300 transition-colors">دعم تقني 24/7</span>
+                    <span class="hover:text-slate-300 transition-colors">{{ __('دعم تقني 24/7') }}</span>
                 </div>
             </div>
         </div>
@@ -202,10 +202,10 @@
                 <!-- Mobile Brand Header (Hidden on Large Screens) -->
                 <div class="lg:hidden flex flex-col items-center text-center mb-6 sm:mb-8">
                     <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-tr from-blue-700 via-blue-600 to-red-600 p-0.5 shadow-xl shadow-blue-950/70 flex items-center justify-center overflow-hidden mb-2.5">
-                        <img src="{{ asset('logo.png') }}" alt="شعار نبراس العرب" class="w-full h-full object-contain p-1.5 sm:p-2 bg-white rounded-[14px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
+                        <img src="{{ asset('logo.png') }}" alt="{{ __('شعار نبراس العرب') }}" class="w-full h-full object-contain p-1.5 sm:p-2 bg-white rounded-[14px]" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%231e3a8a\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-family=\'sans-serif\' font-size=\'32\' font-weight=\'bold\'>NA</text></svg>';">
                     </div>
-                    <h2 class="text-lg sm:text-xl font-extrabold text-white">مطبعة نبراس العرب</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">بوابة تسجيل دخول المشرفين والمديرين</p>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-white">{{ __('مطبعة نبراس العرب') }}</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">{{ __('بوابة تسجيل دخول المشرفين والمديرين') }}</p>
                 </div>
 
                 <!-- Form Card -->
@@ -214,10 +214,15 @@
                     <!-- Form Header -->
                     <div class="mb-6 sm:mb-8">
                         <div class="flex items-center justify-between mb-2">
-                            <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">تسجيل الدخول</h2>
+                            <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">{{ __('تسجيل الدخول') }}</h2>
+                            <a href="{{ route('locale.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-colors">
+                                <i class="fa-solid fa-globe text-blue-400"></i>
+                                <span>{{ app()->getLocale() === 'ar' ? 'EN' : 'عربي' }}</span>
+                            </a>
                         </div>
                         <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                            مرحباً بك مجدداً! أدخل بيانات حسابك للوصول إلى لوحة الإدارة.
+                            {{ __('مرحباً بك مجدداً! أدخل بيانات حسابك للوصول إلى لوحة الإدارة.') }}
                         </p>
                     </div>
 
@@ -244,7 +249,7 @@
                     <div class="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm break-words">
                         <div class="flex items-center gap-2 font-bold mb-1.5 text-red-400">
                             <i class="fa-solid fa-circle-exclamation text-xs"></i>
-                            <span>تعذر تسجيل الدخول:</span>
+                            <span>{{ __('تعذر تسجيل الدخول:') }}</span>
                         </div>
                         <ul class="list-disc list-inside space-y-1 text-xs text-red-300/90 pr-2">
                             @foreach ($errors->all() as $error)
@@ -261,7 +266,7 @@
                         <!-- Email Field -->
                         <div>
                             <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
-                                البريد الإلكتروني <span class="text-red-500">*</span>
+                                {{ __('البريد الإلكتروني') }} <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
@@ -289,7 +294,7 @@
                         <div>
                             <div class="flex items-center justify-between mb-2">
                                 <label for="password" class="block text-xs font-bold uppercase tracking-wider text-slate-300">
-                                    كلمة المرور <span class="text-red-500">*</span>
+                                    {{ __('كلمة المرور') }} <span class="text-red-500">*</span>
                                 </label>
                             </div>
                             <div class="relative">
@@ -309,7 +314,7 @@
                                     id="togglePasswordBtn"
                                     onclick="togglePasswordVisibility()"
                                     class="absolute inset-y-0 left-0 pl-3.5 pr-2 flex items-center text-slate-400 hover:text-slate-200 focus:outline-none transition-colors"
-                                    title="إظهار / إخفاء كلمة المرور"
+                                    title="{{ __('إظهار / إخفاء كلمة المرور') }}"
                                     tabindex="-1">
                                     <i id="passwordToggleIcon" class="fa-regular fa-eye text-sm"></i>
                                 </button>
@@ -331,7 +336,7 @@
                                     {{ old('remember') ? 'checked' : '' }}
                                     class="w-4 h-4 shrink-0 rounded border-slate-700 bg-slate-950 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-slate-900 accent-blue-600 transition cursor-pointer">
                                 <span class="text-xs font-medium text-slate-300 group-hover:text-white transition-colors leading-relaxed">
-                                    تذكر تسجيل الدخول على هذا الجهاز
+                                    {{ __('تذكر تسجيل الدخول على هذا الجهاز') }}
                                 </span>
                             </label>
                         </div>
@@ -343,7 +348,7 @@
                                 class="w-full relative group overflow-hidden py-3.5 px-6 rounded-xl bg-gradient-to-r from-blue-700 via-blue-600 to-red-600 hover:from-blue-600 hover:via-blue-500 hover:to-red-500 active:scale-[0.99] text-white font-bold text-sm shadow-lg shadow-blue-600/30 hover:shadow-xl hover:shadow-blue-600/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 transition-all duration-200 flex items-center justify-center gap-2.5">
 
                                 <span id="btnText" class="flex items-center gap-2">
-                                    <span>تسجيل الدخول</span>
+                                    <span>{{ __('تسجيل الدخول') }}</span>
                                     <i class="fa-solid fa-arrow-left text-xs transition-transform duration-200 group-hover:-translate-x-1"></i>
                                 </span>
 
@@ -352,7 +357,7 @@
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    <span>جاري التحقق والمتابعة...</span>
+                                    <span>{{ __('جاري التحقق والمتابعة...') }}</span>
                                 </span>
                             </button>
                         </div>
@@ -361,7 +366,7 @@
                     <!-- Security & Encryption Badge -->
                     <div class="mt-8 pt-6 border-t border-slate-800/80 flex items-center justify-center gap-2 text-slate-400 text-xs">
                         <i class="fa-solid fa-lock text-emerald-400 text-xs"></i>
-                        <span>جلسة عمل مؤمنة بتشفير 256-Bit SSL قياسي</span>
+                        <span>{{ __('جلسة عمل مؤمنة بتشفير 256-Bit SSL قياسي') }}</span>
                     </div>
 
                 </div>

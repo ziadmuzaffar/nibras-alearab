@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.app')
 
-@section('title', 'معرض الأعمال والمشاريع')
+@section('title', __('معرض الأعمال والمشاريع'))
 
 @section('content')
 <div class="space-y-6">
@@ -9,9 +9,9 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-                <span>معرض الأعمال والمشاريع</span>
+                <span>{{ __('معرض الأعمال والمشاريع') }}</span>
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">استعراض وإدارة نماذج أعمال ومشاريع عملاء مطبعة نبراس العرب</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">{{ __('استعراض وإدارة نماذج أعمال ومشاريع عملاء مطبعة نبراس العرب') }}</p>
         </div>
 
         <div class="flex items-center gap-3">
@@ -20,7 +20,7 @@
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
                 </svg>
-                <span>إضافة عمل جديد</span>
+                <span>{{ __('إضافة عمل جديد') }}</span>
             </a>
         </div>
     </div>
@@ -30,7 +30,7 @@
         <!-- Total Portfolios -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">إجمالي الأعمال والمشاريع</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('إجمالي الأعمال والمشاريع') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-slate-800 mt-1">{{ number_format($stats['total']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
@@ -41,7 +41,7 @@
         <!-- Categorized -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">أعمال مصنفة</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('أعمال مصنفة') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-emerald-600 mt-1">{{ number_format($stats['categorized']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -52,7 +52,7 @@
         <!-- Uncategorized -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">أعمال عامة (بدون قسم)</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('أعمال عامة (بدون قسم)') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-amber-600 mt-1">{{ number_format($stats['uncategorized']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
@@ -63,7 +63,7 @@
         <!-- Unique Clients -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">عملاء متميزون</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('عملاء متميزون') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-purple-600 mt-1">{{ number_format($stats['clients']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
@@ -86,7 +86,7 @@
                 <input type="text"
                     name="search"
                     value="{{ request('search') }}"
-                    placeholder="ابحث بعنوان العمل، اسم العميل، أو الوصف..."
+                    placeholder="{{ __('ابحث بعنوان العمل، اسم العميل، أو الوصف...') }}"
                     class="w-full pl-4 pr-10 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
                 @if(request('search'))
                 <a href="{{ route('admin.portfolios.index', array_merge(request()->except('search'))) }}" class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 hover:text-slate-600">
@@ -101,8 +101,8 @@
             <div class="lg:col-span-4">
                 <select name="category_id"
                     class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-slate-700">
-                    <option value="all" {{ request('category_id') === 'all' || !request()->has('category_id') ? 'selected' : '' }}>جميع التصنيفات</option>
-                    <option value="uncategorized" {{ request('category_id') === 'uncategorized' ? 'selected' : '' }}>بدون تصنيف (عام)</option>
+                    <option value="all" {{ request('category_id') === 'all' || !request()->has('category_id') ? 'selected' : '' }}>{{ __('جميع التصنيفات') }}</option>
+                    <option value="uncategorized" {{ request('category_id') === 'uncategorized' ? 'selected' : '' }}>{{ __('بدون تصنيف (عام)') }}</option>
                     @foreach($categories as $category)
                     <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                         {{ $category->name }}
@@ -115,23 +115,23 @@
             <div class="lg:col-span-3 flex items-center gap-2">
                 <select name="sort"
                     class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-slate-700">
-                    <option value="newest" {{ request('sort') === 'newest' || !request()->has('sort') ? 'selected' : '' }}>الأحدث أولاً</option>
-                    <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>الأقدم أولاً</option>
-                    <option value="title_asc" {{ request('sort') === 'title_asc' ? 'selected' : '' }}>الاسم (أ - ي)</option>
-                    <option value="title_desc" {{ request('sort') === 'title_desc' ? 'selected' : '' }}>الاسم (ي - أ)</option>
-                    <option value="client_asc" {{ request('sort') === 'client_asc' ? 'selected' : '' }}>اسم العميل</option>
-                    <option value="category" {{ request('sort') === 'category' ? 'selected' : '' }}>حسب التصنيف</option>
+                    <option value="newest" {{ request('sort') === 'newest' || !request()->has('sort') ? 'selected' : '' }}>{{ __('الأحدث أولاً') }}</option>
+                    <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>{{ __('الأقدم أولاً') }}</option>
+                    <option value="title_asc" {{ request('sort') === 'title_asc' ? 'selected' : '' }}>{{ __('الاسم (أ - ي)') }}</option>
+                    <option value="title_desc" {{ request('sort') === 'title_desc' ? 'selected' : '' }}>{{ __('الاسم (ي - أ)') }}</option>
+                    <option value="client_asc" {{ request('sort') === 'client_asc' ? 'selected' : '' }}>{{ __('اسم العميل') }}</option>
+                    <option value="category" {{ request('sort') === 'category' ? 'selected' : '' }}>{{ __('حسب التصنيف') }}</option>
                 </select>
 
                 <button type="submit"
                     class="py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors shadow-sm flex-shrink-0">
-                    تطبيق
+                    {{ __('تطبيق') }}
                 </button>
 
                 @if(request()->hasAny(['search', 'category_id', 'sort']))
                 <a href="{{ route('admin.portfolios.index') }}"
                     class="p-2.5 rounded-xl border border-slate-200 text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors flex-shrink-0"
-                    title="إعادة ضبط الفلاتر">
+                    title="{{ __('إعادة ضبط الفلاتر') }}">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
@@ -145,18 +145,18 @@
     <!-- Results Counter & Info Bar -->
     <div class="flex items-center justify-between text-xs font-semibold text-slate-500 px-1">
         <div class="flex items-center gap-2">
-            <span>عرض النتائج:</span>
+            <span>{{ __('عرض النتائج:') }}</span>
             <span class="text-blue-700 font-bold font-mono">{{ $portfolios->count() }}</span>
-            <span>من أصل</span>
+            <span>{{ __('من أصل') }}</span>
             <span class="text-slate-800 font-bold font-mono">{{ $portfolios->total() }}</span>
-            <span>مشروع وعمل منجز</span>
+            <span>{{ __('مشروع وعمل منجز') }}</span>
         </div>
         @if(request()->hasAny(['search', 'category_id', 'sort']))
         <a href="{{ route('admin.portfolios.index') }}" class="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
-            <span>إلغاء التصفية</span>
+            <span>{{ __('إلغاء التصفية') }}</span>
         </a>
         @endif
     </div>
@@ -172,7 +172,7 @@
                 <img src="{{ $portfolio->image_url }}"
                     alt="{{ $portfolio->title }}"
                     class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-85"
-                    onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\' viewBox=\'0 0 400 300\'><rect width=\'100%\' height=\'100%\' fill=\'%231e293b\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%2394a3b8\' font-size=\'18\'>نبراس العرب</text></svg>';">
+                    onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\' viewBox=\'0 0 400 300\'><rect width=\'100%\' height=\'100%\' fill=\'%231e293b\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%2394a3b8\' font-size=\'18\'>{{ __('نبراس العرب') }}</text></svg>';">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-slate-900/30"></div>
                 @else
                 <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900"></div>
@@ -196,7 +196,7 @@
                     @else
                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/40 backdrop-blur-md text-slate-300 text-xs font-medium border border-white/10">
                         <i class="fa-solid fa-folder-open text-slate-400 text-xs"></i>
-                        <span>عام (بدون قسم)</span>
+                        <span>{{ __('عام (بدون قسم)') }}</span>
                     </span>
                     @endif
 
@@ -222,13 +222,13 @@
                         @else
                         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/90 shadow-md border border-slate-200/80 text-xs font-medium text-slate-400">
                             <i class="fa-solid fa-building text-slate-400 text-[10px]"></i>
-                            <span>عميل خاص / غير محدد</span>
+                            <span>{{ __('عميل خاص / غير محدد') }}</span>
                         </div>
                         @endif
 
                         <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200/60">
                             <i class="fa-solid fa-camera text-blue-600 text-xs"></i>
-                            <span>معرض الصور</span>
+                            <span>{{ __('معرض الصور') }}</span>
                         </span>
                     </div>
 
@@ -243,7 +243,7 @@
 
                     <!-- Description -->
                     <p class="text-xs text-slate-500 line-clamp-2 mt-2 leading-relaxed min-h-[2.5rem]">
-                        {{ $portfolio->description ?: 'لا يوجد وصف تفصيلي مضاف لهذا المشروع حالياً.' }}
+                        {{ $portfolio->description ?: __('لا يوجد وصف تفصيلي مضاف لهذا المشروع حالياً.') }}
                     </p>
 
                     <!-- Client & Category info pills -->
@@ -253,9 +253,9 @@
                                 <i class="fa-solid fa-tag text-xs"></i>
                             </div>
                             <div class="min-w-0">
-                                <p class="text-[10px] text-slate-400 font-semibold leading-none">القسم</p>
+                                <p class="text-[10px] text-slate-400 font-semibold leading-none">{{ __('القسم') }}</p>
                                 <p class="text-xs font-bold text-slate-800 mt-1 truncate">
-                                    {{ $portfolio->category?->name ?? 'بدون تصنيف' }}
+                                    {{ $portfolio->category?->name ?? __('بدون تصنيف') }}
                                 </p>
                             </div>
                         </div>
@@ -265,9 +265,9 @@
                                 <i class="fa-solid fa-user-check text-xs"></i>
                             </div>
                             <div class="min-w-0">
-                                <p class="text-[10px] text-slate-400 font-semibold leading-none">الجهة والعميل</p>
+                                <p class="text-[10px] text-slate-400 font-semibold leading-none">{{ __('الجهة والعميل') }}</p>
                                 <p class="text-xs font-bold text-slate-800 mt-1 truncate">
-                                    {{ $portfolio->client_name ?: 'مطبوعات نبراس' }}
+                                    {{ $portfolio->client_name ?: __('مطبوعات نبراس') }}
                                 </p>
                             </div>
                         </div>
@@ -280,7 +280,7 @@
                         <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <span>تاريخ الإضافة</span>
+                        <span>{{ __('تاريخ الإضافة') }}</span>
                     </span>
                     <span class="font-mono text-[11px] text-slate-500 font-semibold">
                         {{ $portfolio->created_at ? $portfolio->created_at->format('Y-m-d') : '—' }}
@@ -297,7 +297,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
-                    <span>عرض</span>
+                    <span>{{ __('عرض') }}</span>
                 </a>
 
                 <!-- Edit -->
@@ -306,14 +306,14 @@
                     <svg class="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
-                    <span>تعديل</span>
+                    <span>{{ __('تعديل') }}</span>
                 </a>
 
                 <!-- Delete Modal Trigger -->
                 <button type="button"
                     onclick="openDeleteModal('{{ $portfolio->id }}', '{{ addslashes($portfolio->title) }}')"
                     class="p-2 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors"
-                    title="حذف هذا العمل">
+                    title="{{ __('حذف هذا العمل') }}">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
@@ -328,12 +328,12 @@
                 <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-50 to-indigo-50 border border-blue-100 text-blue-600 flex items-center justify-center mb-4 shadow-inner">
                     <i class="fa-solid fa-briefcase text-3xl"></i>
                 </div>
-                <h3 class="text-lg font-black text-slate-800">لا توجد أعمال أو مشاريع حالياً</h3>
+                <h3 class="text-lg font-black text-slate-800">{{ __('لا توجد أعمال أو مشاريع حالياً') }}</h3>
                 <p class="text-xs sm:text-sm text-slate-500 mt-1 mb-6 leading-relaxed">
                     @if(request()->hasAny(['search', 'category_id', 'sort']))
-                    لم نجد أي عمل يطابق شروط البحث والفلاتر الحالية. جرب تعديل الفلاتر أو إعادة ضبطها.
+                    {{ __('لم نجد أي عمل يطابق شروط البحث والفلاتر الحالية. جرب تعديل الفلاتر أو إعادة ضبطها.') }}
                     @else
-                    ابدأ بإضافة أول مشروع أو عمل منفذ لمطبعة نبراس العرب لتظهر في معرض وسابقة الأعمال.
+                    {{ __('ابدأ بإضافة أول مشروع أو عمل منفذ لمطبعة نبراس العرب لتظهر في معرض وسابقة الأعمال.') }}
                     @endif
                 </p>
                 @if(request()->hasAny(['search', 'category_id', 'sort']))
@@ -342,7 +342,7 @@
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span>إعادة ضبط الفلاتر</span>
+                    <span>{{ __('إعادة ضبط الفلاتر') }}</span>
                 </a>
                 @else
                 <a href="{{ route('admin.portfolios.create') }}"
@@ -350,7 +350,7 @@
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    <span>إضافة عمل جديد</span>
+                    <span>{{ __('إضافة عمل جديد') }}</span>
                 </a>
                 @endif
             </div>
@@ -369,7 +369,7 @@
 
 <!-- Delete Confirmation Modal -->
 <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-200">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-right space-y-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-start space-y-4">
 
         <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -378,12 +378,12 @@
         </div>
 
         <div>
-            <h3 class="text-lg font-bold text-slate-900">تأكيد حذف العمل من المعرض</h3>
+            <h3 class="text-lg font-bold text-slate-900">{{ __('تأكيد حذف العمل من المعرض') }}</h3>
             <p class="text-sm text-slate-500 mt-1">
-                هل أنت متأكد من رغبتك في حذف العمل: <strong id="modal-portfolio-title" class="text-slate-800"></strong>؟
+                {{ __('هل أنت متأكد من رغبتك في حذف العمل:') }} <strong id="modal-portfolio-title" class="text-slate-800"></strong>؟
             </p>
             <p class="text-xs text-red-500 mt-2">
-                سيتم حذف سجل المشروع نهائياً وإزالة الصورة المرتبطة به من الخادم.
+                {{ __('سيتم حذف سجل المشروع نهائياً وإزالة الصورة المرتبطة به من الخادم.') }}
             </p>
         </div>
 
@@ -394,11 +394,11 @@
                 <button type="button"
                     onclick="closeDeleteModal()"
                     class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition-colors">
-                    إلغاء
+                    {{ __('إلغاء') }}
                 </button>
                 <button type="submit"
                     class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-md shadow-red-900/20 transition-all">
-                    تأكيد الحذف
+                    {{ __('تأكيد الحذف') }}
                 </button>
             </div>
         </form>

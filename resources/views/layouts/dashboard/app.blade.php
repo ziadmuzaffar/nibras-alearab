@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="h-full bg-slate-50">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="h-full bg-slate-50">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'لوحة التحكم') | {{ setting('site_name', 'مطبعة نبراس العرب') }}</title>
+    <title>@yield('title', __('لوحة التحكم')) | {{ setting('site_name', 'مطبعة نبراس العرب') }}</title>
     <link rel="icon" type="image/x-icon" href="{{ setting_image('site_favicon', 'favicon.ico') }}">
 
     <!-- Local Fonts: Cairo -->
@@ -50,6 +50,17 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('assets/dashboard/css/app.css') }}">
+    <style>
+        html[dir="ltr"] .fa-arrow-left:not(.no-flip),
+        html[dir="ltr"] .fa-angle-left:not(.no-flip),
+        html[dir="ltr"] .fa-chevron-left:not(.no-flip),
+        html[dir="ltr"] .fa-arrow-right:not(.no-flip) {
+            transform: scaleX(-1);
+        }
+        html[dir="ltr"] table.text-right {
+            text-align: left;
+        }
+    </style>
 </head>
 
 <body class="h-full text-slate-800 antialiased overflow-x-hidden selection:bg-red-500 selection:text-white">
@@ -65,7 +76,7 @@
         @include('layouts.dashboard.sidebar')
 
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-w-0 min-h-screen bg-slate-50/75 lg:mr-72 transition-all duration-300">
+        <div class="flex-1 flex flex-col min-w-0 min-h-screen bg-slate-50/75 {{ app()->getLocale() === 'ar' ? 'lg:mr-72' : 'lg:ml-72' }} transition-all duration-300">
             <!-- Top Header -->
             @include('layouts.dashboard.header')
 
@@ -104,7 +115,7 @@
                         <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>يرجى تصحيح الأخطاء التالية:</span>
+                        <span>{{ __('يرجى تصحيح الأخطاء التالية:') }}</span>
                     </div>
                     <ul class="list-disc list-inside text-xs space-y-1 text-amber-800 pr-2">
                         @foreach ($errors->all() as $error)
@@ -121,14 +132,14 @@
             <footer class="mt-auto py-4 px-6 border-t border-slate-200/80 bg-white/60 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
                     <span class="inline-block w-2 h-2 rounded-full bg-red-600"></span>
-                    <span>جميع الحقوق محفوظة &copy; {{ date('Y') }} <strong>مطبعة نبراس العرب</strong></span>
+                    <span>{{ __('جميع الحقوق محفوظة') }} &copy; {{ date('Y') }} <strong>{{ setting('site_name', 'مطبعة نبراس العرب') }}</strong></span>
                 </div>
                 <div class="flex items-center gap-4 text-slate-400">
-                    <span class="text-blue-900 font-medium">لوحة الإدارة v1.0</span>
+                    <span class="text-blue-900 font-medium">{{ __('لوحة الإدارة v1.0') }}</span>
                     <span>•</span>
-                    <a href="#" class="hover:text-red-600 transition-colors">الدعم الفني</a>
+                    <a href="#" class="hover:text-red-600 transition-colors">{{ __('الدعم الفني') }}</a>
                     <span>•</span>
-                    <a href="#" class="hover:text-blue-700 transition-colors">دليل الاستخدام</a>
+                    <a href="#" class="hover:text-blue-700 transition-colors">{{ __('دليل الاستخدام') }}</a>
                 </div>
             </footer>
         </div>
@@ -139,14 +150,15 @@
         function toggleSidebar(open) {
             const sidebar = document.getElementById('dashboard-sidebar');
             const backdrop = document.getElementById('sidebar-backdrop');
+            const closedClass = document.documentElement.dir === 'ltr' ? '-translate-x-full' : 'translate-x-full';
 
             if (open) {
-                sidebar.classList.remove('translate-x-full');
+                sidebar.classList.remove(closedClass);
                 backdrop.classList.remove('opacity-0', 'pointer-events-none');
                 backdrop.classList.add('opacity-100', 'pointer-events-auto');
                 document.body.classList.add('overflow-hidden', 'lg:overflow-auto');
             } else {
-                sidebar.classList.add('translate-x-full');
+                sidebar.classList.add(closedClass);
                 backdrop.classList.add('opacity-0', 'pointer-events-none');
                 backdrop.classList.remove('opacity-100', 'pointer-events-auto');
                 document.body.classList.remove('overflow-hidden', 'lg:overflow-auto');

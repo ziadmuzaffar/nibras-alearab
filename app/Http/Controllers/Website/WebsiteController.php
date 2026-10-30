@@ -346,7 +346,7 @@ class WebsiteController extends Controller
     public function storeQuote(Request $request): JsonResponse|RedirectResponse
     {
         if (setting('enable_quotes', '1') === '0') {
-            $errorMsg = 'عذراً، استقبال طلبات التسعير عبر الموقع متوقف مؤقتاً. يرجى التواصل معنا مباشرة عبر الواتساب أو الهاتف.';
+            $errorMsg = __('عذراً، استقبال طلبات التسعير عبر الموقع متوقف مؤقتاً. يرجى التواصل معنا مباشرة عبر الواتساب أو الهاتف.');
             if ($request->expectsJson() || $request->ajax()) {
                 return response()->json(['success' => false, 'message' => $errorMsg], 403);
             }
@@ -361,15 +361,15 @@ class WebsiteController extends Controller
             'quantity' => ['nullable', 'integer', 'min:1', 'max:10000000'],
             'notes' => ['nullable', 'string', 'max:3000'],
         ], [
-            'customer_name.required' => 'يرجى إدخال الاسم الكامل أو اسم الشركة / الجهة.',
-            'customer_name.max' => 'الاسم المدخل طويل جداً.',
-            'phone.required' => 'يرجى إدخال رقم الجوال أو الهاتف للتواصل معكم.',
-            'phone.max' => 'رقم الهاتف غير صالح.',
-            'email.email' => 'يرجى إدخال عنوان بريد إلكتروني صحيح.',
-            'product_id.exists' => 'المنتج المحدد غير متوفر حالياً.',
-            'quantity.integer' => 'يرجى إدخال كمية تقريبية صحيحة بالأرقام.',
-            'quantity.min' => 'الحد الأدنى للكمية هو 1.',
-            'notes.max' => 'تفاصيل الطلب والملاحظات لا يجب أن تتجاوز 3000 حرف.',
+            'customer_name.required' => __('يرجى إدخال الاسم الكامل أو اسم الشركة / الجهة.'),
+            'customer_name.max' => __('الاسم المدخل طويل جداً.'),
+            'phone.required' => __('يرجى إدخال رقم الجوال أو الهاتف للتواصل معكم.'),
+            'phone.max' => __('رقم الهاتف غير صالح.'),
+            'email.email' => __('يرجى إدخال عنوان بريد إلكتروني صحيح.'),
+            'product_id.exists' => __('المنتج المحدد غير متوفر حالياً.'),
+            'quantity.integer' => __('يرجى إدخال كمية تقريبية صحيحة بالأرقام.'),
+            'quantity.min' => __('الحد الأدنى للكمية هو 1.'),
+            'notes.max' => __('تفاصيل الطلب والملاحظات لا يجب أن تتجاوز 3000 حرف.'),
         ]);
 
         $quoteRequest = QuoteRequest::create([
@@ -385,7 +385,7 @@ class WebsiteController extends Controller
 
         $successMessage = setting(
             'quote_success_message',
-            'تم استلام طلبك بنجاح! سيقوم فريق المبيعات والتسعير بدراسة المواصفات والتواصل معك خلال ساعات العمل الرسمية.'
+            __('تم استلام طلبك بنجاح! سيقوم فريق المبيعات والتسعير بدراسة المواصفات والتواصل معك خلال ساعات العمل الرسمية.')
         );
 
         if ($request->expectsJson() || $request->ajax()) {

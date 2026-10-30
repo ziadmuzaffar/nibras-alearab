@@ -44,14 +44,14 @@ class ProfileController extends Controller
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:3072'],
             'remove_avatar' => ['nullable', 'boolean'],
         ], [
-            'name.required' => 'يرجى إدخال اسمك الكامل.',
-            'name.max' => 'الاسم طويل جداً (الحد الأقصى 255 حرفاً).',
-            'email.required' => 'يرجى إدخال البريد الإلكتروني.',
-            'email.email' => 'صيغة البريد الإلكتروني غير صحيحة.',
-            'email.unique' => 'البريد الإلكتروني مسجل بالفعل لمستخدم آخر.',
-            'avatar.image' => 'الصورة الشخصية يجب أن تكون ملف صورة صالح.',
-            'avatar.mimes' => 'صيغ الصور المسموح بها: jpeg, png, jpg, webp, svg.',
-            'avatar.max' => 'حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.',
+            'name.required' => __('يرجى إدخال اسمك الكامل.'),
+            'name.max' => __('الاسم طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'email.required' => __('يرجى إدخال البريد الإلكتروني.'),
+            'email.email' => __('صيغة البريد الإلكتروني غير صحيحة.'),
+            'email.unique' => __('البريد الإلكتروني مسجل بالفعل لمستخدم آخر.'),
+            'avatar.image' => __('الصورة الشخصية يجب أن تكون ملف صورة صالح.'),
+            'avatar.mimes' => __('صيغ الصور المسموح بها: jpeg, png, jpg, webp, svg.'),
+            'avatar.max' => __('حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.'),
         ]);
 
         $avatarPath = $user->avatar;
@@ -91,7 +91,7 @@ class ProfileController extends Controller
 
         return redirect()
             ->route('admin.profile.edit')
-            ->with('success', 'تم تحديث بيانات الملف الشخصي بنجاح!');
+            ->with('success', __('تم تحديث بيانات الملف الشخصي بنجاح!'));
     }
 
     /**
@@ -105,16 +105,16 @@ class ProfileController extends Controller
             'current_password' => ['required', 'string'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
-            'current_password.required' => 'يرجى إدخال كلمة المرور الحالية.',
-            'password.required' => 'يرجى إدخال كلمة المرور الجديدة.',
-            'password.min' => 'كلمة المرور الجديدة يجب ألا تقل عن 8 أحرف.',
-            'password.confirmed' => 'تأكيد كلمة المرور الجديدة غير متطابق.',
+            'current_password.required' => __('يرجى إدخال كلمة المرور الحالية.'),
+            'password.required' => __('يرجى إدخال كلمة المرور الجديدة.'),
+            'password.min' => __('كلمة المرور الجديدة يجب ألا تقل عن 8 أحرف.'),
+            'password.confirmed' => __('تأكيد كلمة المرور الجديدة غير متطابق.'),
         ]);
 
         // Verify current password
         if (!Hash::check($validated['current_password'], $user->password)) {
             return back()->withErrors([
-                'current_password' => 'كلمة المرور الحالية غير صحيحة.',
+                'current_password' => __('كلمة المرور الحالية غير صحيحة.'),
             ]);
         }
 
@@ -124,6 +124,6 @@ class ProfileController extends Controller
 
         return redirect()
             ->route('admin.profile.edit')
-            ->with('success', 'تم تغيير كلمة المرور بنجاح!');
+            ->with('success', __('تم تغيير كلمة المرور بنجاح!'));
     }
 }

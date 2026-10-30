@@ -31,9 +31,9 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ], [
-            'email.required' => 'يرجى إدخال البريد الإلكتروني.',
-            'email.email' => 'صيغة البريد الإلكتروني المدخلة غير صحيحة.',
-            'password.required' => 'يرجى إدخال كلمة المرور.',
+            'email.required' => __('يرجى إدخال البريد الإلكتروني.'),
+            'email.email' => __('صيغة البريد الإلكتروني المدخلة غير صحيحة.'),
+            'password.required' => __('يرجى إدخال كلمة المرور.'),
         ]);
 
         $remember = $request->boolean('remember');
@@ -44,16 +44,16 @@ class AuthController extends Controller
             if (!Auth::user()->is_active) {
                 Auth::logout();
                 return back()->withErrors([
-                    'email' => 'هذا الحساب معطل حالياً من قِبل إدارة النظام.',
+                    'email' => __('هذا الحساب معطل حالياً من قِبل إدارة النظام.'),
                 ])->onlyInput('email');
             }
 
             return redirect()->intended(route('admin.dashboard'))
-                ->with('success', 'مرحباً بك مجدداً، ' . Auth::user()->name);
+                ->with('success', __('مرحباً بك مجدداً، :name', ['name' => Auth::user()->name]));
         }
 
         return back()->withErrors([
-            'email' => 'بيانات الدخول غير صحيحة، يرجى التأكد من البريد الإلكتروني وكلمة المرور.',
+            'email' => __('بيانات الدخول غير صحيحة، يرجى التأكد من البريد الإلكتروني وكلمة المرور.'),
         ])->onlyInput('email');
     }
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login')->with('status', 'تم تسجيل الخروج بنجاح. نراك قريباً!');
+        return redirect()->route('admin.login')->with('status', __('تم تسجيل الخروج بنجاح. نراك قريباً!'));
     }
 }
 

@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.app')
 
-@section('title', 'تفاصيل التصنيف: ' . $category->name)
+@section('title', __('تفاصيل التصنيف:') . ' ' . $category->name)
 
 @php
 $stats = $stats ?? [
@@ -22,10 +22,10 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
         <div>
             <div class="flex items-center gap-3 flex-wrap">
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2.5">
-                    <span>تفاصيل التصنيف</span>
+                    <span>{{ __('تفاصيل التصنيف') }}</span>
                 </h1>
             </div>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1.5">عرض كافة البيانات والمؤشرات التحليلية والمنتجات التابعة لهذا القسم</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1.5">{{ __('عرض كافة البيانات والمؤشرات التحليلية والمنتجات التابعة لهذا القسم') }}</p>
         </div>
 
         <!-- Header Actions -->
@@ -34,7 +34,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
             <a href="{{ route('admin.categories.index') }}"
                 class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-700 bg-white border border-slate-200/80 hover:bg-slate-50 hover:text-slate-900 shadow-xs transition-all duration-200 active:scale-[0.98]">
                 <i class="fa-solid fa-arrow-right text-xs"></i>
-                <span>العودة للقائمة</span>
+                <span>{{ __('العودة للقائمة') }}</span>
             </a>
         </div>
     </div>
@@ -44,7 +44,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
         <!-- Total Products -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">إجمالي المنتجات</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('إجمالي المنتجات') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-slate-800 mt-1">{{ number_format($stats['products_total']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
@@ -57,7 +57,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
         <!-- Active Products -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">المنتجات النشطة</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('المنتجات النشطة') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-emerald-600 mt-1">{{ number_format($stats['products_active']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -67,10 +67,10 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
             </div>
         </div>
 
-        <!-- Portfolios (نماذج الأعمال) -->
+        <!-- Portfolios -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">نماذج الأعمال</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('نماذج الأعمال') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-purple-600 mt-1">{{ number_format($stats['portfolios_total']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
@@ -78,10 +78,10 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
             </div>
         </div>
 
-        <!-- Quote Requests (طلبات عروض الأسعار) -->
+        <!-- Quote Requests -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">طلبات عروض الأسعار</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('طلبات عروض الأسعار') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-rose-600 mt-1">{{ number_format($stats['quotes_total']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
@@ -103,7 +103,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                         <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
                             <i class="fa-solid fa-circle-info text-sm"></i>
                         </div>
-                        <span>معلومات وبيانات القسم التفصيلية</span>
+                        <span>{{ __('معلومات وبيانات القسم التفصيلية') }}</span>
                     </h3>
                 </div>
 
@@ -112,7 +112,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-tag text-slate-400 w-4"></i>
-                            <span>اسم التصنيف الكامل</span>
+                            <span>{{ __('اسم التصنيف الكامل') }}</span>
                         </div>
                         <span class="font-bold text-slate-900 text-sm sm:text-base">{{ $category->name }}</span>
                     </div>
@@ -121,7 +121,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-link text-slate-400 w-4"></i>
-                            <span>الرابط اللطيف (Slug)</span>
+                            <span>{{ __('الرابط اللطيف (Slug)') }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span dir="ltr" class="font-mono font-bold text-blue-700 bg-blue-50 border border-blue-100 px-3 py-1 rounded-lg text-xs">
@@ -130,7 +130,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                             <button type="button"
                                 onclick="copySlugToClipboard('{{ $category->slug }}')"
                                 class="text-slate-400 hover:text-blue-600 transition-colors p-1"
-                                title="نسخ الرابط">
+                                title="{{ __('نسخ الرابط') }}">
                                 <i class="fa-regular fa-copy text-xs"></i>
                             </button>
                         </div>
@@ -140,13 +140,13 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-arrow-down-1-9 text-slate-400 w-4"></i>
-                            <span>ترتيب الظهور في الموقع</span>
+                            <span>{{ __('ترتيب الظهور في الموقع') }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="font-mono font-bold text-slate-800 bg-slate-100 border border-slate-200/80 px-2.5 py-1 rounded-lg text-xs">
                                 #{{ $category->order }}
                             </span>
-                            <span class="text-xs text-slate-400">الأرقام الأصغر تظهر أولاً</span>
+                            <span class="text-xs text-slate-400">{{ __('الأرقام الأصغر تظهر أولاً') }}</span>
                         </div>
                     </div>
 
@@ -154,7 +154,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-icons text-slate-400 w-4"></i>
-                            <span>الأيقونة المعتمدة</span>
+                            <span>{{ __('الأيقونة المعتمدة') }}</span>
                         </div>
                         <div class="flex items-center gap-2.5">
                             <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-100">
@@ -170,18 +170,18 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-eye text-slate-400 w-4"></i>
-                            <span>حالة النشر والظهور للعملاء</span>
+                            <span>{{ __('حالة النشر والظهور للعملاء') }}</span>
                         </div>
                         <div>
                             @if($category->is_active)
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <span>نشط ومتاح في الموقع</span>
+                                <span>{{ __('نشط ومتاح في الموقع') }}</span>
                             </span>
                             @else
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
                                 <span class="w-2 h-2 rounded-full bg-slate-400"></span>
-                                <span>معطل ومخفي عن الزوار</span>
+                                <span>{{ __('معطل ومخفي عن الزوار') }}</span>
                             </span>
                             @endif
                         </div>
@@ -191,7 +191,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-regular fa-calendar text-slate-400 w-4"></i>
-                            <span>تاريخ الإضافة للنظام</span>
+                            <span>{{ __('تاريخ الإضافة للنظام') }}</span>
                         </div>
                         <span class="font-mono font-medium text-slate-700 text-xs">
                             {{ $category->created_at ? $category->created_at->format('Y/m/d - h:i A') : '—' }}
@@ -202,7 +202,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                     <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div class="flex items-center gap-2 text-slate-500 font-semibold">
                             <i class="fa-solid fa-clock-rotate-left text-slate-400 w-4"></i>
-                            <span>تاريخ آخر تعديل</span>
+                            <span>{{ __('تاريخ آخر تعديل') }}</span>
                         </div>
                         <span class="font-mono font-medium text-slate-700 text-xs">
                             {{ $category->updated_at ? $category->updated_at->format('Y/m/d - h:i A') : '—' }}
@@ -221,11 +221,11 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                     <h3 class="text-sm font-black text-slate-900 flex items-center gap-2">
                         <i class="fa-regular fa-image text-blue-700"></i>
-                        <span>الصورة التوضيحية للقسم</span>
+                        <span>{{ __('الصورة التوضيحية للقسم') }}</span>
                     </h3>
                     @if($category->image)
                     <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                        مرفوعة
+                        {{ __('مرفوعة') }}
                     </span>
                     @endif
                 </div>
@@ -239,7 +239,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                         <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                             <a href="{{ asset($category->image) }}" target="_blank" class="px-3 py-1.5 bg-white/95 text-slate-800 text-xs font-bold rounded-xl shadow-lg hover:bg-white transition-all flex items-center gap-1.5">
                                 <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
-                                <span>عرض بالحجم الكامل</span>
+                                <span>{{ __('عرض بالحجم الكامل') }}</span>
                             </a>
                         </div>
                     </div>
@@ -247,7 +247,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                         <span class="text-slate-400 text-[11px] font-mono truncate max-w-[200px]" dir="ltr">{{ basename($category->image) }}</span>
                         <a href="{{ route('admin.categories.edit', $category) }}" class="text-blue-700 hover:text-blue-800 font-bold text-[11px] flex items-center gap-1">
                             <i class="fa-solid fa-pen text-[10px]"></i>
-                            <span>تغيير الصورة</span>
+                            <span>{{ __('تغيير الصورة') }}</span>
                         </a>
                     </div>
                     @else
@@ -255,11 +255,11 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                         <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2">
                             <i class="fa-regular fa-image text-xl"></i>
                         </div>
-                        <p class="text-xs font-bold text-slate-700">لا توجد صورة مخصصة مرفوعة</p>
-                        <p class="text-[11px] text-slate-400 mt-1">يتم اعتماد الأيقونة الرمزية الافتراضية للتصنيف</p>
+                        <p class="text-xs font-bold text-slate-700">{{ __('لا توجد صورة مخصصة مرفوعة') }}</p>
+                        <p class="text-[11px] text-slate-400 mt-1">{{ __('يتم اعتماد الأيقونة الرمزية الافتراضية للتصنيف') }}</p>
                         <a href="{{ route('admin.categories.edit', $category) }}" class="inline-flex items-center gap-1.5 text-xs text-blue-700 font-bold hover:underline mt-3">
                             <i class="fa-solid fa-upload text-[11px]"></i>
-                            <span>رفع صورة الآن</span>
+                            <span>{{ __('رفع صورة الآن') }}</span>
                         </a>
                     </div>
                     @endif
@@ -273,10 +273,10 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                 <div class="relative z-10 space-y-3.5">
                     <h3 class="text-sm font-black flex items-center gap-2">
                         <i class="fa-solid fa-bolt text-amber-400"></i>
-                        <span>إجراءات وتحكم سريع</span>
+                        <span>{{ __('إجراءات وتحكم سريع') }}</span>
                     </h3>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        تحكم بإعدادات هذا القسم مباشرة أو قم بإجراء التعديلات المطلوبة.
+                        {{ __('تحكم بإعدادات هذا القسم مباشرة أو قم بإجراء التعديلات المطلوبة.') }}
                     </p>
 
                     <div class="space-y-2 pt-1">
@@ -284,7 +284,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                             class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors">
                             <span class="flex items-center gap-2">
                                 <i class="fa-solid fa-pen text-blue-300"></i>
-                                <span>تعديل اسم وبيانات التصنيف</span>
+                                <span>{{ __('تعديل اسم وبيانات التصنيف') }}</span>
                             </span>
                             <i class="fa-solid fa-chevron-left text-[10px] text-slate-400"></i>
                         </a>
@@ -293,10 +293,10 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                             @csrf
                             @method('PATCH')
                             <button type="submit"
-                                class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors text-right">
+                                class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
                                 <span class="flex items-center gap-2">
                                     <i class="fa-solid {{ $category->is_active ? 'fa-pause text-amber-300' : 'fa-play text-emerald-300' }}"></i>
-                                    <span>{{ $category->is_active ? 'تعطيل وإخفاء التصنيف' : 'تفعيل وإظهار التصنيف' }}</span>
+                                    <span>{{ $category->is_active ? __('تعطيل وإخفاء التصنيف') : __('تفعيل وإظهار التصنيف') }}</span>
                                 </span>
                                 <i class="fa-solid fa-chevron-left text-[10px] text-slate-400"></i>
                             </button>
@@ -306,7 +306,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                             class="w-full flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-bold transition-colors">
                             <span class="flex items-center gap-2">
                                 <i class="fa-solid fa-layer-group text-purple-300"></i>
-                                <span>استعراض كافة التصنيفات</span>
+                                <span>{{ __('استعراض كافة التصنيفات') }}</span>
                             </span>
                             <i class="fa-solid fa-chevron-left text-[10px] text-slate-400"></i>
                         </a>
@@ -325,15 +325,15 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                     <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
                         <i class="fa-solid fa-boxes-stacked text-sm"></i>
                     </div>
-                    <span>منتجات هذا القسم</span>
+                    <span>{{ __('منتجات هذا القسم') }}</span>
                 </h3>
-                <p class="text-xs text-slate-500 mt-1">قائمة بالمنتجات التابعة للقسم</p>
+                <p class="text-xs text-slate-500 mt-1">{{ __('قائمة بالمنتجات التابعة للقسم') }}</p>
             </div>
 
             <a href="{{ route('admin.products.create') }}"
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors shadow-2xs self-start sm:self-auto">
                 <i class="fa-solid fa-plus text-xs"></i>
-                <span>إضافة منتج جديد</span>
+                <span>{{ __('إضافة منتج جديد') }}</span>
             </a>
         </div>
 
@@ -350,13 +350,13 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                         <img src="{{ asset($product->featured_image) }}"
                             alt="{{ $product->name }}"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            onerror="this.parentElement.innerHTML='<div class=\'flex flex-col items-center justify-center text-slate-300 gap-1.5\'><i class=\'fa-solid fa-image text-3xl\'></i><span class=\'text-[10px] font-semibold text-slate-400\'>تعذر تحميل الصورة</span></div>'">
+                            onerror="this.parentElement.innerHTML='<div class=\'flex flex-col items-center justify-center text-slate-300 gap-1.5\'><i class=\'fa-solid fa-image text-3xl\'></i><span class=\'text-[10px] font-semibold text-slate-400\'>{{ __('تعذر تحميل الصورة') }}</span></div>'">
                         @else
                         <div class="w-full h-full bg-gradient-to-br from-slate-100 via-slate-50 to-slate-200/60 flex flex-col items-center justify-center text-slate-400 gap-2">
                             <div class="w-12 h-12 rounded-2xl bg-white shadow-xs border border-slate-200/60 flex items-center justify-center text-slate-400 group-hover:text-blue-600 group-hover:scale-110 transition-all">
                                 <i class="fa-solid fa-box-open text-xl"></i>
                             </div>
-                            <span class="text-[11px] font-medium text-slate-400">لا توجد صورة للمنتج</span>
+                            <span class="text-[11px] font-medium text-slate-400">{{ __('لا توجد صورة للمنتج') }}</span>
                         </div>
                         @endif
 
@@ -367,12 +367,12 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                                 @if($product->is_active)
                                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-white/95 backdrop-blur-xs text-emerald-700 shadow-xs border border-emerald-100">
                                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                    <span>نشط</span>
+                                    <span>{{ __('نشط') }}</span>
                                 </span>
                                 @else
                                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-white/95 backdrop-blur-xs text-slate-600 shadow-xs border border-slate-200">
                                     <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-                                    <span>معطل</span>
+                                    <span>{{ __('معطل') }}</span>
                                 </span>
                                 @endif
                             </div>
@@ -382,7 +382,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                                 @if($product->is_featured)
                                 <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-amber-500 text-white shadow-xs shadow-amber-900/20">
                                     <i class="fa-solid fa-star text-[9px]"></i>
-                                    <span>مميز</span>
+                                    <span>{{ __('مميز') }}</span>
                                 </span>
                                 @endif
                             </div>
@@ -396,13 +396,13 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                                 {{ $product->name }}
                             </a>
                             <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed min-h-[2.5rem]">
-                                {{ $product->short_description ?: 'لا يوجد وصف مختصر متوفر لهذا المنتج في الوقت الحالي.' }}
+                                {{ $product->short_description ?: __('لا يوجد وصف مختصر متوفر لهذا المنتج في الوقت الحالي.') }}
                             </p>
                         </div>
 
                         <!-- Meta Footer -->
                         <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
-                            <div class="flex items-center gap-1.5 min-w-0" title="الرابط: {{ $product->slug }}">
+                            <div class="flex items-center gap-1.5 min-w-0" title="{{ __('الرابط:') }} {{ $product->slug }}">
                                 <i class="fa-solid fa-link text-[10px] text-slate-400 flex-shrink-0"></i>
                                 <span class="font-mono text-[11px] text-slate-500 bg-slate-50 border border-slate-200/70 px-2 py-0.5 rounded-md dir-ltr truncate">
                                     {{ $product->slug }}
@@ -410,7 +410,7 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                             </div>
 
                             <a href="{{ route('admin.products.show', $product) }}" class="text-blue-700 hover:text-blue-800 font-bold text-xs flex items-center gap-1">
-                                <span>عرض</span>
+                                <span>{{ __('عرض') }}</span>
                                 <i class="fa-solid fa-arrow-left text-[10px]"></i>
                             </a>
                         </div>
@@ -426,14 +426,14 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
             <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
                 <i class="fa-solid fa-box-open text-2xl"></i>
             </div>
-            <h4 class="text-base font-black text-slate-800">لا توجد منتجات مسجلة في هذا التصنيف بعد</h4>
+            <h4 class="text-base font-black text-slate-800">{{ __('لا توجد منتجات مسجلة في هذا التصنيف بعد') }}</h4>
             <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                يمكنك إضافة منتجات جديدة وتعيين هذا التصنيف لها لتظهر هنا وتصبح متاحة للعملاء.
+                {{ __('يمكنك إضافة منتجات جديدة وتعيين هذا التصنيف لها لتظهر هنا وتصبح متاحة للعملاء.') }}
             </p>
             <a href="{{ route('admin.products.create') }}"
                 class="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors shadow-2xs">
                 <i class="fa-solid fa-plus text-xs"></i>
-                <span>إضافة منتج الآن</span>
+                <span>{{ __('إضافة منتج الآن') }}</span>
             </a>
         </div>
         @endif
@@ -443,20 +443,20 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
 
 <!-- Delete Confirmation Modal -->
 <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-200">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-right space-y-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }} space-y-4">
 
         <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center">
             <i class="fa-solid fa-triangle-exclamation text-xl"></i>
         </div>
 
         <div>
-            <h3 class="text-lg font-bold text-slate-900">تأكيد حذف التصنيف</h3>
+            <h3 class="text-lg font-bold text-slate-900">{{ __('تأكيد حذف التصنيف') }}</h3>
             <p class="text-sm text-slate-500 mt-1">
-                هل أنت متأكد من رغبتك في حذف التصنيف: <strong id="modal-category-name" class="text-slate-800"></strong>؟
+                {{ __('هل أنت متأكد من رغبتك في حذف التصنيف:') }} <strong id="modal-category-name" class="text-slate-800"></strong>؟
             </p>
             <div id="modal-products-warning" class="hidden mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start gap-2">
                 <i class="fa-solid fa-circle-exclamation text-amber-600 mt-0.5"></i>
-                <span>تنبيه: هذا التصنيف مرتبط بمنتجات حالياً! لن تتمكن من حذفه حتى تقوم بنقل أو حذف تلك المنتجات أولاً.</span>
+                <span>{{ __('تنبيه: هذا التصنيف مرتبط بمنتجات حالياً! لن تتمكن من حذفه حتى تقوم بنقل أو حذف تلك المنتجات أولاً.') }}</span>
             </div>
         </div>
 
@@ -467,11 +467,11 @@ $activePercent = $stats['products_total'] > 0 ? round(($stats['products_active']
                 <button type="button"
                     onclick="closeDeleteModal()"
                     class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition-colors">
-                    إلغاء
+                    {{ __('إلغاء') }}
                 </button>
                 <button type="submit"
                     class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-md shadow-red-900/20 transition-all">
-                    تأكيد الحذف
+                    {{ __('تأكيد الحذف') }}
                 </button>
             </div>
         </form>

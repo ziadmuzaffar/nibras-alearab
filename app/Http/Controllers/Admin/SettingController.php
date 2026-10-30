@@ -24,34 +24,34 @@ class SettingController extends Controller
         // Available tabs
         $tabs = [
             'general' => [
-                'name' => 'الهوية والمظهر',
+                'name' => __('الهوية والمظهر'),
                 'icon' => 'fa-palette',
-                'description' => 'شعار المطبعة، الاسم، الشعار اللفظي، والوصف العام',
+                'description' => __('شعار المطبعة، الاسم، الشعار اللفظي، والوصف العام'),
             ],
             'contact' => [
-                'name' => 'بيانات الاتصال',
+                'name' => __('بيانات الاتصال'),
                 'icon' => 'fa-address-book',
-                'description' => 'أرقام الهاتف، الجوال، الواتساب، والبريد الإلكتروني ومواعيد العمل',
+                'description' => __('أرقام الهاتف، الجوال، الواتساب، والبريد الإلكتروني ومواعيد العمل'),
             ],
             'social' => [
-                'name' => 'التواصل الاجتماعي',
+                'name' => __('التواصل الاجتماعي'),
                 'icon' => 'fa-share-nodes',
-                'description' => 'روابط الحسابات الرسمية على منصات التواصل',
+                'description' => __('روابط الحسابات الرسمية على منصات التواصل'),
             ],
             'commercial' => [
-                'name' => 'البيانات التجارية وعروض الأسعار',
+                'name' => __('البيانات التجارية وعروض الأسعار'),
                 'icon' => 'fa-file-invoice-dollar',
-                'description' => 'الرقم الضريبي، السجل التجاري، العملة، وضبط عروض الأسعار',
+                'description' => __('الرقم الضريبي، السجل التجاري، العملة، وضبط عروض الأسعار'),
             ],
             'announcement' => [
-                'name' => 'شريط الإعلانات والصيانة',
+                'name' => __('شريط الإعلانات والصيانة'),
                 'icon' => 'fa-bullhorn',
-                'description' => 'شريط التنبيه العلوي في الموقع ووضع الصيانة المؤقت',
+                'description' => __('شريط التنبيه العلوي في الموقع ووضع الصيانة المؤقت'),
             ],
             'seo' => [
-                'name' => 'محركات البحث والأكواد',
+                'name' => __('محركات البحث والأكواد'),
                 'icon' => 'fa-magnifying-glass-chart',
-                'description' => 'الكلمات المفتاحية، جوجل أناليتكس، والأكواد المخصصة',
+                'description' => __('الكلمات المفتاحية، جوجل أناليتكس، والأكواد المخصصة'),
             ],
         ];
 
@@ -77,8 +77,11 @@ class SettingController extends Controller
         // Validation rules
         $rules = [
             'site_name' => 'nullable|string|max:190',
+            'site_name_en' => 'nullable|string|max:190',
             'site_tagline' => 'nullable|string|max:255',
+            'site_tagline_en' => 'nullable|string|max:255',
             'site_description' => 'nullable|string|max:1000',
+            'site_description_en' => 'nullable|string|max:1000',
             'established_year' => 'nullable|string|max:10',
             'contact_email' => 'nullable|email|max:190',
             'support_email' => 'nullable|email|max:190',
@@ -87,9 +90,12 @@ class SettingController extends Controller
             'mobile' => 'nullable|string|max:50',
             'whatsapp' => 'nullable|string|max:50',
             'whatsapp_default_message' => 'nullable|string|max:500',
+            'whatsapp_default_message_en' => 'nullable|string|max:500',
             'address' => 'nullable|string|max:300',
+            'address_en' => 'nullable|string|max:300',
             'map_url' => 'nullable|string|max:500',
             'working_hours' => 'nullable|string|max:255',
+            'working_hours_en' => 'nullable|string|max:255',
             'facebook' => 'nullable|url|max:255',
             'twitter' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
@@ -101,13 +107,19 @@ class SettingController extends Controller
             'commercial_registration' => 'nullable|string|max:50',
             'currency' => 'nullable|string|max:10',
             'currency_symbol' => 'nullable|string|max:15',
+            'currency_symbol_en' => 'nullable|string|max:15',
             'vat_rate' => 'nullable|numeric|min:0|max:100',
             'quote_success_message' => 'nullable|string|max:500',
+            'quote_success_message_en' => 'nullable|string|max:500',
             'header_notice' => 'nullable|string|max:500',
+            'header_notice_en' => 'nullable|string|max:500',
             'header_notice_type' => 'nullable|string|in:promo,info,warning,danger',
             'maintenance_message' => 'nullable|string|max:500',
+            'maintenance_message_en' => 'nullable|string|max:500',
             'meta_keywords' => 'nullable|string|max:500',
+            'meta_keywords_en' => 'nullable|string|max:500',
             'meta_description' => 'nullable|string|max:500',
+            'meta_description_en' => 'nullable|string|max:500',
             'google_analytics_id' => 'nullable|string|max:50',
             'site_logo' => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:4096',
             'site_logo_dark' => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:4096',
@@ -188,7 +200,7 @@ class SettingController extends Controller
 
         return redirect()
             ->route('admin.settings.index', ['tab' => $activeTab])
-            ->with('success', 'تم حفظ وتحديث إعدادات النظام بنجاح!');
+            ->with('success', __('تم حفظ وتحديث إعدادات النظام بنجاح!'));
     }
 
     /**
@@ -203,6 +215,6 @@ class SettingController extends Controller
 
         return redirect()
             ->route('admin.settings.index')
-            ->with('success', 'تمت استعادة الإعدادات الافتراضية للنظام بنجاح!');
+            ->with('success', __('تمت استعادة الإعدادات الافتراضية للنظام بنجاح!'));
     }
 }

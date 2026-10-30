@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="scroll-smooth">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
@@ -7,12 +7,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @php
-        $siteName = setting('site_name', 'مطبعة نبراس العرب للطباعة والتغليف');
-        $siteTagline = setting('site_tagline', 'ريادة في عالم الطباعة الفاخرة والتغليف المبتكر');
+        $siteName = setting('site_name', __('مطبعة نبراس العرب للطباعة والتغليف'));
+        $siteTagline = setting('site_tagline', __('ريادة في عالم الطباعة الفاخرة والتغليف المبتكر'));
         $metaDesc = View::hasSection('meta_description')
             ? View::getSection('meta_description')
-            : setting('meta_description', setting('site_description', 'نبراس العرب للطباعة والتغليف بالرياض - خدمات متكاملة في الطباعة الرقمية والأوفست وتصنيع علب التغليف الفاخرة والهدايا الدعائية.'));
-        $metaKeywords = setting('meta_keywords', 'مطبعة الرياض, طباعة علب كرتون, تغليف فاخر, كروت شخصية, بروشورات, نبراس العرب, طباعة أوفست');
+            : setting('meta_description', setting('site_description', __('نبراس العرب للطباعة والتغليف بالرياض - خدمات متكاملة في الطباعة الرقمية والأوفست وتصنيع علب التغليف الفاخرة والهدايا الدعائية.')));
+        $metaKeywords = setting('meta_keywords', __('مطبعة الرياض, طباعة علب كرتون, تغليف فاخر, كروت شخصية, بروشورات, نبراس العرب, طباعة أوفست'));
     @endphp
 
     <title>@hasSection('title')@yield('title') | {{ $siteName }}@else{{ $siteName }} — {{ $siteTagline }}@endif</title>
@@ -81,6 +81,14 @@
 
     <!-- Custom Website Styles -->
     <link rel="stylesheet" href="{{ asset('assets/website/css/app.css') }}">
+    <style>
+        html[dir="ltr"] .fa-arrow-left:not(.no-flip),
+        html[dir="ltr"] .fa-angle-left:not(.no-flip),
+        html[dir="ltr"] .fa-chevron-left:not(.no-flip),
+        html[dir="ltr"] .fa-arrow-right:not(.no-flip) {
+            transform: scaleX(-1);
+        }
+    </style>
 
     @if(setting('google_analytics_id'))
     <!-- Google Analytics -->
@@ -109,12 +117,12 @@
             <div class="flex items-center gap-3">
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/30 font-bold">
                     <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-                    <span>وضع المدير: {{ auth()->user()->name }}</span>
+                    <span>{{ __('وضع المدير') }}: {{ auth()->user()->name }}</span>
                 </span>
                 @if(setting('maintenance_mode', '0') === '1')
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-600/20 text-red-400 border border-red-500/30 font-bold">
                     <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span>وضع الصيانة مفعّل للزوار</span>
+                    <span>{{ __('وضع الصيانة مفعّل للزوار') }}</span>
                 </span>
                 @endif
             </div>
@@ -124,18 +132,18 @@
                 @endphp
                 <a href="{{ route('admin.quote-requests.index') }}" class="hover:text-white transition-colors flex items-center gap-1.5">
                     <i class="fa-solid fa-file-invoice-dollar text-amber-400"></i>
-                    <span>طلبات التسعير</span>
+                    <span>{{ __('طلبات التسعير') }}</span>
                     @if($adminUnreadQuotes > 0)
                         <span class="px-1.5 py-0.2 rounded-full bg-red-600 text-white text-[10px] font-bold font-mono">{{ $adminUnreadQuotes }}</span>
                     @endif
                 </a>
                 <a href="{{ route('admin.settings.index') }}" class="hover:text-white transition-colors hidden sm:inline-flex items-center gap-1">
                     <i class="fa-solid fa-sliders text-slate-400"></i>
-                    <span>الإعدادات</span>
+                    <span>{{ __('الإعدادات') }}</span>
                 </a>
                 <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition-colors">
                     <i class="fa-solid fa-gauge-high text-[11px]"></i>
-                    <span>لوحة التحكم</span>
+                    <span>{{ __('لوحة التحكم') }}</span>
                 </a>
             </div>
         </div>
@@ -155,10 +163,10 @@
                 </div>
                 <div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <h4 class="font-black text-sm sm:text-base text-emerald-950">تم إرسال طلبك بنجاح!</h4>
+                        <h4 class="font-black text-sm sm:text-base text-emerald-950">{{ __('تم إرسال طلبك بنجاح!') }}</h4>
                         @if(session('quote_reference'))
                         <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-mono font-bold">
-                            رقم الطلب: #{{ session('quote_reference') }}
+                            {{ __('رقم الطلب') }}: #{{ session('quote_reference') }}
                         </span>
                         @endif
                     </div>
@@ -196,7 +204,7 @@
             <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-2 font-black text-sm text-amber-900">
                     <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
-                    <span>يرجى التحقق من البيانات المدخلة:</span>
+                    <span>{{ __('يرجى التحقق من البيانات المدخلة:') }}</span>
                 </div>
                 <button type="button" onclick="document.getElementById('flash-validation-banner').remove()" class="text-amber-600 hover:text-amber-800">
                     <i class="fa-solid fa-xmark"></i>
@@ -228,7 +236,7 @@
         <button id="scroll-to-top-btn"
             type="button"
             onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-            aria-label="العودة للأعلى"
+            aria-label="{{ __('العودة للأعلى') }}"
             class="w-11 h-11 rounded-2xl bg-slate-900/90 hover:bg-blue-700 text-white shadow-xl border border-white/15 flex items-center justify-center transition-all duration-300 opacity-0 translate-y-4 pointer-events-none">
             <i class="fa-solid fa-arrow-up text-sm"></i>
         </button>
@@ -238,14 +246,14 @@
         <a href="{{ whatsapp_link() }}"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="تواصل معنا عبر واتساب"
+            aria-label="{{ __('تواصل معنا عبر واتساب') }}"
             class="group relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-emerald-500 text-white shadow-2xl shadow-emerald-600/40 hover:scale-105 active:scale-95 transition-all duration-300">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-2xl bg-emerald-400 opacity-30"></span>
             <i class="fa-brands fa-whatsapp text-3xl relative z-10"></i>
             <!-- Tooltip -->
             <span class="hidden sm:flex items-center gap-2 absolute left-full ml-3 px-3.5 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold whitespace-nowrap shadow-xl opacity-0 -translate-x-2 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>تحدث مع المبيعات مباشرة</span>
+                <span>{{ __('تحدث مع المبيعات مباشرة') }}</span>
             </span>
         </a>
         @endif

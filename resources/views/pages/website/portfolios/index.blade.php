@@ -1,6 +1,6 @@
 @extends('layouts.website.app')
 
-@section('title', 'معرض أعمالنا ومشاريعنا المنفذة')
+@section('title', __('معرض أعمالنا ومشاريعنا المنفذة'))
 
 @section('content')
 
@@ -12,22 +12,22 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 mb-4">
-            <a href="{{ route('website.home') }}" class="hover:text-white transition-colors">الرئيسية</a>
+            <a href="{{ route('website.home') }}" class="hover:text-white transition-colors">{{ __('الرئيسية') }}</a>
             <i class="fa-solid fa-chevron-left text-[10px] text-slate-600"></i>
-            <span class="text-blue-400">معرض الأعمال والمشاريع</span>
+            <span class="text-blue-400">{{ __('معرض الأعمال والمشاريع') }}</span>
         </nav>
 
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div class="space-y-2.5 max-w-2xl">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-amber-300 text-xs font-bold">
                     <i class="fa-solid fa-award"></i>
-                    <span>سجل حافل بالإنجازات والجودة</span>
+                    <span>{{ __('سجل حافل بالإنجازات والجودة') }}</span>
                 </div>
                 <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
-                    معرض أعمالنا ومشاريع الطباعة والتغليف المنفذة
+                    {{ __('معرض أعمالنا ومشاريع الطباعة والتغليف المنفذة') }}
                 </h1>
                 <p class="text-xs sm:text-base text-slate-300 leading-relaxed">
-                    نماذج مختارة من المشاريع التي تشرفت مطبعة نبراس العرب بتصميمها وتنفيذها لكبرى الشركات، العلامات التجارية، والمتاجر في المملكة العربية السعودية.
+                    {{ __('نماذج مختارة من المشاريع التي تشرفت مطبعة نبراس العرب بتصميمها وتنفيذها لكبرى الشركات، العلامات التجارية، والمتاجر في المملكة العربية السعودية.') }}
                 </p>
             </div>
 
@@ -36,7 +36,7 @@
                 onclick="openQuoteModal()"
                 class="self-start md:self-auto inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-500 hover:to-red-500 text-white font-black text-xs sm:text-sm shadow-xl">
                 <i class="fa-solid fa-file-invoice-dollar"></i>
-                <span>ابدأ مشروعك معنا</span>
+                <span>{{ __('ابدأ مشروعك معنا') }}</span>
             </button>
             @endif
         </div>
@@ -53,7 +53,7 @@
             <div class="w-full lg:w-auto max-w-full min-w-0 flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 lg:pb-0">
                 <a href="{{ route('website.portfolios.index') }}"
                     class="shrink-0 px-4 py-2 rounded-xl text-xs font-black whitespace-nowrap transition-all {{ !$selectedCategory ? 'bg-slate-900 text-white shadow-sm' : 'bg-slate-100 hover:bg-slate-200 text-slate-700' }}">
-                    جميع المشاريع
+                    {{ __('جميع المشاريع') }}
                 </a>
                 @foreach($portfolioCategories as $pCat)
                 @php
@@ -75,7 +75,7 @@
                 <input type="text"
                     name="search"
                     value="{{ request('search') }}"
-                    placeholder="ابحث باسم المشروع أو العميل..."
+                    placeholder="{{ __('ابحث باسم المشروع أو العميل...') }}"
                     class="w-full pr-9 pl-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600">
                 <button type="submit" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-blue-600">
                     <i class="fa-solid fa-magnifying-glass text-xs"></i>
@@ -89,8 +89,8 @@
             @foreach($portfolios as $portfolio)
             <article onclick="openPortfolioModal({{ Js::from([
                     'title' => $portfolio->title,
-                    'client' => $portfolio->client_name ?: 'عميل مميز',
-                    'category' => $portfolio->category?->name ?: 'مطبوعات وتغليف',
+                    'client' => $portfolio->client_name ?: __('عميل مميز'),
+                    'category' => $portfolio->category?->name ?: __('مطبوعات وتغليف'),
                     'image' => $portfolio->image_url,
                     'description' => $portfolio->description,
                 ]) }})"
@@ -143,7 +143,7 @@
                     </div>
 
                     <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-700 group-hover:text-red-600 transition-colors">
-                        <span>عرض تفاصيل المشروع</span>
+                        <span>{{ __('عرض تفاصيل المشروع') }}</span>
                         <i class="fa-solid fa-arrow-left text-[10px]"></i>
                     </div>
                 </div>
@@ -159,9 +159,9 @@
         @else
         <div class="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4">
             <i class="fa-solid fa-images text-4xl text-slate-300 block"></i>
-            <h3 class="text-base font-black text-slate-800">لا توجد مشاريع مطابقة للبحث</h3>
+            <h3 class="text-base font-black text-slate-800">{{ __('لا توجد مشاريع مطابقة للبحث') }}</h3>
             <a href="{{ route('website.portfolios.index') }}" class="inline-block px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold">
-                عرض كافة الأعمال
+                {{ __('عرض كافة الأعمال') }}
             </a>
         </div>
         @endif
@@ -181,10 +181,10 @@
                 </button>
                 <span id="pmodal-category" class="absolute top-4 right-4 px-3.5 py-1 rounded-full bg-blue-600 text-white text-xs font-bold shadow-md"></span>
             </div>
-            <div class="p-5 sm:p-7 space-y-3 text-right">
+            <div class="p-5 sm:p-7 space-y-3 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
                 <div class="flex items-center gap-2 text-xs font-bold text-blue-700">
                     <i class="fa-solid fa-building"></i>
-                    <span>العميل: <strong id="pmodal-client"></strong></span>
+                    <span>{{ __('العميل:') }} <strong id="pmodal-client"></strong></span>
                 </div>
                 <h3 id="pmodal-title" class="text-base sm:text-xl font-black text-slate-900"></h3>
                 <p id="pmodal-description" class="text-xs sm:text-sm text-slate-600 leading-relaxed"></p>
@@ -193,10 +193,10 @@
                         onclick="closePortfolioModal(); openQuoteModal();"
                         class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-700 to-red-600 text-white text-xs sm:text-sm font-black shadow-md">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
-                        <span>اطلب تنفيذ مشروع مماثل</span>
+                        <span>{{ __('اطلب تنفيذ مشروع مماثل') }}</span>
                     </button>
                     <button type="button" onclick="closePortfolioModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold text-center">
-                        إغلاق
+                        {{ __('إغلاق') }}
                     </button>
                 </div>
             </div>
@@ -213,8 +213,8 @@
         document.getElementById('pmodal-image').src = data.image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80';
         document.getElementById('pmodal-image').alt = data.title || '';
         document.getElementById('pmodal-title').textContent = data.title || '';
-        document.getElementById('pmodal-client').textContent = data.client || 'عميل مميز';
-        document.getElementById('pmodal-category').textContent = data.category || 'مطبوعات وتغليف';
+        document.getElementById('pmodal-client').textContent = data.client || @json(__('عميل مميز'));
+        document.getElementById('pmodal-category').textContent = data.category || @json(__('مطبوعات وتغليف'));
         document.getElementById('pmodal-description').textContent = data.description || '';
 
         modal.classList.remove('hidden');

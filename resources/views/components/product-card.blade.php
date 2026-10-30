@@ -1,9 +1,9 @@
 @props(['product'])
 
 @php
-    $specs = is_array($product->specifications) ? array_slice($product->specifications, 0, 2, true) : [];
-    $imageUrl = $product->featured_image_url;
-    $categorySlug = $product->category?->slug ?? 'general';
+$specs = is_array($product->specifications) ? array_slice($product->specifications, 0, 2, true) : [];
+$imageUrl = $product->featured_image_url;
+$categorySlug = $product->category?->slug ?? 'general';
 @endphp
 
 <article data-category="{{ $categorySlug }}"
@@ -44,7 +44,7 @@
             @if($product->is_featured)
             <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-400 text-slate-950 text-[11px] font-black shadow-md">
                 <i class="fa-solid fa-star text-[10px]"></i>
-                <span>مميز</span>
+                <span>{{ __('مميز') }}</span>
             </span>
             @endif
         </div>
@@ -54,7 +54,7 @@
             @if($product->images && $product->images->count() > 1)
             <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-slate-900/75 backdrop-blur-sm text-[11px] font-bold">
                 <i class="fa-regular fa-images text-blue-300"></i>
-                <span>{{ $product->images->count() }} صور</span>
+                <span>{{ $product->images->count() }} {{ __('صور') }}</span>
             </span>
             @else
             <span></span>
@@ -62,7 +62,7 @@
 
             <a href="{{ route('website.products.show', $product->slug) }}"
                 class="pointer-events-auto w-8 h-8 rounded-xl bg-white/90 hover:bg-white text-slate-900 flex items-center justify-center shadow-md opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-                title="عرض التفاصيل والمواصفات">
+                title="{{ __('عرض التفاصيل والمواصفات') }}">
                 <i class="fa-solid fa-expand text-xs"></i>
             </a>
         </div>
@@ -106,21 +106,21 @@
                 onclick="openQuoteModal({{ $product->id }}, '{{ addslashes($product->name) }}')"
                 class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-red-600 text-white text-xs sm:text-sm font-black shadow-md shadow-blue-700/15 transition-all active:scale-[0.98]">
                 <i class="fa-solid fa-file-invoice-dollar text-xs"></i>
-                <span>اطلب تسعير</span>
+                <span>{{ __('اطلب تسعير') }}</span>
             </button>
             @endif
 
             <a href="{{ route('website.products.show', $product->slug) }}"
                 class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-700 hover:text-slate-950 text-xs font-bold transition-colors">
-                <span>المواصفات</span>
+                <span>{{ __('المواصفات') }}</span>
                 <i class="fa-solid fa-arrow-left text-[10px]"></i>
             </a>
 
             @if(setting('whatsapp') || setting('mobile'))
-            <a href="{{ whatsapp_link('مرحباً مطبعة نبراس العرب، أود الاستفسار وطلب تسعير لمنتج: ' . $product->name) }}"
+            <a href="{{ whatsapp_link(__('مرحباً مطبعة نبراس العرب، أود الاستفسار وطلب تسعير لمنتج:') . ' ' . $product->name) }}"
                 target="_blank"
                 rel="noopener"
-                title="استفسر عبر واتساب عن {{ $product->name }}"
+                title="{{ __('استفسر عبر واتساب عن') }} {{ $product->name }}"
                 class="w-10 h-10 rounded-xl bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200/70 flex items-center justify-center flex-shrink-0 transition-all">
                 <i class="fa-brands fa-whatsapp text-base"></i>
             </a>
@@ -128,4 +128,3 @@
         </div>
     </div>
 </article>
-

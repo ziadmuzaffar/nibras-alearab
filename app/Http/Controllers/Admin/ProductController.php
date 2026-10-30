@@ -109,27 +109,32 @@ class ProductController extends Controller
         $validated = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:products,slug'],
             'short_description' => ['nullable', 'string', 'max:1000'],
+            'short_description_en' => ['nullable', 'string', 'max:1000'],
             'description' => ['nullable', 'string'],
+            'description_en' => ['nullable', 'string'],
             'featured_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:3072'],
             'gallery_images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:3072'],
             'is_featured' => ['nullable', 'boolean'],
             'is_active' => ['nullable', 'boolean'],
             'spec_keys' => ['nullable', 'array'],
             'spec_values' => ['nullable', 'array'],
+            'spec_keys_en' => ['nullable', 'array'],
+            'spec_values_en' => ['nullable', 'array'],
         ], [
-            'category_id.required' => 'يرجى اختيار قسم أو تصنيف للمنتج.',
-            'category_id.exists' => 'التصنيف المحدد غير موجود.',
-            'name.required' => 'يرجى إدخال اسم المنتج.',
-            'name.max' => 'اسم المنتج طويل جداً (الحد الأقصى 255 حرفاً).',
-            'slug.unique' => 'الرابط المخصص (Slug) مستخدم بالفعل لمنتج آخر.',
-            'featured_image.image' => 'صورة المنتج الرئيسية يجب أن تكون ملف صورة صالح.',
-            'featured_image.mimes' => 'صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.',
-            'featured_image.max' => 'حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.',
-            'gallery_images.*.image' => 'يجب أن تكون جميع ملفات المعرض صوراً صالحة.',
-            'gallery_images.*.mimes' => 'صيغ صور المعرض المسموح بها هي: jpeg, png, jpg, webp, svg.',
-            'gallery_images.*.max' => 'حجم كل صورة في المعرض لا يتجاوز 3 ميغابايت.',
+            'category_id.required' => __('يرجى اختيار قسم أو تصنيف للمنتج.'),
+            'category_id.exists' => __('التصنيف المحدد غير موجود.'),
+            'name.required' => __('يرجى إدخال اسم المنتج.'),
+            'name.max' => __('اسم المنتج طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'slug.unique' => __('الرابط المخصص (Slug) مستخدم بالفعل لمنتج آخر.'),
+            'featured_image.image' => __('صورة المنتج الرئيسية يجب أن تكون ملف صورة صالح.'),
+            'featured_image.mimes' => __('صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.'),
+            'featured_image.max' => __('حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.'),
+            'gallery_images.*.image' => __('يجب أن تكون جميع ملفات المعرض صوراً صالحة.'),
+            'gallery_images.*.mimes' => __('صيغ صور المعرض المسموح بها هي: jpeg, png, jpg, webp, svg.'),
+            'gallery_images.*.max' => __('حجم كل صورة في المعرض لا يتجاوز 3 ميغابايت.'),
         ]);
 
         // Auto generate slug if empty
@@ -145,15 +150,38 @@ class ProductController extends Controller
             $counter++;
         }
 
-        // Process specifications key/value pairs
-        $specifications = [];
+        // Process specifications key/value pairs (Arabic & English)
+        $specificationsAr = [];
         if (!empty($request->spec_keys) && is_array($request->spec_keys)) {
             foreach ($request->spec_keys as $index => $key) {
-                $trimmedKey = trim($key);
-                $value = isset($request->spec_values[$index]) ? trim($request->spec_values[$index]) : '';
+                $trimmedKey = trim((string) $key);
+                $value = isset($request->spec_values[$index]) ? trim((string) $request->spec_values[$index]) : '';
                 if ($trimmedKey !== '' && $value !== '') {
-                    $specifications[$trimmedKey] = $value;
+                    $specificationsAr[$trimmedKey] = $value;
                 }
+            }
+        }
+
+        $specificationsEn = [];
+        if (!empty($request->spec_keys_en) && is_array($request->spec_keys_en)) {
+            foreach ($request->spec_keys_en as $index => $key) {
+                $trimmedKey = trim((string) $key);
+                $value = isset($request->spec_values_en[$index]) ? trim((string) $request->spec_values_en[$index]) : '';
+                if ($trimmedKey !== '' && $value !== '') {
+                    $specificationsEn[$trimmedKey] = $value;
+                }
+            }
+        }
+
+        $specifications = null;
+        if (!empty($specificationsAr) || !empty($specificationsEn)) {
+            if (!empty($specificationsEn)) {
+                $specifications = [
+                    'ar' => $specificationsAr ?: $specificationsEn,
+                    'en' => $specificationsEn,
+                ];
+            } else {
+                $specifications = $specificationsAr;
             }
         }
 
@@ -174,11 +202,20 @@ class ProductController extends Controller
 
         $product = Product::create([
             'category_id' => $validated['category_id'],
-            'name' => $validated['name'],
+            'name' => [
+                'ar' => $validated['name'],
+                'en' => !empty($validated['name_en']) ? $validated['name_en'] : $validated['name'],
+            ],
             'slug' => $slug,
-            'short_description' => $validated['short_description'] ?? null,
-            'description' => $validated['description'] ?? null,
-            'specifications' => !empty($specifications) ? $specifications : null,
+            'short_description' => ($validated['short_description'] ?? null) || ($validated['short_description_en'] ?? null) ? [
+                'ar' => $validated['short_description'] ?? $validated['short_description_en'] ?? '',
+                'en' => !empty($validated['short_description_en']) ? $validated['short_description_en'] : ($validated['short_description'] ?? ''),
+            ] : null,
+            'description' => ($validated['description'] ?? null) || ($validated['description_en'] ?? null) ? [
+                'ar' => $validated['description'] ?? $validated['description_en'] ?? '',
+                'en' => !empty($validated['description_en']) ? $validated['description_en'] : ($validated['description'] ?? ''),
+            ] : null,
+            'specifications' => $specifications,
             'featured_image' => $featuredImagePath,
             'is_featured' => $request->boolean('is_featured', false),
             'is_active' => $request->boolean('is_active', true),
@@ -208,7 +245,7 @@ class ProductController extends Controller
 
         return redirect()
             ->route('admin.products.index')
-            ->with('success', "تم إضافة المنتج \"{$product->name}\" بنجاح!");
+            ->with('success', __('تم إضافة المنتج ":name" بنجاح!', ['name' => $product->name]));
     }
 
     /**
@@ -245,6 +282,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
             'slug' => [
                 'nullable',
                 'string',
@@ -252,7 +290,9 @@ class ProductController extends Controller
                 Rule::unique('products', 'slug')->ignore($product->id),
             ],
             'short_description' => ['nullable', 'string', 'max:1000'],
+            'short_description_en' => ['nullable', 'string', 'max:1000'],
             'description' => ['nullable', 'string'],
+            'description_en' => ['nullable', 'string'],
             'featured_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:3072'],
             'remove_featured_image' => ['nullable', 'boolean'],
             'gallery_images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:3072'],
@@ -262,18 +302,20 @@ class ProductController extends Controller
             'is_active' => ['nullable', 'boolean'],
             'spec_keys' => ['nullable', 'array'],
             'spec_values' => ['nullable', 'array'],
+            'spec_keys_en' => ['nullable', 'array'],
+            'spec_values_en' => ['nullable', 'array'],
         ], [
-            'category_id.required' => 'يرجى اختيار قسم أو تصنيف للمنتج.',
-            'category_id.exists' => 'التصنيف المحدد غير موجود.',
-            'name.required' => 'يرجى إدخال اسم المنتج.',
-            'name.max' => 'اسم المنتج طويل جداً (الحد الأقصى 255 حرفاً).',
-            'slug.unique' => 'الرابط المخصص (Slug) مستخدم بالفعل في منتج آخر.',
-            'featured_image.image' => 'صورة المنتج الرئيسية يجب أن تكون ملف صورة صالح.',
-            'featured_image.mimes' => 'صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.',
-            'featured_image.max' => 'حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.',
-            'gallery_images.*.image' => 'يجب أن تكون جميع ملفات المعرض صوراً صالحة.',
-            'gallery_images.*.mimes' => 'صيغ صور المعرض المسموح بها هي: jpeg, png, jpg, webp, svg.',
-            'gallery_images.*.max' => 'حجم كل صورة في المعرض لا يتجاوز 3 ميغابايت.',
+            'category_id.required' => __('يرجى اختيار قسم أو تصنيف للمنتج.'),
+            'category_id.exists' => __('التصنيف المحدد غير موجود.'),
+            'name.required' => __('يرجى إدخال اسم المنتج.'),
+            'name.max' => __('اسم المنتج طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'slug.unique' => __('الرابط المخصص (Slug) مستخدم بالفعل في منتج آخر.'),
+            'featured_image.image' => __('صورة المنتج الرئيسية يجب أن تكون ملف صورة صالح.'),
+            'featured_image.mimes' => __('صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.'),
+            'featured_image.max' => __('حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.'),
+            'gallery_images.*.image' => __('يجب أن تكون جميع ملفات المعرض صوراً صالحة.'),
+            'gallery_images.*.mimes' => __('صيغ صور المعرض المسموح بها هي: jpeg, png, jpg, webp, svg.'),
+            'gallery_images.*.max' => __('حجم كل صورة في المعرض لا يتجاوز 3 ميغابايت.'),
         ]);
 
         // Process slug
@@ -289,15 +331,38 @@ class ProductController extends Controller
             $counter++;
         }
 
-        // Process specifications key/value pairs
-        $specifications = [];
+        // Process specifications key/value pairs (Arabic & English)
+        $specificationsAr = [];
         if (!empty($request->spec_keys) && is_array($request->spec_keys)) {
             foreach ($request->spec_keys as $index => $key) {
-                $trimmedKey = trim($key);
-                $value = isset($request->spec_values[$index]) ? trim($request->spec_values[$index]) : '';
+                $trimmedKey = trim((string) $key);
+                $value = isset($request->spec_values[$index]) ? trim((string) $request->spec_values[$index]) : '';
                 if ($trimmedKey !== '' && $value !== '') {
-                    $specifications[$trimmedKey] = $value;
+                    $specificationsAr[$trimmedKey] = $value;
                 }
+            }
+        }
+
+        $specificationsEn = [];
+        if (!empty($request->spec_keys_en) && is_array($request->spec_keys_en)) {
+            foreach ($request->spec_keys_en as $index => $key) {
+                $trimmedKey = trim((string) $key);
+                $value = isset($request->spec_values_en[$index]) ? trim((string) $request->spec_values_en[$index]) : '';
+                if ($trimmedKey !== '' && $value !== '') {
+                    $specificationsEn[$trimmedKey] = $value;
+                }
+            }
+        }
+
+        $specifications = null;
+        if (!empty($specificationsAr) || !empty($specificationsEn)) {
+            if (!empty($specificationsEn)) {
+                $specifications = [
+                    'ar' => $specificationsAr ?: $specificationsEn,
+                    'en' => $specificationsEn,
+                ];
+            } else {
+                $specifications = $specificationsAr;
             }
         }
 
@@ -365,13 +430,26 @@ class ProductController extends Controller
             }
         }
 
+        $existingNameEn = $product->getTranslation('name', 'en', false);
+        $existingShortEn = $product->getTranslation('short_description', 'en', false);
+        $existingDescEn = $product->getTranslation('description', 'en', false);
+
         $product->update([
             'category_id' => $validated['category_id'],
-            'name' => $validated['name'],
+            'name' => [
+                'ar' => $validated['name'],
+                'en' => !empty($validated['name_en']) ? $validated['name_en'] : ($existingNameEn ?: $validated['name']),
+            ],
             'slug' => $slug,
-            'short_description' => $validated['short_description'] ?? null,
-            'description' => $validated['description'] ?? null,
-            'specifications' => !empty($specifications) ? $specifications : null,
+            'short_description' => ($validated['short_description'] ?? null) || ($validated['short_description_en'] ?? null) ? [
+                'ar' => $validated['short_description'] ?? $validated['short_description_en'] ?? '',
+                'en' => !empty($validated['short_description_en']) ? $validated['short_description_en'] : ($existingShortEn ?: ($validated['short_description'] ?? '')),
+            ] : null,
+            'description' => ($validated['description'] ?? null) || ($validated['description_en'] ?? null) ? [
+                'ar' => $validated['description'] ?? $validated['description_en'] ?? '',
+                'en' => !empty($validated['description_en']) ? $validated['description_en'] : ($existingDescEn ?: ($validated['description'] ?? '')),
+            ] : null,
+            'specifications' => $specifications,
             'featured_image' => $featuredImagePath,
             'is_featured' => $request->boolean('is_featured', false),
             'is_active' => $request->boolean('is_active', false),
@@ -379,7 +457,7 @@ class ProductController extends Controller
 
         return redirect()
             ->route('admin.products.index')
-            ->with('success', "تم تحديث بيانات المنتج \"{$product->name}\" بنجاح!");
+            ->with('success', __('تم تحديث بيانات المنتج ":name" بنجاح!', ['name' => $product->name]));
     }
 
     /**
@@ -405,7 +483,7 @@ class ProductController extends Controller
 
         return redirect()
             ->route('admin.products.index')
-            ->with('success', "تم حذف المنتج \"{$name}\" بنجاح.");
+            ->with('success', __('تم حذف المنتج ":name" بنجاح.', ['name' => $name]));
     }
 
     /**
@@ -417,9 +495,9 @@ class ProductController extends Controller
             'is_active' => !$product->is_active,
         ]);
 
-        $statusText = $product->is_active ? 'تفعيل' : 'تعطيل';
+        $statusText = $product->is_active ? __('تفعيل') : __('تعطيل');
 
-        return back()->with('success', "تم {$statusText} المنتج \"{$product->name}\" بنجاح.");
+        return back()->with('success', __('تم :status المنتج ":name" بنجاح.', ['status' => $statusText, 'name' => $product->name]));
     }
 
     /**
@@ -431,9 +509,9 @@ class ProductController extends Controller
             'is_featured' => !$product->is_featured,
         ]);
 
-        $statusText = $product->is_featured ? 'تمييز' : 'إلغاء تمييز';
+        $statusText = $product->is_featured ? __('تمييز') : __('إلغاء تمييز');
 
-        return back()->with('success', "تم {$statusText} المنتج \"{$product->name}\" بنجاح.");
+        return back()->with('success', __('تم :status المنتج ":name" بنجاح.', ['status' => $statusText, 'name' => $product->name]));
     }
 
     /**
@@ -447,6 +525,6 @@ class ProductController extends Controller
 
         $image->delete();
 
-        return back()->with('success', 'تم حذف الصورة من المعرض بنجاح.');
+        return back()->with('success', __('تم حذف الصورة من المعرض بنجاح.'));
     }
 }

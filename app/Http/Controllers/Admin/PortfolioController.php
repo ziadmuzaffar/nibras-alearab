@@ -105,19 +105,22 @@ class PortfolioController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'title_en' => ['nullable', 'string', 'max:255'],
             'client_name' => ['nullable', 'string', 'max:255'],
+            'client_name_en' => ['nullable', 'string', 'max:255'],
             'category_id' => ['nullable', 'exists:categories,id'],
             'description' => ['nullable', 'string'],
+            'description_en' => ['nullable', 'string'],
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:5120'],
         ], [
-            'title.required' => 'يرجى إدخال عنوان المشروع أو العمل.',
-            'title.max' => 'عنوان العمل طويل جداً (الحد الأقصى 255 حرفاً).',
-            'client_name.max' => 'اسم العميل طويل جداً (الحد الأقصى 255 حرفاً).',
-            'category_id.exists' => 'التصنيف المختار غير موجود في النظام.',
-            'image.required' => 'صورة العمل أو المشروع مطلوبة.',
-            'image.image' => 'يجب رفع ملف صورة صالح.',
-            'image.mimes' => 'صيغ الصور المعتمدة هي: jpeg, png, jpg, webp, svg.',
-            'image.max' => 'حجم الصورة لا يجب أن يتجاوز 5 ميغابايت.',
+            'title.required' => __('يرجى إدخال عنوان المشروع أو العمل.'),
+            'title.max' => __('عنوان العمل طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'client_name.max' => __('اسم العميل طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'category_id.exists' => __('التصنيف المختار غير موجود في النظام.'),
+            'image.required' => __('صورة العمل أو المشروع مطلوبة.'),
+            'image.image' => __('يجب رفع ملف صورة صالح.'),
+            'image.mimes' => __('صيغ الصور المعتمدة هي: jpeg, png, jpg, webp, svg.'),
+            'image.max' => __('حجم الصورة لا يجب أن يتجاوز 5 ميغابايت.'),
         ]);
 
         $imagePath = null;
@@ -135,16 +138,25 @@ class PortfolioController extends Controller
         }
 
         $portfolio = Portfolio::create([
-            'title' => $validated['title'],
-            'client_name' => $validated['client_name'] ?? null,
+            'title' => [
+                'ar' => $validated['title'],
+                'en' => !empty($validated['title_en']) ? $validated['title_en'] : $validated['title'],
+            ],
+            'client_name' => ($validated['client_name'] ?? null) || ($validated['client_name_en'] ?? null) ? [
+                'ar' => $validated['client_name'] ?? $validated['client_name_en'] ?? '',
+                'en' => !empty($validated['client_name_en']) ? $validated['client_name_en'] : ($validated['client_name'] ?? ''),
+            ] : null,
             'category_id' => $validated['category_id'] ?? null,
-            'description' => $validated['description'] ?? null,
+            'description' => ($validated['description'] ?? null) || ($validated['description_en'] ?? null) ? [
+                'ar' => $validated['description'] ?? $validated['description_en'] ?? '',
+                'en' => !empty($validated['description_en']) ? $validated['description_en'] : ($validated['description'] ?? ''),
+            ] : null,
             'image' => $imagePath,
         ]);
 
         return redirect()
             ->route('admin.portfolios.index')
-            ->with('success', "تم إضافة عمل المشروع \"{$portfolio->title}\" بنجاح!");
+            ->with('success', __('تم إضافة عمل المشروع ":title" بنجاح!', ['title' => $portfolio->title]));
     }
 
     /**
@@ -184,18 +196,21 @@ class PortfolioController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'title_en' => ['nullable', 'string', 'max:255'],
             'client_name' => ['nullable', 'string', 'max:255'],
+            'client_name_en' => ['nullable', 'string', 'max:255'],
             'category_id' => ['nullable', 'exists:categories,id'],
             'description' => ['nullable', 'string'],
+            'description_en' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:5120'],
         ], [
-            'title.required' => 'يرجى إدخال عنوان المشروع أو العمل.',
-            'title.max' => 'عنوان العمل طويل جداً (الحد الأقصى 255 حرفاً).',
-            'client_name.max' => 'اسم العميل طويل جداً (الحد الأقصى 255 حرفاً).',
-            'category_id.exists' => 'التصنيف المختار غير موجود في النظام.',
-            'image.image' => 'يجب رفع ملف صورة صالح.',
-            'image.mimes' => 'صيغ الصور المعتمدة هي: jpeg, png, jpg, webp, svg.',
-            'image.max' => 'حجم الصورة لا يجب أن يتجاوز 5 ميغابايت.',
+            'title.required' => __('يرجى إدخال عنوان المشروع أو العمل.'),
+            'title.max' => __('عنوان العمل طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'client_name.max' => __('اسم العميل طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'category_id.exists' => __('التصنيف المختار غير موجود في النظام.'),
+            'image.image' => __('يجب رفع ملف صورة صالح.'),
+            'image.mimes' => __('صيغ الصور المعتمدة هي: jpeg, png, jpg, webp, svg.'),
+            'image.max' => __('حجم الصورة لا يجب أن يتجاوز 5 ميغابايت.'),
         ]);
 
         $imagePath = $portfolio->image;
@@ -219,17 +234,30 @@ class PortfolioController extends Controller
             $imagePath = 'uploads/portfolios/' . $filename;
         }
 
+        $existingTitleEn = $portfolio->getTranslation('title', 'en', false);
+        $existingClientEn = $portfolio->getTranslation('client_name', 'en', false);
+        $existingDescEn = $portfolio->getTranslation('description', 'en', false);
+
         $portfolio->update([
-            'title' => $validated['title'],
-            'client_name' => $validated['client_name'] ?? null,
+            'title' => [
+                'ar' => $validated['title'],
+                'en' => !empty($validated['title_en']) ? $validated['title_en'] : ($existingTitleEn ?: $validated['title']),
+            ],
+            'client_name' => ($validated['client_name'] ?? null) || ($validated['client_name_en'] ?? null) ? [
+                'ar' => $validated['client_name'] ?? $validated['client_name_en'] ?? '',
+                'en' => !empty($validated['client_name_en']) ? $validated['client_name_en'] : ($existingClientEn ?: ($validated['client_name'] ?? '')),
+            ] : null,
             'category_id' => $validated['category_id'] ?? null,
-            'description' => $validated['description'] ?? null,
+            'description' => ($validated['description'] ?? null) || ($validated['description_en'] ?? null) ? [
+                'ar' => $validated['description'] ?? $validated['description_en'] ?? '',
+                'en' => !empty($validated['description_en']) ? $validated['description_en'] : ($existingDescEn ?: ($validated['description'] ?? '')),
+            ] : null,
             'image' => $imagePath,
         ]);
 
         return redirect()
             ->route('admin.portfolios.index')
-            ->with('success', "تم تحديث بيانات العمل \"{$portfolio->title}\" بنجاح!");
+            ->with('success', __('تم تحديث بيانات العمل ":title" بنجاح!', ['title' => $portfolio->title]));
     }
 
     /**
@@ -248,6 +276,6 @@ class PortfolioController extends Controller
 
         return redirect()
             ->route('admin.portfolios.index')
-            ->with('success', "تم حذف العمل \"{$title}\" بنجاح.");
+            ->with('success', __('تم حذف العمل ":title" بنجاح.', ['title' => $title]));
     }
 }

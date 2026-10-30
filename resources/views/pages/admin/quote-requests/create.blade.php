@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.app')
 
-@section('title', 'إضافة طلب عرض سعر جديد')
+@section('title', __('إضافة طلب عرض سعر جديد'))
 
 @section('content')
 <div class="space-y-6">
@@ -9,9 +9,9 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-                <span>إضافة طلب عرض سعر جديد</span>
+                <span>{{ __('إضافة طلب عرض سعر جديد') }}</span>
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">تسجيل وتوثيق طلب تسعير جديد وارد من عميل أو جهة لمتابعته مع فريق المبيعات</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">{{ __('تسجيل وتوثيق طلب تسعير جديد وارد من عميل أو جهة لمتابعته مع فريق المبيعات') }}</p>
         </div>
 
         <div class="flex items-center gap-3">
@@ -20,7 +20,7 @@
                 <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                <span>العودة لطلبات التسعير</span>
+                <span>{{ __('العودة لطلبات التسعير') }}</span>
             </a>
         </div>
     </div>
@@ -40,19 +40,19 @@
                 <div class="bg-white p-5 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                        <span>بيانات العميل والتواصل</span>
+                        <span>{{ __('بيانات العميل والتواصل') }}</span>
                     </h3>
 
                     <!-- Customer Name -->
                     <div>
                         <label for="customer_name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            اسم العميل / الجهة الطالبة <span class="text-red-500">*</span>
+                            {{ __('اسم العميل / الجهة الطالبة') }} <span class="text-red-500">*</span>
                         </label>
                         <input type="text"
                             id="customer_name"
                             name="customer_name"
                             value="{{ old('customer_name') }}"
-                            placeholder="مثال: عبدالله السعيد، شركة آفاق الدعاية..."
+                            placeholder="{{ __('مثال: عبدالله السعيد، شركة آفاق الدعاية...') }}"
                             required
                             class="w-full h-12 px-4 rounded-xl border {{ $errors->has('customer_name') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
                         @error('customer_name')
@@ -65,16 +65,16 @@
                         <!-- Phone -->
                         <div>
                             <label for="phone" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                                رقم الهاتف / الجوال <span class="text-red-500">*</span>
+                                {{ __('رقم الهاتف / الجوال') }} <span class="text-red-500">*</span>
                             </label>
                             <input type="text"
                                 id="phone"
                                 name="phone"
                                 value="{{ old('phone') }}"
-                                placeholder="مثال: 0501234567"
+                                placeholder="{{ __('مثال: 0501234567') }}"
                                 required
                                 dir="ltr"
-                                class="w-full h-12 px-4 text-right rounded-xl border {{ $errors->has('phone') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
+                                class="w-full h-12 px-4 text-start rounded-xl border {{ $errors->has('phone') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
                             @error('phone')
                             <p class="text-xs text-red-600 mt-1.5 font-medium">{{ $message }}</p>
                             @enderror
@@ -83,8 +83,8 @@
                         <!-- Email -->
                         <div>
                             <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                                البريد الإلكتروني
-                                <span class="text-[11px] font-normal text-slate-400 mr-1">(اختياري)</span>
+                                {{ __('البريد الإلكتروني') }}
+                                <span class="text-[11px] font-normal text-slate-400 mr-1">{{ __('(اختياري)') }}</span>
                             </label>
                             <input type="email"
                                 id="email"
@@ -92,7 +92,7 @@
                                 value="{{ old('email') }}"
                                 placeholder="name@company.com"
                                 dir="ltr"
-                                class="w-full h-12 px-4 text-right rounded-xl border {{ $errors->has('email') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
+                                class="w-full h-12 px-4 text-start rounded-xl border {{ $errors->has('email') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
                             @error('email')
                             <p class="text-xs text-red-600 mt-1.5 font-medium">{{ $message }}</p>
                             @enderror
@@ -105,20 +105,20 @@
                 <div class="bg-white p-5 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-                        <span>تفاصيل ومواصفات المنتج المطلوب</span>
+                        <span>{{ __('تفاصيل ومواصفات المنتج المطلوب') }}</span>
                     </h3>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Product Selection -->
                         <div>
                             <label for="product_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                                المنتج المطلوب
-                                <span class="text-[11px] font-normal text-slate-400 mr-1">(اختياري)</span>
+                                {{ __('المنتج المطلوب') }}
+                                <span class="text-[11px] font-normal text-slate-400 mr-1">{{ __('(اختياري)') }}</span>
                             </label>
                             <select id="product_id"
                                 name="product_id"
                                 class="w-full h-12 px-4 rounded-xl border {{ $errors->has('product_id') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
-                                <option value="">-- طلب مخصص عام (بدون منتج محدد) --</option>
+                                <option value="">{{ __('-- طلب مخصص عام (بدون منتج محدد) --') }}</option>
                                 @foreach($products as $product)
                                 <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
                                     {{ $product->name }}
@@ -133,8 +133,8 @@
                         <!-- Quantity -->
                         <div>
                             <label for="quantity" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                                الكمية التقريبية المطلوبة
-                                <span class="text-[11px] font-normal text-slate-400 mr-1">(اختياري)</span>
+                                {{ __('الكمية التقريبية المطلوبة') }}
+                                <span class="text-[11px] font-normal text-slate-400 mr-1">{{ __('(اختياري)') }}</span>
                             </label>
                             <input type="number"
                                 id="quantity"
@@ -142,7 +142,7 @@
                                 min="1"
                                 step="1"
                                 value="{{ old('quantity') }}"
-                                placeholder="مثال: 500, 1000..."
+                                placeholder="{{ __('مثال: 500, 1000...') }}"
                                 class="w-full h-12 px-4 rounded-xl border {{ $errors->has('quantity') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
                             @error('quantity')
                             <p class="text-xs text-red-600 mt-1.5 font-medium">{{ $message }}</p>
@@ -153,13 +153,13 @@
                     <!-- Notes / Specifications -->
                     <div>
                         <label for="notes" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            تفاصيل ومواصفات الطلب والملاحظات
-                            <span class="text-[11px] font-normal text-slate-400 mr-1">(اختياري)</span>
+                            {{ __('تفاصيل ومواصفات الطلب والملاحظات') }}
+                            <span class="text-[11px] font-normal text-slate-400 mr-1">{{ __('(اختياري)') }}</span>
                         </label>
                         <textarea id="notes"
                             name="notes"
                             rows="5"
-                            placeholder="اكتب مواصفات المقاسات، نوع الورق أو الخامات، ألوان الطباعة، التشطيب (سلوفان، بصمة ذهبية، يو في بارز)، وموعد التسليم المستهدف..."
+                            placeholder="{{ __('اكتب مواصفات المقاسات، نوع الورق أو الخامات، ألوان الطباعة، التشطيب (سلوفان، بصمة ذهبية، يو في بارز)، وموعد التسليم المستهدف...') }}"
                             class="w-full p-4 rounded-xl border {{ $errors->has('notes') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all leading-relaxed">{{ old('notes') }}</textarea>
                         @error('notes')
                         <p class="text-xs text-red-600 mt-1.5 font-medium">{{ $message }}</p>
@@ -178,14 +178,14 @@
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                            <span>حالة الطلب الأولية</span>
+                            <span>{{ __('حالة الطلب الأولية') }}</span>
                         </div>
-                        <span class="text-xs text-red-500 font-bold">* مطلوبة</span>
+                        <span class="text-xs text-red-500 font-bold">* {{ __('مطلوبة') }}</span>
                     </h3>
 
                     <div>
                         <label for="status" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            تحديد الحالة
+                            {{ __('تحديد الحالة') }}
                         </label>
                         <select id="status"
                             name="status"
@@ -193,7 +193,7 @@
                             class="w-full h-12 px-4 rounded-xl border {{ $errors->has('status') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm font-semibold focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
                             @foreach($statuses as $statusKey => $statusLabel)
                             <option value="{{ $statusKey }}" {{ old('status', 'pending') == $statusKey ? 'selected' : '' }}>
-                                {{ $statusLabel }}
+                                {{ __($statusLabel) }}
                             </option>
                             @endforeach
                         </select>
@@ -207,20 +207,20 @@
                 <div class="bg-gradient-to-br from-blue-50 to-indigo-50/60 p-5 rounded-2xl border border-blue-100/80 shadow-xs space-y-3">
                     <h4 class="text-xs font-bold text-blue-900 flex items-center gap-2">
                         <i class="fa-solid fa-lightbulb text-amber-500 text-sm"></i>
-                        <span>إرشادات التعامل مع طلبات التسعير</span>
+                        <span>{{ __('إرشادات التعامل مع طلبات التسعير') }}</span>
                     </h4>
                     <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
                         <li class="flex items-start gap-2">
                             <i class="fa-solid fa-check text-blue-600 text-[10px] mt-1 shrink-0"></i>
-                            <span>التواصل السريع خلال أول 30 دقيقة يرفع فرص اعتماد عرض السعر.</span>
+                            <span>{{ __('التواصل السريع خلال أول 30 دقيقة يرفع فرص اعتماد عرض السعر.') }}</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <i class="fa-solid fa-check text-blue-600 text-[10px] mt-1 shrink-0"></i>
-                            <span>تأكد من صحة رقم الهاتف لتسهيل محادثة الواتساب المباشرة.</span>
+                            <span>{{ __('تأكد من صحة رقم الهاتف لتسهيل محادثة الواتساب المباشرة.') }}</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <i class="fa-solid fa-check text-blue-600 text-[10px] mt-1 shrink-0"></i>
-                            <span>قم بتحديث حالة الطلب فور التواصل مع العميل لتنظيم سير العمل.</span>
+                            <span>{{ __('قم بتحديث حالة الطلب فور التواصل مع العميل لتنظيم سير العمل.') }}</span>
                         </li>
                     </ul>
                 </div>
@@ -230,12 +230,12 @@
                     <button type="submit"
                         class="w-full py-3 px-5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-700 via-blue-600 to-red-600 hover:from-blue-800 hover:to-red-700 shadow-md shadow-blue-900/20 hover:shadow-lg transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <span>حفظ وإضافة الطلب</span>
+                        <span>{{ __('حفظ وإضافة الطلب') }}</span>
                     </button>
 
                     <a href="{{ route('admin.quote-requests.index') }}"
                         class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-slate-600 hover:text-slate-800 hover:bg-slate-100 transition-colors flex items-center justify-center gap-1.5">
-                        <span>إلغاء والعودة</span>
+                        <span>{{ __('إلغاء والعودة') }}</span>
                     </a>
                 </div>
 

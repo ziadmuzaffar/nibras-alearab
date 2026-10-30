@@ -4,7 +4,7 @@ use App\Models\Setting;
 
 if (!function_exists('setting')) {
     /**
-     * Get or set a system setting.
+     * Get or set a system setting (automatically resolves English setting if active locale is 'en').
      *
      * @param string|null $key
      * @param mixed $default
@@ -16,7 +16,22 @@ if (!function_exists('setting')) {
             return Setting::getAll();
         }
 
-        return Setting::get($key, $default);
+        $locale = app()->getLocale();
+
+        if ($locale === 'en' && !str_ends_with($key, '_en')) {
+            $enValue = Setting::get($key . '_en');
+            if (!is_null($enValue) && $enValue !== '') {
+                return $enValue;
+            }
+        }
+
+        $value = Setting::get($key);
+
+        if (!is_null($value) && $value !== '') {
+            return ($locale === 'en' && is_string($value)) ? __($value) : $value;
+        }
+
+        return ($locale === 'en' && is_string($default)) ? __($default) : $default;
     }
 }
 
@@ -58,7 +73,7 @@ if (!function_exists('whatsapp_link')) {
             $phone = '966501234567';
         }
 
-        $message = $customMessage ?? (string) setting('whatsapp_default_message', 'مرحباً، أود الاستفسار عن خدمات الطباعة والتغليف لدى مطبعة نبراس العرب.');
+        $message = $customMessage ?? (string) setting('whatsapp_default_message', __('مرحباً، أود الاستفسار عن خدمات الطباعة والتغليف لدى مطبعة نبراس العرب.'));
 
         return 'https://wa.me/' . $phone . ($message !== '' ? '?text=' . urlencode($message) : '');
     }

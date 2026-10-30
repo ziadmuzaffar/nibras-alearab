@@ -24,8 +24,8 @@ class UserController extends Controller
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
             });
         }
 
@@ -99,17 +99,17 @@ class UserController extends Controller
             'is_active' => ['nullable', 'boolean'],
             'email_verified' => ['nullable', 'boolean'],
         ], [
-            'name.required' => 'يرجى إدخال اسم المستخدم بالكامل.',
-            'name.max' => 'اسم المستخدم طويل جداً (الحد الأقصى 255 حرفاً).',
-            'email.required' => 'يرجى إدخال البريد الإلكتروني للمستخدم.',
-            'email.email' => 'صيغة البريد الإلكتروني غير صحيحة.',
-            'email.unique' => 'البريد الإلكتروني مسجل بالفعل لمستخدم آخر.',
-            'password.required' => 'يرجى إدخال كلمة المرور.',
-            'password.min' => 'كلمة المرور يجب ألا تقل عن 8 أحرف.',
-            'password.confirmed' => 'تأكيد كلمة المرور غير متطابق.',
-            'avatar.image' => 'الصورة الشخصية يجب أن تكون ملف صورة صالح.',
-            'avatar.mimes' => 'صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.',
-            'avatar.max' => 'حجم الصورة الشخصية لا يتجاوز 3 ميغابايت.',
+            'name.required' => __('يرجى إدخال اسم المستخدم بالكامل.'),
+            'name.max' => __('اسم المستخدم طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'email.required' => __('يرجى إدخال البريد الإلكتروني للمستخدم.'),
+            'email.email' => __('صيغة البريد الإلكتروني غير صحيحة.'),
+            'email.unique' => __('البريد الإلكتروني مسجل بالفعل لمستخدم آخر.'),
+            'password.required' => __('يرجى إدخال كلمة المرور.'),
+            'password.min' => __('كلمة المرور يجب ألا تقل عن 8 أحرف.'),
+            'password.confirmed' => __('تأكيد كلمة المرور غير متطابق.'),
+            'avatar.image' => __('الصورة الشخصية يجب أن تكون ملف صورة صالح.'),
+            'avatar.mimes' => __('صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.'),
+            'avatar.max' => __('حجم الصورة الشخصية لا يتجاوز 3 ميغابايت.'),
         ]);
 
         // Handle avatar upload
@@ -139,7 +139,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', "تم إضافة المستخدم \"{$user->name}\" بنجاح!");
+            ->with('success', __('تم إضافة المستخدم ":name" بنجاح!', ['name' => $user->name]));
     }
 
     /**
@@ -179,16 +179,16 @@ class UserController extends Controller
             'is_active' => ['nullable', 'boolean'],
             'email_verified' => ['nullable', 'boolean'],
         ], [
-            'name.required' => 'يرجى إدخال اسم المستخدم بالكامل.',
-            'name.max' => 'اسم المستخدم طويل جداً (الحد الأقصى 255 حرفاً).',
-            'email.required' => 'يرجى إدخال البريد الإلكتروني للمستخدم.',
-            'email.email' => 'صيغة البريد الإلكتروني غير صحيحة.',
-            'email.unique' => 'البريد الإلكتروني مسجل بالفعل لمستخدم آخر.',
-            'password.min' => 'كلمة المرور يجب ألا تقل عن 8 أحرف.',
-            'password.confirmed' => 'تأكيد كلمة المرور غير متطابق.',
-            'avatar.image' => 'الصورة الشخصية يجب أن تكون ملف صورة صالح.',
-            'avatar.mimes' => 'صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.',
-            'avatar.max' => 'حجم الصورة الشخصية لا يتجاوز 3 ميغابايت.',
+            'name.required' => __('يرجى إدخال اسم المستخدم بالكامل.'),
+            'name.max' => __('اسم المستخدم طويل جداً (الحد الأقصى 255 حرفاً).'),
+            'email.required' => __('يرجى إدخال البريد الإلكتروني للمستخدم.'),
+            'email.email' => __('صيغة البريد الإلكتروني غير صحيحة.'),
+            'email.unique' => __('البريد الإلكتروني مسجل بالفعل لمستخدم آخر.'),
+            'password.min' => __('كلمة المرور يجب ألا تقل عن 8 أحرف.'),
+            'password.confirmed' => __('تأكيد كلمة المرور غير متطابق.'),
+            'avatar.image' => __('الصورة الشخصية يجب أن تكون ملف صورة صالح.'),
+            'avatar.mimes' => __('صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.'),
+            'avatar.max' => __('حجم الصورة الشخصية لا يتجاوز 3 ميغابايت.'),
         ]);
 
         $avatarPath = $user->avatar;
@@ -245,7 +245,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', "تم تحديث بيانات المستخدم \"{$user->name}\" بنجاح!");
+            ->with('success', __('تم تحديث بيانات المستخدم ":name" بنجاح!', ['name' => $user->name]));
     }
 
     /**
@@ -264,7 +264,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', "تم حذف المستخدم \"{$name}\" بنجاح.");
+            ->with('success', __('تم حذف المستخدم ":name" بنجاح.', ['name' => $name]));
     }
 
     /**
@@ -276,8 +276,8 @@ class UserController extends Controller
             'is_active' => !$user->is_active,
         ]);
 
-        $statusText = $user->is_active ? 'تفعيل' : 'تعطيل';
+        $statusText = $user->is_active ? __('تفعيل') : __('تعطيل');
 
-        return back()->with('success', "تم {$statusText} حساب المستخدم \"{$user->name}\" بنجاح.");
+        return back()->with('success', __('تم :status حساب المستخدم ":name" بنجاح.', ['status' => $statusText, 'name' => $user->name]));
     }
 }

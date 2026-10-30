@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ setting('site_name', 'مطبعة نبراس العرب') }} | الموقع قيد التحديث</title>
+    <title>{{ setting('site_name', __('مطبعة نبراس العرب')) }} | {{ __('الموقع قيد التحديث') }}</title>
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/cairo/cairo.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}">
     <script src="{{ asset('assets/vendor/tailwindcss/tailwind.min.js') }}"></script>
@@ -17,9 +17,9 @@
             <i class="fa-solid fa-screwdriver-wrench text-2xl"></i>
         </div>
         <div class="space-y-2">
-            <h1 class="text-xl sm:text-2xl font-black text-white">{{ setting('site_name', 'مطبعة نبراس العرب للطباعة والتغليف') }}</h1>
+            <h1 class="text-xl sm:text-2xl font-black text-white">{{ setting('site_name', __('مطبعة نبراس العرب للطباعة والتغليف')) }}</h1>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                {{ setting('maintenance_message', 'الموقع يخضع حالياً لبعض أعمال الصيانة والتحسينات، وسنعود للعمل في أقرب وقت.') }}
+                {{ setting('maintenance_message', __('الموقع يخضع حالياً لبعض أعمال الصيانة والتحسينات، وسنعود للعمل في أقرب وقت.')) }}
             </p>
         </div>
         <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -27,7 +27,7 @@
             <a href="{{ whatsapp_link() }}" target="_blank" rel="noopener"
                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm transition-colors">
                 <i class="fa-brands fa-whatsapp text-base"></i>
-                <span>تواصل معنا عبر واتساب</span>
+                <span>{{ __('تواصل معنا عبر واتساب') }}</span>
             </a>
             @endif
             @if(setting('mobile') || setting('phone'))
@@ -37,6 +37,11 @@
                 <span>{{ setting('mobile', setting('phone')) }}</span>
             </a>
             @endif
+            <a href="{{ route('locale.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs sm:text-sm transition-colors">
+                <i class="fa-solid fa-globe text-blue-400"></i>
+                <span>{{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}</span>
+            </a>
         </div>
     </div>
 </body>

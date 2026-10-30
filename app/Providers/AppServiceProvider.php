@@ -23,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Configure Spatie Translatable fallback behavior
+        \Spatie\Translatable\Facades\Translatable::fallback(
+            fallbackLocale: 'ar',
+            fallbackAny: true,
+        );
+
         // Safely share global settings with all views if DB is available
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {

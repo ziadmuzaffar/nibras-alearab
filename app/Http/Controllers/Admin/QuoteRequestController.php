@@ -23,12 +23,12 @@ class QuoteRequestController extends Controller
         if ($search = trim((string) $request->input('search'))) {
             $query->where(function ($q) use ($search) {
                 $q->where('customer_name', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('notes', 'like', "%{$search}%")
-                  ->orWhereHas('product', function ($pq) use ($search) {
-                      $pq->where('name', 'like', "%{$search}%");
-                  });
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('notes', 'like', "%{$search}%")
+                    ->orWhereHas('product', function ($pq) use ($search) {
+                        $pq->where('name', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -118,24 +118,24 @@ class QuoteRequestController extends Controller
             'status' => ['required', Rule::in(array_keys(QuoteRequest::STATUSES))],
             'notes' => ['nullable', 'string', 'max:3000'],
         ], [
-            'customer_name.required' => 'يرجى إدخال اسم العميل أو الجهة.',
-            'customer_name.max' => 'اسم العميل لا يجب أن يتجاوز 255 حرفاً.',
-            'phone.required' => 'رقم هاتف / جوال العميل مطلوب للتواصل.',
-            'phone.max' => 'رقم الهاتف غير صالح أو طويل جداً.',
-            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
-            'product_id.exists' => 'المنتج المختار غير موجود في النظام.',
-            'quantity.integer' => 'يجب إدخال كمية صحيحة.',
-            'quantity.min' => 'الحد الأدنى للكمية هو قطعة واحدة على الأقل.',
-            'status.required' => 'يرجى تحديد حالة الطلب.',
-            'status.in' => 'حالة الطلب المحددة غير صحيحة.',
-            'notes.max' => 'الملاحظات وتفاصيل المواصفات طويلة جداً.',
+            'customer_name.required' => __('يرجى إدخال اسم العميل أو الجهة.'),
+            'customer_name.max' => __('اسم العميل لا يجب أن يتجاوز 255 حرفاً.'),
+            'phone.required' => __('رقم هاتف / جوال العميل مطلوب للتواصل.'),
+            'phone.max' => __('رقم الهاتف غير صالح أو طويل جداً.'),
+            'email.email' => __('يرجى إدخال بريد إلكتروني صالح.'),
+            'product_id.exists' => __('المنتج المختار غير موجود في النظام.'),
+            'quantity.integer' => __('يجب إدخال كمية صحيحة.'),
+            'quantity.min' => __('الحد الأدنى للكمية هو قطعة واحدة على الأقل.'),
+            'status.required' => __('يرجى تحديد حالة الطلب.'),
+            'status.in' => __('حالة الطلب المحددة غير صحيحة.'),
+            'notes.max' => __('الملاحظات وتفاصيل المواصفات طويلة جداً.'),
         ]);
 
         $quoteRequest = QuoteRequest::create($validated);
 
         return redirect()
             ->route('admin.quote-requests.index')
-            ->with('success', "تم إضافة طلب عرض السعر للعميل \"{$quoteRequest->customer_name}\" بنجاح!");
+            ->with('success', __('تم إضافة طلب عرض السعر للعميل ":name" بنجاح!', ['name' => $quoteRequest->customer_name]));
     }
 
     /**
@@ -201,24 +201,24 @@ class QuoteRequestController extends Controller
             'status' => ['required', Rule::in(array_keys(QuoteRequest::STATUSES))],
             'notes' => ['nullable', 'string', 'max:3000'],
         ], [
-            'customer_name.required' => 'يرجى إدخال اسم العميل أو الجهة.',
-            'customer_name.max' => 'اسم العميل لا يجب أن يتجاوز 255 حرفاً.',
-            'phone.required' => 'رقم هاتف / جوال العميل مطلوب للتواصل.',
-            'phone.max' => 'رقم الهاتف غير صالح أو طويل جداً.',
-            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
-            'product_id.exists' => 'المنتج المختار غير موجود في النظام.',
-            'quantity.integer' => 'يجب إدخال كمية صحيحة.',
-            'quantity.min' => 'الحد الأدنى للكمية هو قطعة واحدة على الأقل.',
-            'status.required' => 'يرجى تحديد حالة الطلب.',
-            'status.in' => 'حالة الطلب المحددة غير صحيحة.',
-            'notes.max' => 'الملاحظات وتفاصيل المواصفات طويلة جداً.',
+            'customer_name.required' => __('يرجى إدخال اسم العميل أو الجهة.'),
+            'customer_name.max' => __('اسم العميل لا يجب أن يتجاوز 255 حرفاً.'),
+            'phone.required' => __('رقم هاتف / جوال العميل مطلوب للتواصل.'),
+            'phone.max' => __('رقم الهاتف غير صالح أو طويل جداً.'),
+            'email.email' => __('يرجى إدخال بريد إلكتروني صالح.'),
+            'product_id.exists' => __('المنتج المختار غير موجود في النظام.'),
+            'quantity.integer' => __('يجب إدخال كمية صحيحة.'),
+            'quantity.min' => __('الحد الأدنى للكمية هو قطعة واحدة على الأقل.'),
+            'status.required' => __('يرجى تحديد حالة الطلب.'),
+            'status.in' => __('حالة الطلب المحددة غير صحيحة.'),
+            'notes.max' => __('الملاحظات وتفاصيل المواصفات طويلة جداً.'),
         ]);
 
         $quoteRequest->update($validated);
 
         return redirect()
             ->route('admin.quote-requests.index')
-            ->with('success', "تم تحديث بيانات طلب عرض السعر رقم #{$quoteRequest->id} بنجاح!");
+            ->with('success', __('تم تحديث بيانات طلب عرض السعر رقم #:id بنجاح!', ['id' => $quoteRequest->id]));
     }
 
     /**
@@ -236,7 +236,7 @@ class QuoteRequestController extends Controller
         ]);
 
         return redirect()->back()
-            ->with('success', "تم تحديث حالة الطلب #{$quoteRequest->id} إلى \"{$quoteRequest->status_label}\" بنجاح!");
+            ->with('success', __('تم تحديث حالة الطلب #:id إلى ":status" بنجاح!', ['id' => $quoteRequest->id, 'status' => $quoteRequest->status_label]));
     }
 
     /**
@@ -274,7 +274,7 @@ class QuoteRequestController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'تم تحديد جميع الإشعارات كمقروءة.');
+        return redirect()->back()->with('success', __('تم تحديد جميع الإشعارات كمقروءة.'));
     }
 
     /**
@@ -289,6 +289,6 @@ class QuoteRequestController extends Controller
 
         return redirect()
             ->route('admin.quote-requests.index')
-            ->with('success', "تم حذف طلب عرض السعر #{$id} للعميل \"{$customerName}\" بنجاح.");
+            ->with('success', __('تم حذف طلب عرض السعر #:id للعميل ":name" بنجاح.', ['id' => $id, 'name' => $customerName]));
     }
 }

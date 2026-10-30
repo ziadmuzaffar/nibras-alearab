@@ -264,12 +264,10 @@
 
             if (headerBadge) {
                 if (count > 0) {
-                    headerBadge.textContent = count + ' {{ __('
-                    غير مقروءة ') }}';
+                    headerBadge.textContent = count + ' {{ __('غير مقروءة') }}';
                     headerBadge.className = 'px-2 py-0.5 text-[11px] font-bold bg-red-100 text-red-700 rounded-full';
                 } else {
-                    headerBadge.textContent = '{{ __('
-                    لا توجد جديدة ') }}';
+                    headerBadge.textContent = '{{ __('لا توجد جديدة') }}';
                     headerBadge.className = 'px-2 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-500 rounded-full';
                 }
             }

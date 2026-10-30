@@ -13,7 +13,7 @@ test('unauthenticated users cannot access reports or dashboard', function () {
     $this->get(route('admin.dashboard'))->assertRedirect(route('admin.login'));
 });
 
-test('admin can view dashboard with live metrics and charts data', function () {
+test('admin can view dashboard with live metrics and charts data without table tags', function () {
     $response = $this->actingAs($this->admin)->get(route('admin.dashboard'));
 
     $response->assertOk();
@@ -28,6 +28,11 @@ test('admin can view dashboard with live metrics and charts data', function () {
         'last7Days',
         'statusBreakdown',
     ]);
+
+    // Ensure strictly no <table> element is used in dashboard
+    $content = $response->getContent();
+    $this->assertStringNotContainsString('<table', $content);
+    $this->assertStringNotContainsString('</table>', $content);
 });
 
 test('admin can view reports index page with KPIs and chart feeds', function () {

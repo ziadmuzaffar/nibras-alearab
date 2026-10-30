@@ -29,3 +29,23 @@ test('authenticated user visiting login page is redirected to dashboard', functi
 
     $response->assertRedirect(route('admin.dashboard'));
 });
+
+test('login page renders with Arabic translations and RTL by default', function () {
+    $response = $this->get(route('admin.login'));
+
+    $response->assertOk();
+    $response->assertSee('dir="rtl"', false);
+    $response->assertSee('lang="ar"', false);
+    $response->assertSee(__('login.page_title'));
+    $response->assertSee(__('login.submit_button'));
+});
+
+test('login page switches to English and renders with LTR and English translations', function () {
+    $response = $this->withSession(['locale' => 'en'])->get(route('admin.login'));
+
+    $response->assertOk();
+    $response->assertSee('dir="ltr"', false);
+    $response->assertSee('lang="en"', false);
+    $response->assertSee('Sign In');
+    $response->assertSee('Admin Panel Login');
+});

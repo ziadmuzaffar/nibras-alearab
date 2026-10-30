@@ -14,6 +14,7 @@ Route::get('/locale/{locale}', function (Request $request, string $locale) {
         }
         Cookie::queue('locale', $locale, 60 * 24 * 365);
         App::setLocale($locale);
+        \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale($locale);
     }
 
     return redirect()->back(fallback: route('website.home'));

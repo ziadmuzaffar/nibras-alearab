@@ -54,6 +54,7 @@ class SetLocale
         }
 
         App::setLocale($locale);
+        \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale($locale);
         Carbon::setLocale($locale);
 
         return $next($request);

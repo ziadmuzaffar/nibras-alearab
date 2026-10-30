@@ -1,6 +1,6 @@
 @extends('layouts.dashboard.app')
 
-@section('title', __('لوحة التحكم والإحصائيات'))
+@section('title', __('dashboard.dashboard_page_title'))
 
 @section('content')
 <div class="space-y-6 sm:space-y-8">
@@ -11,7 +11,7 @@
         <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 group">
             <div class="flex items-center justify-between">
                 <div>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('إجمالي طلبات التسعير') }}</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('dashboard.kpi_total_quotes') }}</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-slate-800 mt-1 font-mono tracking-tight">
                         {{ number_format($totalQuotes) }}
                     </h3>
@@ -23,10 +23,10 @@
             <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <span class="text-slate-500 flex items-center gap-1.5">
                     <i class="fa-solid fa-calendar-day text-[11px] text-blue-500"></i>
-                    <span>{{ __('اليوم:') }} <strong class="text-slate-700 font-mono">{{ number_format($todayQuotes) }}</strong></span>
+                    <span>{{ __('dashboard.kpi_today') }} <strong class="text-slate-700 font-mono">{{ number_format($todayQuotes) }}</strong></span>
                 </span>
                 <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
-                    <span>{{ __('هذا الشهر: :count', ['count' => $thisMonthQuotes]) }}</span>
+                    <span>{{ __('dashboard.kpi_this_month', ['count' => $thisMonthQuotes]) }}</span>
                 </span>
             </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 group">
             <div class="flex items-center justify-between">
                 <div>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('طلبات قيد الانتظار') }}</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('dashboard.kpi_pending_quotes') }}</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-amber-600 mt-1 font-mono tracking-tight">
                         {{ number_format($pendingQuotes) }}
                     </h3>
@@ -47,10 +47,11 @@
             <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <span class="text-slate-500 flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full {{ $pendingQuotes > 0 ? 'bg-amber-500 animate-ping' : 'bg-slate-300' }}"></span>
-                    <span>{{ __('غير مقروء:') }} <strong class="text-amber-700 font-mono">{{ $unreadQuotes }}</strong></span>
+                    <span>{{ __('dashboard.kpi_unread') }} <strong class="text-amber-700 font-mono">{{ $unreadQuotes }}</strong></span>
                 </span>
-                <a href="{{ route('admin.quote-requests.index', ['status' => 'pending']) }}" class="text-[11px] font-bold text-amber-600 hover:text-amber-800 transition-colors">
-                    {{ __('عرض القائمة') }} &larr;
+                <a href="{{ route('admin.quote-requests.index', ['status' => 'pending']) }}" class="text-[11px] font-bold text-amber-600 hover:text-amber-800 transition-colors inline-flex items-center gap-1">
+                    <span>{{ __('dashboard.kpi_view_list') }}</span>
+                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
                 </a>
             </div>
         </div>
@@ -59,7 +60,7 @@
         <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 group">
             <div class="flex items-center justify-between">
                 <div>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('عروض أسعار منجزة') }}</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('dashboard.kpi_completed_quotes') }}</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-emerald-600 mt-1 font-mono tracking-tight">
                         {{ number_format($completedQuotes) }}
                     </h3>
@@ -70,7 +71,7 @@
             </div>
             <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <span class="text-slate-500 flex items-center gap-1">
-                    <span>{{ __('معدل الإنجاز:') }}</span>
+                    <span>{{ __('dashboard.kpi_completion_rate') }}</span>
                     <strong class="text-emerald-700 font-bold">{{ $conversionRate }}%</strong>
                 </span>
                 <div class="w-16 bg-slate-100 rounded-full h-1.5 overflow-hidden">
@@ -83,7 +84,7 @@
         <div class="relative overflow-hidden bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 group">
             <div class="flex items-center justify-between">
                 <div>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('إجمالي كميات المطبوعات') }}</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">{{ __('dashboard.kpi_total_quantities') }}</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-purple-600 mt-1 font-mono tracking-tight">
                         {{ number_format($totalQuantityRequested) }}
                     </h3>
@@ -94,10 +95,10 @@
             </div>
             <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <span class="text-slate-500">
-                    {{ __('متوسط لكل طلب:') }}
+                    {{ __('dashboard.kpi_avg_per_request') }}
                     <strong class="text-purple-700 font-mono">{{ $totalQuotes > 0 ? number_format(round($totalQuantityRequested / $totalQuotes)) : 0 }}</strong>
                 </span>
-                <span class="text-[11px] font-semibold text-slate-400">{{ __('قطعة مطبوعة') }}</span>
+                <span class="text-[11px] font-semibold text-slate-400">{{ __('dashboard.kpi_printed_piece') }}</span>
             </div>
         </div>
     </div>
@@ -110,9 +111,9 @@
                 <i class="fa-solid fa-box-open text-base"></i>
             </div>
             <div class="min-w-0">
-                <div class="text-[11px] font-bold text-slate-400 truncate">{{ __('المنتجات والخدمات') }}</div>
+                <div class="text-[11px] font-bold text-slate-400 truncate">{{ __('dashboard.metric_products_services') }}</div>
                 <div class="text-lg font-black text-slate-800 font-mono">{{ number_format($totalProducts) }}</div>
-                <div class="text-[10px] text-emerald-600 font-semibold">{{ $activeProducts }} {{ __('مفعل') }}</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">{{ $activeProducts }} {{ __('dashboard.metric_active') }}</div>
             </div>
         </a>
 
@@ -122,9 +123,9 @@
                 <i class="fa-solid fa-layer-group text-base"></i>
             </div>
             <div class="min-w-0">
-                <div class="text-[11px] font-bold text-slate-400 truncate">{{ __('أقسام المطبوعات') }}</div>
+                <div class="text-[11px] font-bold text-slate-400 truncate">{{ __('dashboard.metric_categories') }}</div>
                 <div class="text-lg font-black text-slate-800 font-mono">{{ number_format($totalCategories) }}</div>
-                <div class="text-[10px] text-purple-600 font-semibold">{{ $activeCategories }} {{ __('قسم نشط') }}</div>
+                <div class="text-[10px] text-purple-600 font-semibold">{{ $activeCategories }} {{ __('dashboard.metric_active_category') }}</div>
             </div>
         </a>
 
@@ -134,9 +135,9 @@
                 <i class="fa-solid fa-images text-base"></i>
             </div>
             <div class="min-w-0">
-                <div class="text-[11px] font-bold text-slate-400 truncate">{{ __('معرض الأعمال') }}</div>
+                <div class="text-[11px] font-bold text-slate-400 truncate">{{ __('dashboard.metric_portfolio') }}</div>
                 <div class="text-lg font-black text-slate-800 font-mono">{{ number_format($totalPortfolios) }}</div>
-                <div class="text-[10px] text-slate-400 font-semibold">{{ __('مشاريع منفذة') }}</div>
+                <div class="text-[10px] text-slate-400 font-semibold">{{ __('dashboard.metric_executed_projects') }}</div>
             </div>
         </a>
 
@@ -146,9 +147,9 @@
                 <i class="fa-solid fa-headset text-base"></i>
             </div>
             <div class="min-w-0">
-                <div class="text-[11px] font-bold text-slate-400 truncate">{{ __('قيد الدراسة والتواصل') }}</div>
+                <div class="text-[11px] font-bold text-slate-400 truncate">{{ __('dashboard.metric_under_study') }}</div>
                 <div class="text-lg font-black text-slate-800 font-mono">{{ number_format($inProgressQuotes + $contactedQuotes) }}</div>
-                <div class="text-[10px] text-indigo-600 font-semibold">{{ __('جاري المعالجة') }}</div>
+                <div class="text-[10px] text-indigo-600 font-semibold">{{ __('dashboard.metric_processing') }}</div>
             </div>
         </a>
     </div>
@@ -162,14 +163,14 @@
                 <div>
                     <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-chart-line text-blue-600"></i>
-                        <span>{{ __('مسار طلبات التسعير (آخر 7 أيام)') }}</span>
+                        <span>{{ __('dashboard.chart_trend_title') }}</span>
                     </h3>
-                    <p class="text-xs text-slate-400 mt-0.5">{{ __('معدل تدفق طلبات عروض الأسعار المسجلة يومياً') }}</p>
+                    <p class="text-xs text-slate-400 mt-0.5">{{ __('dashboard.chart_trend_subtitle') }}</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold text-blue-700 bg-blue-50 border border-blue-100">
                         <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                        <span>{{ __('مجموع الأسبوع:') }} {{ number_format($thisWeekQuotes) }}</span>
+                        <span>{{ __('dashboard.chart_week_total') }} {{ number_format($thisWeekQuotes) }}</span>
                     </span>
                 </div>
             </div>
@@ -184,12 +185,12 @@
                 <div>
                     <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-chart-pie text-red-600"></i>
-                        <span>{{ __('توزيع الحالات') }}</span>
+                        <span>{{ __('dashboard.chart_status_title') }}</span>
                     </h3>
-                    <p class="text-xs text-slate-400 mt-0.5">{{ __('نسب الحالات لطلبات التسعير') }}</p>
+                    <p class="text-xs text-slate-400 mt-0.5">{{ __('dashboard.chart_status_subtitle') }}</p>
                 </div>
                 <span class="text-xs font-mono font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
-                    {{ $totalQuotes }} {{ __('طلب') }}
+                    {{ $totalQuotes }} {{ __('dashboard.chart_quote_count') }}
                 </span>
             </div>
 
@@ -202,7 +203,7 @@
                 <div class="flex items-center justify-between p-1.5 rounded-lg bg-amber-50/60 border border-amber-100 text-amber-900">
                     <span class="flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                        <span class="text-[11px]">{{ __('انتظار') }}</span>
+                        <span class="text-[11px]">{{ __('dashboard.status_pending_badge') }}</span>
                     </span>
                     <strong class="font-mono text-xs">{{ $statusBreakdown['pending'] }}</strong>
                 </div>
@@ -210,7 +211,7 @@
                 <div class="flex items-center justify-between p-1.5 rounded-lg bg-blue-50/60 border border-blue-100 text-blue-900">
                     <span class="flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                        <span class="text-[11px]">{{ __('تواصل') }}</span>
+                        <span class="text-[11px]">{{ __('dashboard.status_contacted_badge') }}</span>
                     </span>
                     <strong class="font-mono text-xs">{{ $statusBreakdown['contacted'] }}</strong>
                 </div>
@@ -218,7 +219,7 @@
                 <div class="flex items-center justify-between p-1.5 rounded-lg bg-purple-50/60 border border-purple-100 text-purple-900">
                     <span class="flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-purple-500"></span>
-                        <span class="text-[11px]">{{ __('تسعير') }}</span>
+                        <span class="text-[11px]">{{ __('dashboard.status_pricing_badge') }}</span>
                     </span>
                     <strong class="font-mono text-xs">{{ $statusBreakdown['in_progress'] }}</strong>
                 </div>
@@ -226,7 +227,7 @@
                 <div class="flex items-center justify-between p-1.5 rounded-lg bg-emerald-50/60 border border-emerald-100 text-emerald-900">
                     <span class="flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        <span class="text-[11px]">{{ __('منجز') }}</span>
+                        <span class="text-[11px]">{{ __('dashboard.status_completed_badge') }}</span>
                     </span>
                     <strong class="font-mono text-xs">{{ $statusBreakdown['completed'] }}</strong>
                 </div>
@@ -240,12 +241,13 @@
             <div>
                 <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
                     <i class="fa-solid fa-arrows-split-up-and-left text-slate-600"></i>
-                    <span>{{ __('مراحل مسار معالجة الطلبات (Pipeline)') }}</span>
+                    <span>{{ __('dashboard.pipeline_title') }}</span>
                 </h3>
-                <p class="text-xs text-slate-400 mt-0.5">{{ __('متابعة حركة تحويل الطلب من التسجيل وحتى التسليم النهائي') }}</p>
+                <p class="text-xs text-slate-400 mt-0.5">{{ __('dashboard.pipeline_subtitle') }}</p>
             </div>
-            <a href="{{ route('admin.quote-requests.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">
-                {{ __('إدارة كافة الطلبات') }} &larr;
+            <a href="{{ route('admin.quote-requests.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center gap-1">
+                <span>{{ __('dashboard.pipeline_manage_all') }}</span>
+                <i class="fa-solid fa-arrow-left text-[10px]"></i>
             </a>
         </div>
 
@@ -253,10 +255,10 @@
             <!-- Stage 1 -->
             <div class="p-3.5 rounded-xl border border-amber-200 bg-amber-50/40 relative">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-amber-800">1. {{ __('قيد الانتظار') }}</span>
+                    <span class="text-xs font-bold text-amber-800">1. {{ __('dashboard.stage_pending_title') }}</span>
                     <span class="text-xs font-bold font-mono px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">{{ $pendingQuotes }}</span>
                 </div>
-                <p class="text-[11px] text-slate-500 mt-1">{{ __('طلبات واردة تنتظر المراجعة') }}</p>
+                <p class="text-[11px] text-slate-500 mt-1">{{ __('dashboard.stage_pending_desc') }}</p>
                 <div class="mt-2.5 h-1.5 bg-amber-200/60 rounded-full overflow-hidden">
                     <div class="bg-amber-500 h-1.5 rounded-full" style="width: {{ $totalQuotes > 0 ? round(($pendingQuotes / $totalQuotes) * 100) : 0 }}%"></div>
                 </div>
@@ -265,10 +267,10 @@
             <!-- Stage 2 -->
             <div class="p-3.5 rounded-xl border border-blue-200 bg-blue-50/40 relative">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-blue-800">2. {{ __('تم التواصل') }}</span>
+                    <span class="text-xs font-bold text-blue-800">2. {{ __('dashboard.stage_contacted_title') }}</span>
                     <span class="text-xs font-bold font-mono px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">{{ $contactedQuotes }}</span>
                 </div>
-                <p class="text-[11px] text-slate-500 mt-1">{{ __('تم التنسيق هاتفياً أو عبر واتساب') }}</p>
+                <p class="text-[11px] text-slate-500 mt-1">{{ __('dashboard.stage_contacted_desc') }}</p>
                 <div class="mt-2.5 h-1.5 bg-blue-200/60 rounded-full overflow-hidden">
                     <div class="bg-blue-500 h-1.5 rounded-full" style="width: {{ $totalQuotes > 0 ? round(($contactedQuotes / $totalQuotes) * 100) : 0 }}%"></div>
                 </div>
@@ -277,10 +279,10 @@
             <!-- Stage 3 -->
             <div class="p-3.5 rounded-xl border border-purple-200 bg-purple-50/40 relative">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-purple-800">3. {{ __('قيد التسعير') }}</span>
+                    <span class="text-xs font-bold text-purple-800">3. {{ __('dashboard.stage_pricing_title') }}</span>
                     <span class="text-xs font-bold font-mono px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">{{ $inProgressQuotes }}</span>
                 </div>
-                <p class="text-[11px] text-slate-500 mt-1">{{ __('دراسة الكميات والمواصفات الفنية') }}</p>
+                <p class="text-[11px] text-slate-500 mt-1">{{ __('dashboard.stage_pricing_desc') }}</p>
                 <div class="mt-2.5 h-1.5 bg-purple-200/60 rounded-full overflow-hidden">
                     <div class="bg-purple-500 h-1.5 rounded-full" style="width: {{ $totalQuotes > 0 ? round(($inProgressQuotes / $totalQuotes) * 100) : 0 }}%"></div>
                 </div>
@@ -289,10 +291,10 @@
             <!-- Stage 4 -->
             <div class="p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40 relative">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-emerald-800">4. {{ __('عروض منجزة') }}</span>
+                    <span class="text-xs font-bold text-emerald-800">4. {{ __('dashboard.stage_completed_title') }}</span>
                     <span class="text-xs font-bold font-mono px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">{{ $completedQuotes }}</span>
                 </div>
-                <p class="text-[11px] text-slate-500 mt-1">{{ __('تم إرسال العرض بنجاح للعميل') }}</p>
+                <p class="text-[11px] text-slate-500 mt-1">{{ __('dashboard.stage_completed_desc') }}</p>
                 <div class="mt-2.5 h-1.5 bg-emerald-200/60 rounded-full overflow-hidden">
                     <div class="bg-emerald-500 h-1.5 rounded-full" style="width: {{ $totalQuotes > 0 ? round(($completedQuotes / $totalQuotes) * 100) : 0 }}%"></div>
                 </div>
@@ -311,13 +313,13 @@
                     <div>
                         <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
                             <i class="fa-solid fa-clock-rotate-left text-blue-600"></i>
-                            <span>{{ __('أحدث طلبات عروض الأسعار') }}</span>
+                            <span>{{ __('dashboard.recent_quotes_title') }}</span>
                         </h3>
-                        <p class="text-xs text-slate-400 mt-0.5">{{ __('متابعة سريعة لأحدث الطلبات المسجلة من العملاء') }}</p>
+                        <p class="text-xs text-slate-400 mt-0.5">{{ __('dashboard.recent_quotes_subtitle') }}</p>
                     </div>
                     <a href="{{ route('admin.quote-requests.index') }}"
                         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors">
-                        <span>{{ __('عرض الكل (:count)', ['count' => $totalQuotes]) }}</span>
+                        <span>{{ __('dashboard.view_all_count', ['count' => $totalQuotes]) }}</span>
                         <i class="fa-solid fa-arrow-left text-[10px]"></i>
                     </a>
                 </div>
@@ -341,7 +343,7 @@
                                         @if($quote->is_unread)
                                         <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700">
                                             <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                                            <span>{{ __('جديد') }}</span>
+                                            <span>{{ __('dashboard.badge_new') }}</span>
                                         </span>
                                         @endif
                                         <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold border {{ $quote->status_badge_classes }}">
@@ -354,17 +356,17 @@
                                     <div class="flex items-center gap-3 text-xs text-slate-500 flex-wrap">
                                         <span class="flex items-center gap-1 text-slate-700 font-medium">
                                             <i class="fa-solid fa-box text-slate-400 text-[10px]"></i>
-                                            <span>{{ $quote->product?->name ?? __('طلب مخصص / عام') }}</span>
+                                            <span>{{ $quote->product?->name ?? __('dashboard.custom_or_general') }}</span>
                                         </span>
                                         <span class="text-slate-300">•</span>
                                         <span class="flex items-center gap-1 font-mono font-bold text-blue-700">
                                             <i class="fa-solid fa-layer-group text-slate-400 text-[10px]"></i>
-                                            <span>{{ number_format($quote->quantity) }} {{ __('قطعة') }}</span>
+                                            <span>{{ number_format($quote->quantity) }} {{ __('dashboard.piece') }}</span>
                                         </span>
                                         <span class="text-slate-300">•</span>
                                         <span class="flex items-center gap-1 text-slate-400 text-[11px]">
                                             <i class="fa-regular fa-clock text-[10px]"></i>
-                                            <span>{{ $quote->created_at->diffForHumans() }}</span>
+                                            <span>{{ $quote->created_at->locale(app()->getLocale())->diffForHumans() }}</span>
                                         </span>
                                     </div>
                                 </div>
@@ -375,15 +377,15 @@
                                 @if($quote->phone)
                                 <a href="{{ $quote->whatsapp_url }}" target="_blank"
                                     class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors"
-                                    title="{{ __('محادثة واتساب سريعة') }}">
+                                    title="{{ __('dashboard.quick_whatsapp') }}">
                                     <i class="fa-brands fa-whatsapp text-sm"></i>
-                                    <span class="hidden md:inline">{{ __('واتساب') }}</span>
+                                    <span class="hidden md:inline">{{ __('dashboard.whatsapp') }}</span>
                                 </a>
                                 @endif
 
                                 <a href="{{ route('admin.quote-requests.show', $quote->id) }}"
                                     class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors">
-                                    <span>{{ __('تفاصيل') }}</span>
+                                    <span>{{ __('dashboard.details') }}</span>
                                     <i class="fa-solid fa-arrow-left text-[10px]"></i>
                                 </a>
                             </div>
@@ -395,8 +397,8 @@
                         <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
                             <i class="fa-solid fa-inbox text-xl"></i>
                         </div>
-                        <h4 class="text-sm font-bold text-slate-700">{{ __('لا توجد طلبات تسعير مسجلة حتى الآن') }}</h4>
-                        <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">{{ __('عندما يقوم الزوار بطلب تسعير من الموقع أو عند إدخال طلب يدوي ستظهر هنا فوراً.') }}</p>
+                        <h4 class="text-sm font-bold text-slate-700">{{ __('dashboard.no_recent_quotes') }}</h4>
+                        <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">{{ __('dashboard.no_recent_quotes_desc') }}</p>
                     </div>
                     @endforelse
                 </div>
@@ -405,7 +407,7 @@
             @if(count($recentQuotes) > 0)
             <div class="mt-4 pt-3 border-t border-slate-100 text-center">
                 <a href="{{ route('admin.quote-requests.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center gap-1">
-                    <span>{{ __('الانتقال إلى السجل الكامل لطلبات التسعير') }}</span>
+                    <span>{{ __('dashboard.go_to_full_quotes') }}</span>
                     <i class="fa-solid fa-arrow-left text-[10px]"></i>
                 </a>
             </div>
@@ -420,10 +422,10 @@
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
                     <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-folder-tree text-purple-600"></i>
-                        <span>{{ __('أعلى أقسام المطبوعات') }}</span>
+                        <span>{{ __('dashboard.top_categories_title') }}</span>
                     </h3>
                     <a href="{{ route('admin.categories.index') }}" class="text-xs font-bold text-purple-600 hover:text-purple-800">
-                        {{ __('إدارة') }}
+                        {{ __('dashboard.manage') }}
                     </a>
                 </div>
 
@@ -436,7 +438,7 @@
                         <div class="flex items-center justify-between text-xs mb-1">
                             <span class="font-bold text-slate-700 truncate max-w-[180px]">{{ $category->name }}</span>
                             <div class="flex items-center gap-2">
-                                <span class="font-mono text-slate-500">{{ $category->products_count }} {{ __('منتج') }}</span>
+                                <span class="font-mono text-slate-500">{{ $category->products_count }} {{ __('dashboard.product_count') }}</span>
                                 <span class="font-mono font-bold text-purple-700 text-[11px]">{{ $percentage }}%</span>
                             </div>
                         </div>
@@ -445,7 +447,7 @@
                         </div>
                     </div>
                     @empty
-                    <p class="text-xs text-slate-400 text-center py-4">{{ __('لم يتم إضافة تصنيفات بعد.') }}</p>
+                    <p class="text-xs text-slate-400 text-center py-4">{{ __('dashboard.no_categories') }}</p>
                     @endforelse
                 </div>
             </div>
@@ -454,28 +456,28 @@
             <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs">
                 <h3 class="text-sm sm:text-base font-bold text-slate-900 pb-3 border-b border-slate-100 mb-3 flex items-center gap-2">
                     <i class="fa-solid fa-compass text-slate-600"></i>
-                    <span>{{ __('روابط وصول سريعة') }}</span>
+                    <span>{{ __('dashboard.quick_shortcuts_title') }}</span>
                 </h3>
 
                 <div class="grid grid-cols-2 gap-2.5">
                     <a href="{{ route('admin.products.create') }}" class="p-3 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200/80 hover:border-blue-200 transition-colors flex flex-col items-center text-center gap-1.5 group">
                         <i class="fa-solid fa-plus-circle text-blue-600 text-lg group-hover:scale-110 transition-transform"></i>
-                        <span class="text-xs font-bold text-slate-700 group-hover:text-blue-700">{{ __('إضافة منتج') }}</span>
+                        <span class="text-xs font-bold text-slate-700 group-hover:text-blue-700">{{ __('dashboard.add_product') }}</span>
                     </a>
 
                     <a href="{{ route('admin.categories.create') }}" class="p-3 rounded-xl bg-slate-50 hover:bg-purple-50 border border-slate-200/80 hover:border-purple-200 transition-colors flex flex-col items-center text-center gap-1.5 group">
                         <i class="fa-solid fa-folder-plus text-purple-600 text-lg group-hover:scale-110 transition-transform"></i>
-                        <span class="text-xs font-bold text-slate-700 group-hover:text-purple-700">{{ __('إضافة تصنيف') }}</span>
+                        <span class="text-xs font-bold text-slate-700 group-hover:text-purple-700">{{ __('dashboard.add_category') }}</span>
                     </a>
 
                     <a href="{{ route('admin.reports.index') }}" class="p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200/80 hover:border-emerald-200 transition-colors flex flex-col items-center text-center gap-1.5 group">
                         <i class="fa-solid fa-file-excel text-emerald-600 text-lg group-hover:scale-110 transition-transform"></i>
-                        <span class="text-xs font-bold text-slate-700 group-hover:text-emerald-700">{{ __('التقارير') }}</span>
+                        <span class="text-xs font-bold text-slate-700 group-hover:text-emerald-700">{{ __('dashboard.shortcut_reports') }}</span>
                     </a>
 
                     <a href="{{ route('admin.settings.index') }}" class="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-slate-300 transition-colors flex flex-col items-center text-center gap-1.5 group">
                         <i class="fa-solid fa-gear text-slate-600 text-lg group-hover:scale-110 transition-transform"></i>
-                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900">{{ __('الإعدادات') }}</span>
+                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900">{{ __('dashboard.shortcut_settings') }}</span>
                     </a>
                 </div>
             </div>
@@ -512,7 +514,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '{{ __("طلبات التسعير") }}',
+                        label: '{{ __("dashboard.chart_quotes_dataset") }}',
                         data: counts,
                         borderColor: '#2563eb',
                         backgroundColor: 'rgba(37, 99, 235, 0.08)',
@@ -586,11 +588,11 @@
                 type: 'doughnut',
                 data: {
                     labels: [
-                        '{{ __("قيد الانتظار") }}',
-                        '{{ __("تم التواصل") }}',
-                        '{{ __("قيد التسعير") }}',
-                        '{{ __("عروض منجزة") }}',
-                        '{{ __("ملغي") }}'
+                        '{{ __("dashboard.statuses.pending") }}',
+                        '{{ __("dashboard.statuses.contacted") }}',
+                        '{{ __("dashboard.statuses.in_progress") }}',
+                        '{{ __("dashboard.statuses.completed") }}',
+                        '{{ __("dashboard.statuses.cancelled") }}'
                     ],
                     datasets: [{
                         data: totalStatus > 0 ? statusCounts : [1],

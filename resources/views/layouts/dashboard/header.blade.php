@@ -21,9 +21,9 @@
         <!-- Language Switcher -->
         <a href="{{ route('locale.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
             class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-extrabold text-slate-700 bg-slate-100 hover:bg-blue-50 hover:text-blue-900 border border-slate-200/80 transition-colors"
-            title="{{ app()->getLocale() === 'ar' ? 'Switch to English' : 'التبديل إلى العربية' }}">
+            title="{{ app()->getLocale() === 'ar' ? __('dashboard.switch_to_english') : __('dashboard.switch_to_arabic') }}">
             <i class="fa-solid fa-globe text-blue-600"></i>
-            <span>{{ app()->getLocale() === 'ar' ? 'EN' : 'عربي' }}</span>
+            <span>{{ app()->getLocale() === 'ar' ? __('dashboard.english_short') : __('dashboard.arabic_short') }}</span>
         </a>
 
         <!-- Notifications Dropdown Container -->
@@ -53,7 +53,7 @@
                 <button id="notifications-btn"
                     onclick="toggleNotifications()"
                     class="relative p-2.5 rounded-xl text-slate-600 hover:text-blue-900 hover:bg-slate-100 focus:outline-none transition-colors"
-                    aria-label="{{ __('الإشعارات') }}">
+                    aria-label="{{ __('dashboard.notifications') }}">
                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
@@ -71,9 +71,9 @@
                     class="hidden absolute top-full mt-2 inset-x-3 max-w-md mx-auto sm:max-w-none sm:mx-0 sm:inset-x-auto {{ app()->getLocale() === 'ar' ? 'sm:left-0 sm:right-auto' : 'sm:right-0 sm:left-auto' }} sm:w-96 sm:mt-3 bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden z-50 animate-fade-in">
                     <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                         <div class="flex items-center gap-2">
-                            <span class="font-bold text-sm text-slate-900">{{ __('الإشعارات والتنبيهات') }}</span>
+                            <span class="font-bold text-sm text-slate-900">{{ __('dashboard.notifications_and_alerts') }}</span>
                             <span id="notifications-header-badge" class="px-2 py-0.5 text-[11px] {{ $unreadQuotesCount > 0 ? 'font-bold bg-red-100 text-red-700' : 'font-medium bg-slate-100 text-slate-500' }} rounded-full">
-                                {{ $unreadQuotesCount > 0 ? $unreadQuotesCount . ' ' . __('غير مقروءة') : __('لا توجد جديدة') }}
+                                {{ $unreadQuotesCount > 0 ? $unreadQuotesCount . ' ' . __('dashboard.unread') : __('dashboard.no_new_notifications') }}
                             </span>
                         </div>
                         <div class="flex items-center gap-2">
@@ -81,9 +81,9 @@
                                 type="button"
                                 onclick="markAllNotificationsAsRead()"
                                 class="{{ $unreadQuotesCount > 0 ? '' : 'hidden' }} text-[11px] font-bold text-blue-600 hover:text-blue-800 transition-colors">
-                                {{ __('تحديد الكل كمقروء') }}
+                                {{ __('dashboard.mark_all_read') }}
                             </button>
-                            <button onclick="toggleNotifications()" class="sm:hidden p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors" aria-label="{{ __('إغلاق') }}">
+                            <button onclick="toggleNotifications()" class="sm:hidden p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors" aria-label="{{ __('dashboard.close') }}">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -110,16 +110,16 @@
                             <div class="flex flex-col text-xs min-w-0 flex-1">
                                 <div class="flex items-center justify-between gap-2">
                                     <span class="font-bold text-slate-800 leading-snug break-words truncate">
-                                        {{ __('طلب تسعير:') }} {{ $notifQuote->product ? $notifQuote->product->name : __('طلب مخصص عام') }}
+                                        {{ __('dashboard.quote_request_label') }} {{ $notifQuote->product ? $notifQuote->product->name : __('dashboard.custom_quote_request') }}
                                     </span>
                                     @if($isUnread)
-                                    <span class="notification-unread-dot w-2 h-2 rounded-full bg-red-500 flex-shrink-0" title="{{ __('غير مقروء') }}"></span>
+                                    <span class="notification-unread-dot w-2 h-2 rounded-full bg-red-500 flex-shrink-0" title="{{ __('dashboard.unread_single') }}"></span>
                                     @endif
                                 </div>
                                 <span class="text-slate-500 mt-0.5 leading-relaxed break-words">
-                                    {{ __('العميل:') }} {{ $notifQuote->customer_name }}
+                                    {{ __('dashboard.customer_label') }} {{ $notifQuote->customer_name }}
                                     @if($notifQuote->quantity)
-                                    ({{ __('الكمية:') }} {{ number_format($notifQuote->quantity) }} {{ __('قطعة') }})
+                                    ({{ __('dashboard.quantity_label') }} {{ number_format($notifQuote->quantity) }} {{ __('dashboard.piece') }})
                                     @endif
                                 </span>
                                 <div class="flex items-center justify-between mt-1">
@@ -133,7 +133,7 @@
                             <svg class="w-8 h-8 mx-auto mb-2 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
-                            <p class="text-xs font-semibold text-slate-500">{{ __('لا توجد طلبات أو إشعارات جديدة حالياً') }}</p>
+                            <p class="text-xs font-semibold text-slate-500">{{ __('dashboard.no_new_notifications_message') }}</p>
                         </div>
                         @endforelse
 
@@ -145,7 +145,7 @@
                                 </svg>
                             </div>
                             <div class="flex flex-col text-xs min-w-0 flex-1">
-                                <span class="font-bold text-slate-800 leading-snug break-words">{{ __('آخر مشروع مضاف لمعرض الأعمال') }}</span>
+                                <span class="font-bold text-slate-800 leading-snug break-words">{{ __('dashboard.latest_portfolio_added') }}</span>
                                 <span class="text-slate-500 mt-0.5 leading-relaxed break-words">{{ $latestPortfolio->title }}{{ $latestPortfolio->client_name ? ' - ' . $latestPortfolio->client_name : '' }}</span>
                                 <span class="text-slate-400 text-[10px] mt-1">{{ $latestPortfolio->created_at ? $latestPortfolio->created_at->locale(app()->getLocale())->diffForHumans() : '' }}</span>
                             </div>
@@ -155,10 +155,11 @@
 
                     <div class="px-4 py-2.5 border-t border-slate-100 flex items-center justify-between bg-slate-50/50 text-xs">
                         <a href="{{ route('admin.quote-requests.index', ['status' => 'pending']) }}" class="font-bold text-red-600 hover:text-red-700 transition-colors">
-                            {{ __('الطلبات المعلقة') }} ({{ $pendingQuotesCount }})
+                            {{ __('dashboard.pending_requests_badge') }} ({{ $pendingQuotesCount }})
                         </a>
-                        <a href="{{ route('admin.quote-requests.index') }}" class="font-bold text-blue-800 hover:text-blue-600 transition-colors">
-                            {{ __('عرض كافة الطلبات ←') }}
+                        <a href="{{ route('admin.quote-requests.index') }}" class="font-bold text-blue-800 hover:text-blue-600 transition-colors inline-flex items-center gap-1">
+                            <span>{{ __('dashboard.view_all_requests') }}</span>
+                            <i class="fa-solid fa-arrow-left text-[10px]"></i>
                         </a>
                     </div>
                 </div>
@@ -181,8 +182,8 @@
                         @endif
                     </div>
                     <div class="hidden xl:flex flex-col {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }} max-w-[130px]">
-                        <span class="text-xs font-bold text-slate-900 truncate">{{ auth()->user()->name ?? __('نبراس الإدارة') }}</span>
-                        <span class="text-[10px] text-slate-400 truncate">{{ __('مدير عام') }}</span>
+                        <span class="text-xs font-bold text-slate-900 truncate">{{ auth()->user()->name ?? __('dashboard.default_admin_name') }}</span>
+                        <span class="text-[10px] text-slate-400 truncate">{{ __('dashboard.default_admin_role') }}</span>
                     </div>
                     <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -193,7 +194,7 @@
                 <div id="user-dropdown-menu"
                     class="hidden absolute {{ app()->getLocale() === 'ar' ? 'left-0' : 'right-0' }} mt-3 w-56 bg-white rounded-2xl shadow-xl border border-slate-200/80 py-2 z-50 animate-fade-in">
                     <div class="px-4 py-2 border-b border-slate-100">
-                        <p class="text-xs font-bold text-slate-900 truncate">{{ auth()->user()->name ?? __('نبراس العرب للمطبوعات') }}</p>
+                        <p class="text-xs font-bold text-slate-900 truncate">{{ auth()->user()->name ?? __('dashboard.default_company_name') }}</p>
                         <p class="text-[11px] text-slate-500 font-mono truncate" dir="ltr">{{ auth()->user()->email ?? 'info@nebras-press.com' }}</p>
                     </div>
                     <div class="py-1">
@@ -201,14 +202,14 @@
                             <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
-                            <span>{{ __('الملف الشخصي') }}</span>
+                            <span>{{ __('dashboard.profile') }}</span>
                         </a>
                         <a href="{{ route('admin.settings.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-xs text-slate-700 hover:bg-blue-50 hover:text-blue-900 transition-colors {{ request()->routeIs('admin.settings.*') ? 'bg-blue-50/70 text-blue-900 font-bold' : '' }}">
                             <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <span>{{ __('إعدادات النظام') }}</span>
+                            <span>{{ __('dashboard.system_settings') }}</span>
                         </a>
                     </div>
                     <div class="border-t border-slate-100 pt-1">
@@ -218,7 +219,7 @@
                                 <svg class="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
-                                <span>{{ __('تسجيل الخروج') }}</span>
+                                <span>{{ __('dashboard.logout') }}</span>
                             </button>
                         </form>
                     </div>
@@ -264,10 +265,10 @@
 
             if (headerBadge) {
                 if (count > 0) {
-                    headerBadge.textContent = count + ' {{ __('غير مقروءة') }}';
+                    headerBadge.textContent = count + ' {{ __('dashboard.unread') }}';
                     headerBadge.className = 'px-2 py-0.5 text-[11px] font-bold bg-red-100 text-red-700 rounded-full';
                 } else {
-                    headerBadge.textContent = '{{ __('لا توجد جديدة') }}';
+                    headerBadge.textContent = '{{ __('dashboard.no_new_notifications') }}';
                     headerBadge.className = 'px-2 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-500 rounded-full';
                 }
             }

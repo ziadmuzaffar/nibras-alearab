@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', __('لوحة التحكم')) | {{ setting('site_name', 'مطبعة نبراس العرب') }}</title>
+    <title>@yield('title', __('dashboard.dashboard')) | {{ setting('site_name', 'مطبعة نبراس العرب') }}</title>
     <link rel="icon" type="image/x-icon" href="{{ setting_image('site_favicon', 'favicon.ico') }}">
 
     <!-- Local Fonts: Cairo -->
@@ -115,7 +115,7 @@
                         <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>{{ __('يرجى تصحيح الأخطاء التالية:') }}</span>
+                        <span>{{ __('dashboard.please_fix_errors') }}</span>
                     </div>
                     <ul class="list-disc list-inside text-xs space-y-1 text-amber-800 pr-2">
                         @foreach ($errors->all() as $error)
@@ -132,14 +132,14 @@
             <footer class="mt-auto py-4 px-6 border-t border-slate-200/80 bg-white/60 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
                     <span class="inline-block w-2 h-2 rounded-full bg-red-600"></span>
-                    <span>{{ __('جميع الحقوق محفوظة') }} &copy; {{ date('Y') }} <strong>{{ setting('site_name', 'مطبعة نبراس العرب') }}</strong></span>
+                    <span>{{ __('dashboard.all_rights_reserved') }} &copy; {{ date('Y') }} <strong>{{ setting('site_name', 'مطبعة نبراس العرب') }}</strong></span>
                 </div>
                 <div class="flex items-center gap-4 text-slate-400">
-                    <span class="text-blue-900 font-medium">{{ __('لوحة الإدارة v1.0') }}</span>
+                    <span class="text-blue-900 font-medium">{{ __('dashboard.admin_panel_version') }}</span>
                     <span>•</span>
-                    <a href="#" class="hover:text-red-600 transition-colors">{{ __('الدعم الفني') }}</a>
+                    <a href="#" class="hover:text-red-600 transition-colors">{{ __('dashboard.technical_support') }}</a>
                     <span>•</span>
-                    <a href="#" class="hover:text-blue-700 transition-colors">{{ __('دليل الاستخدام') }}</a>
+                    <a href="#" class="hover:text-blue-700 transition-colors">{{ __('dashboard.user_guide') }}</a>
                 </div>
             </footer>
         </div>

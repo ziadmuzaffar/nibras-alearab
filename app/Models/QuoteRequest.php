@@ -44,7 +44,13 @@ class QuoteRequest extends Model
      */
     public static function localizedStatuses(): array
     {
-        return array_map(fn(string $label) => __($label), self::STATUSES);
+        $result = [];
+        foreach (self::STATUSES as $key => $defaultLabel) {
+            $langKey = 'dashboard.statuses.' . $key;
+            $result[$key] = trans()->has($langKey) ? __($langKey) : __($defaultLabel);
+        }
+
+        return $result;
     }
 
     /**
@@ -89,6 +95,11 @@ class QuoteRequest extends Model
      */
     public function getStatusLabelAttribute(): string
     {
+        $langKey = 'dashboard.statuses.' . $this->status;
+        if (trans()->has($langKey)) {
+            return __($langKey);
+        }
+
         $label = self::STATUSES[$this->status] ?? $this->status;
 
         return __($label);

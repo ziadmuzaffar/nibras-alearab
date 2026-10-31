@@ -1,6 +1,12 @@
 @extends('layouts.dashboard.app')
 
-@section('title', __('إدارة التصنيفات'))
+@php
+    $isRtl = LaravelLocalization::getCurrentLocaleDirection() === 'rtl';
+    $currentLocale = LaravelLocalization::getCurrentLocale();
+    $otherLocale = $currentLocale === 'ar' ? 'en' : 'ar';
+@endphp
+
+@section('title', __('main.categories_management'))
 
 @section('content')
 <div class="space-y-6">
@@ -9,9 +15,9 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-                <span>{{ __('إدارة التصنيفات') }}</span>
+                <span>{{ __('main.categories_management') }}</span>
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">{{ __('تنظيم وهيكلة تصنيفات المطبوعات والمنتجات') }}</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">{{ __('main.categories_management_desc') }}</p>
         </div>
 
         <div class="flex items-center gap-3">
@@ -20,7 +26,7 @@
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
                 </svg>
-                <span>{{ __('إضافة تصنيف جديد') }}</span>
+                <span>{{ __('main.add_new_category') }}</span>
             </a>
         </div>
     </div>
@@ -30,7 +36,7 @@
         <!-- Total -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">{{ __('إجمالي التصنيفات') }}</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('main.total_categories') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-slate-800 mt-1">{{ number_format($stats['total']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
@@ -43,7 +49,7 @@
         <!-- Active -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">{{ __('التصنيفات النشطة') }}</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('main.active_categories') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-emerald-600 mt-1">{{ number_format($stats['active']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -56,7 +62,7 @@
         <!-- Inactive -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">{{ __('التصنيفات المعطلة') }}</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('main.inactive_categories') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-amber-600 mt-1">{{ number_format($stats['inactive']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
@@ -69,7 +75,7 @@
         <!-- With Products -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400">{{ __('تحتوي على منتجات') }}</p>
+                <p class="text-xs font-semibold text-slate-400">{{ __('main.categories_with_products') }}</p>
                 <p class="text-2xl sm:text-3xl font-black text-indigo-600 mt-1">{{ number_format($stats['with_products']) }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
@@ -86,7 +92,7 @@
 
             <!-- Search Query -->
             <div class="lg:col-span-5 relative">
-                <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+                <div class="absolute inset-y-0 {{ $isRtl ? 'right-0 pr-3.5' : 'left-0 pl-3.5' }} flex items-center pointer-events-none text-slate-400">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -94,10 +100,10 @@
                 <input type="text"
                     name="search"
                     value="{{ request('search') }}"
-                    placeholder="{{ __('ابحث باسم التصنيف أو الرابط (Slug)...') }}"
-                    class="w-full pl-4 pr-10 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
+                    placeholder="{{ __('main.search_categories_placeholder') }}"
+                    class="w-full {{ $isRtl ? 'pr-10 pl-4' : 'pl-10 pr-4' }} py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
                 @if(request('search'))
-                <a href="{{ route('admin.categories.index', array_merge(request()->except('search'))) }}" class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 hover:text-slate-600">
+                <a href="{{ route('admin.categories.index', array_merge(request()->except('search'))) }}" class="absolute inset-y-0 {{ $isRtl ? 'left-0 pl-3' : 'right-0 pr-3' }} flex items-center text-slate-400 hover:text-slate-600">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -109,9 +115,9 @@
             <div class="lg:col-span-3">
                 <select name="status"
                     class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-slate-700">
-                    <option value="all" {{ request('status') === 'all' || !request()->has('status') ? 'selected' : '' }}>{{ __('جميع الحالات') }}</option>
-                    <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>{{ __('مفعل فقط') }}</option>
-                    <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>{{ __('معطل فقط') }}</option>
+                    <option value="all" {{ request('status') === 'all' || !request()->has('status') ? 'selected' : '' }}>{{ __('main.all_statuses') }}</option>
+                    <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>{{ __('main.status_active_only') }}</option>
+                    <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>{{ __('main.status_inactive_only') }}</option>
                 </select>
             </div>
 
@@ -119,12 +125,12 @@
             <div class="lg:col-span-2">
                 <select name="sort"
                     class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all text-slate-700">
-                    <option value="order_asc" {{ request('sort') === 'order_asc' ? 'selected' : '' }}>{{ __('الترتيب: تصاعدي') }}</option>
-                    <option value="order_desc" {{ request('sort') === 'order_desc' ? 'selected' : '' }}>{{ __('الترتيب: تنازلي') }}</option>
-                    <option value="name_asc" {{ request('sort') === 'name_asc' ? 'selected' : '' }}>{{ __('الاسم (أ - ي)') }}</option>
-                    <option value="name_desc" {{ request('sort') === 'name_desc' ? 'selected' : '' }}>{{ __('الاسم (ي - أ)') }}</option>
-                    <option value="products_desc" {{ request('sort') === 'products_desc' ? 'selected' : '' }}>{{ __('الأكثر منتجات') }}</option>
-                    <option value="newest" {{ request('sort') === 'newest' ? 'selected' : '' }}>{{ __('الأحدث أولاً') }}</option>
+                    <option value="order_asc" {{ request('sort') === 'order_asc' ? 'selected' : '' }}>{{ __('main.sort_order_asc') }}</option>
+                    <option value="order_desc" {{ request('sort') === 'order_desc' ? 'selected' : '' }}>{{ __('main.sort_order_desc') }}</option>
+                    <option value="name_asc" {{ request('sort') === 'name_asc' ? 'selected' : '' }}>{{ __('main.sort_name_az') }}</option>
+                    <option value="name_desc" {{ request('sort') === 'name_desc' ? 'selected' : '' }}>{{ __('main.sort_name_za') }}</option>
+                    <option value="products_desc" {{ request('sort') === 'products_desc' ? 'selected' : '' }}>{{ __('main.sort_most_products') }}</option>
+                    <option value="newest" {{ request('sort') === 'newest' ? 'selected' : '' }}>{{ __('main.sort_newest_first') }}</option>
                 </select>
             </div>
 
@@ -132,12 +138,12 @@
             <div class="lg:col-span-2 flex items-center gap-2">
                 <button type="submit"
                     class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-white bg-blue-700 hover:bg-blue-800 transition-colors shadow-sm">
-                    {{ __('تطبيق') }}
+                    {{ __('main.apply') }}
                 </button>
                 @if(request()->hasAny(['search', 'status', 'sort']))
                 <a href="{{ route('admin.categories.index') }}"
                     class="p-2.5 rounded-xl border border-slate-200 text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors"
-                    title="{{ __('إعادة ضبط الفلاتر') }}">
+                    title="{{ __('main.reset_filters_btn') }}">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
@@ -150,18 +156,18 @@
     <!-- Results Counter & Info Bar -->
     <div class="flex items-center justify-between text-xs font-semibold text-slate-500 px-1">
         <div class="flex items-center gap-2">
-            <span>{{ __('عرض النتائج:') }}</span>
+            <span>{{ __('main.showing_results') }}</span>
             <span class="text-blue-700 font-bold font-mono">{{ $categories->count() }}</span>
-            <span>{{ __('من أصل') }}</span>
+            <span>{{ __('main.out_of') }}</span>
             <span class="text-slate-800 font-bold font-mono">{{ $categories->total() }}</span>
-            <span>{{ __('تصنيف') }}</span>
+            <span>{{ __('main.category_unit') }}</span>
         </div>
         @if(request()->hasAny(['search', 'status', 'sort']))
         <a href="{{ route('admin.categories.index') }}" class="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
-            <span>{{ __('إلغاء التصفية') }}</span>
+            <span>{{ __('main.reset_filter') }}</span>
         </a>
         @endif
     </div>
@@ -190,7 +196,7 @@
                 <div class="relative z-10 w-full flex items-center justify-between">
                     <!-- Order Badge -->
                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/40 backdrop-blur-md text-white text-xs font-bold border border-white/10 shadow-xs">
-                        <span class="text-slate-400 text-[10px]">{{ __('الترتيب') }}</span>
+                        <span class="text-slate-400 text-[10px]">{{ __('main.order') }}</span>
                         <span class="text-blue-300 font-mono">#{{ $category->order }}</span>
                     </span>
 
@@ -200,9 +206,9 @@
                         @method('PATCH')
                         <button type="submit"
                             class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all backdrop-blur-md shadow-xs {{ $category->is_active ? 'bg-emerald-500/90 hover:bg-emerald-600 text-white border border-emerald-400/40' : 'bg-slate-800/90 hover:bg-slate-700 text-slate-300 border border-slate-700' }}"
-                            title="{{ __('انقر لتبديل حالة التصنيف (مفعل / معطل)') }}">
+                            title="{{ __('main.toggle_status_title') }}">
                             <span class="w-1.5 h-1.5 rounded-full {{ $category->is_active ? 'bg-white animate-pulse' : 'bg-slate-400' }}"></span>
-                            <span>{{ $category->is_active ? __('مفعل') : __('معطل') }}</span>
+                            <span>{{ $category->is_active ? __('main.status_enabled') : __('main.status_disabled') }}</span>
                         </button>
                     </form>
                 </div>
@@ -229,20 +235,28 @@
                             @endif
                         </div>
 
-                        <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/60" title="{{ __('أيقونة التصنيف') }}">
+                        <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200/60" title="{{ __('main.category_icon') }}">
                             <i class="fa-solid fa-icons text-blue-600 text-xs"></i>
                             <span class="font-mono text-[10px]">{{ $category->icon ?: 'box' }}</span>
                         </span>
                     </div>
 
-                    <!-- Category Name & Slug -->
+                    <!-- Category Name & Slug (Spatie Translatable Bilingual Support) -->
                     <div class="space-y-1">
                         <a href="{{ route('admin.categories.show', $category) }}"
                             class="block text-base sm:text-lg font-black text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-1">
                             {{ $category->name }}
                         </a>
+                        @php
+                            $secondaryName = $category->getTranslation('name', $otherLocale, false);
+                        @endphp
+                        @if($secondaryName && $secondaryName !== $category->name)
+                        <p class="text-xs text-slate-400 font-medium truncate" dir="{{ $otherLocale === 'ar' ? 'rtl' : 'ltr' }}">
+                            {{ $secondaryName }}
+                        </p>
+                        @endif
                         <div class="flex items-center gap-2">
-                            <span class="inline-flex items-center gap-1 font-mono text-[11px] text-slate-500 bg-slate-50 border border-slate-200/60 px-2 py-0.5 rounded-md dir-ltr">
+                            <span class="inline-flex items-center gap-1 font-mono text-[11px] text-slate-500 bg-slate-50 border border-slate-200/60 px-2 py-0.5 rounded-md" dir="ltr">
                                 <span class="text-slate-400">/</span>{{ $category->slug }}
                             </span>
                         </div>
@@ -258,7 +272,7 @@
                                 </svg>
                             </div>
                             <div class="min-w-0">
-                                <p class="text-[11px] text-slate-400 font-semibold leading-none">{{ __('المنتجات') }}</p>
+                                <p class="text-[11px] text-slate-400 font-semibold leading-none">{{ __('main.products') }}</p>
                                 <p class="text-sm font-black text-slate-800 mt-1 leading-none">{{ number_format($category->products_count) }}</p>
                             </div>
                         </div>
@@ -271,7 +285,7 @@
                                 </svg>
                             </div>
                             <div class="min-w-0">
-                                <p class="text-[11px] text-slate-400 font-semibold leading-none">{{ __('المشاريع') }}</p>
+                                <p class="text-[11px] text-slate-400 font-semibold leading-none">{{ __('main.portfolios') }}</p>
                                 <p class="text-sm font-black text-slate-800 mt-1 leading-none">{{ number_format($category->portfolios_count) }}</p>
                             </div>
                         </div>
@@ -284,7 +298,7 @@
                         <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <span>{{ __('تاريخ الإضافة') }}</span>
+                        <span>{{ __('main.created_at_label') }}</span>
                     </span>
                     <span class="font-mono text-[11px] text-slate-500 font-semibold">
                         {{ $category->created_at ? $category->created_at->format('Y-m-d') : '—' }}
@@ -301,7 +315,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
-                    <span>{{ __('عرض') }}</span>
+                    <span>{{ __('main.view') }}</span>
                 </a>
 
                 <!-- Edit -->
@@ -310,14 +324,14 @@
                     <svg class="w-3.5 h-3.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
-                    <span>{{ __('تعديل') }}</span>
+                    <span>{{ __('main.edit') }}</span>
                 </a>
 
                 <!-- Delete Modal Trigger -->
                 <button type="button"
                     onclick="openDeleteModal('{{ $category->id }}', '{{ addslashes($category->name) }}', {{ $category->products_count }})"
                     class="p-2 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors"
-                    title="{{ __('حذف التصنيف') }}">
+                    title="{{ __('main.delete_category') }}">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
@@ -334,12 +348,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
                 </div>
-                <h3 class="text-lg font-black text-slate-800">{{ __('لا توجد تصنيفات حالياً') }}</h3>
+                <h3 class="text-lg font-black text-slate-800">{{ __('main.no_categories_found') }}</h3>
                 <p class="text-xs sm:text-sm text-slate-500 mt-1 mb-6 leading-relaxed">
                     @if(request()->hasAny(['search', 'status', 'sort']))
-                    {{ __('لم نجد أي تصنيف يطابق شروط البحث الحالية. جرب ضبط الفلاتر أو حذفها.') }}
+                    {{ __('main.no_categories_search_match') }}
                     @else
-                    {{ __('ابدأ ببناء هيكل متجرك بإضافة أول تصنيف لمطبوعات نبراس العرب.') }}
+                    {{ __('main.start_adding_category_hint') }}
                     @endif
                 </p>
                 @if(request()->hasAny(['search', 'status', 'sort']))
@@ -348,7 +362,7 @@
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span>{{ __('إعادة ضبط الفلاتر') }}</span>
+                    <span>{{ __('main.reset_filters_btn') }}</span>
                 </a>
                 @else
                 <a href="{{ route('admin.categories.create') }}"
@@ -356,7 +370,7 @@
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    <span>{{ __('إضافة تصنيف جديد') }}</span>
+                    <span>{{ __('main.add_new_category') }}</span>
                 </a>
                 @endif
             </div>
@@ -375,7 +389,7 @@
 
 <!-- Delete Confirmation Modal -->
 <div id="delete-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-200">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }} space-y-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 {{ $isRtl ? 'text-right' : 'text-left' }} space-y-4">
 
         <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -384,12 +398,12 @@
         </div>
 
         <div>
-            <h3 class="text-lg font-bold text-slate-900">{{ __('تأكيد حذف التصنيف') }}</h3>
+            <h3 class="text-lg font-bold text-slate-900">{{ __('main.confirm_delete_category') }}</h3>
             <p class="text-sm text-slate-500 mt-1">
-                {{ __('هل أنت متأكد من رغبتك في حذف التصنيف:') }} <strong id="modal-category-name" class="text-slate-800"></strong>؟
+                {{ __('main.confirm_delete_question') }} <strong id="modal-category-name" class="text-slate-800"></strong>؟
             </p>
             <div id="modal-products-warning" class="hidden mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs">
-                ⚠️ {{ __('تنبيه: هذا التصنيف مرتبط بمنتجات حالياً! لن تتمكن من حذفه حتى تقوم بنقل أو حذف تلك المنتجات.') }}
+                ⚠️ {{ __('main.category_has_products_warning') }}
             </div>
         </div>
 
@@ -400,11 +414,11 @@
                 <button type="button"
                     onclick="closeDeleteModal()"
                     class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition-colors">
-                    {{ __('إلغاء') }}
+                    {{ __('main.cancel') }}
                 </button>
                 <button type="submit"
                     class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-md shadow-red-900/20 transition-all">
-                    {{ __('تأكيد الحذف') }}
+                    {{ __('main.confirm_delete_btn') }}
                 </button>
             </div>
         </form>

@@ -1,11 +1,11 @@
 @extends('layouts.website.app')
 
-@section('title', $product->name)
-@section('meta_description', $product->short_description ?: \Illuminate\Support\Str::limit(strip_tags($product->description), 155))
-
-@section('content')
-
 @php
+    $isRtl = LaravelLocalization::getCurrentLocaleDirection() === 'rtl';
+    $chevronIcon = $isRtl ? 'fa-chevron-left' : 'fa-chevron-right';
+    $backArrowIcon = $isRtl ? 'fa-arrow-right' : 'fa-arrow-left';
+    $forwardArrowIcon = $isRtl ? 'fa-arrow-left' : 'fa-arrow-right';
+
     // Combine featured image + gallery images uniquely
     $allImages = collect();
     if ($product->featured_image_url) {
@@ -22,26 +22,31 @@
     $specs = is_array($product->specifications) ? $product->specifications : [];
 @endphp
 
+@section('title', $product->name)
+@section('meta_description', $product->short_description ?: \Illuminate\Support\Str::limit(strip_tags($product->description), 155))
+
+@section('content')
+
 <!-- Top Breadcrumb Bar -->
 <div class="bg-slate-900 text-slate-300 border-b border-slate-800 py-3.5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3 flex-wrap">
         <nav class="flex items-center gap-2 text-xs font-bold flex-wrap min-w-0">
-            <a href="{{ route('website.home') }}" class="text-slate-400 hover:text-white transition-colors">{{ __('الرئيسية') }}</a>
-            <i class="fa-solid fa-chevron-left text-[10px] text-slate-600"></i>
-            <a href="{{ route('website.products.index') }}" class="text-slate-400 hover:text-white transition-colors">{{ __('المنتجات') }}</a>
+            <a href="{{ route('website.home') }}" class="text-slate-400 hover:text-white transition-colors">{{ __('main.home') }}</a>
+            <i class="fa-solid {{ $chevronIcon }} text-[10px] text-slate-600"></i>
+            <a href="{{ route('website.products.index') }}" class="text-slate-400 hover:text-white transition-colors">{{ __('main.products') }}</a>
             @if($product->category)
-            <i class="fa-solid fa-chevron-left text-[10px] text-slate-600"></i>
+            <i class="fa-solid {{ $chevronIcon }} text-[10px] text-slate-600"></i>
             <a href="{{ route('website.categories.show', $product->category->slug) }}" class="text-blue-400 hover:text-blue-300 transition-colors">
                 {{ $product->category->name }}
             </a>
             @endif
-            <i class="fa-solid fa-chevron-left text-[10px] text-slate-600"></i>
+            <i class="fa-solid {{ $chevronIcon }} text-[10px] text-slate-600"></i>
             <span class="text-white truncate max-w-[180px] sm:max-w-xs">{{ $product->name }}</span>
         </nav>
 
         <a href="{{ route('website.products.index') }}" class="shrink-0 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors">
-            <i class="fa-solid fa-arrow-right text-[10px]"></i>
-            <span>{{ __('العودة للكتالوج') }}</span>
+            <i class="fa-solid {{ $backArrowIcon }} text-[10px]"></i>
+            <span>{{ __('main.back_to_catalog') }}</span>
         </a>
     </div>
 </div>
@@ -52,7 +57,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-            <!-- Right Column: Interactive Product Gallery (6 Cols) -->
+            <!-- Gallery Column (6 Cols) -->
             <div class="lg:col-span-6 min-w-0 space-y-4 lg:sticky lg:top-28">
 
                 <!-- Main Display Image -->
@@ -76,7 +81,7 @@
                         @if($product->is_featured)
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-400 text-slate-950 text-[11px] sm:text-xs font-black shadow-md shrink-0">
                             <i class="fa-solid fa-star"></i>
-                            <span>{{ __('منتج مميز') }}</span>
+                            <span>{{ __('main.featured_product') }}</span>
                         </span>
                         @endif
                     </div>
@@ -99,15 +104,15 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2">
                     <div class="bg-white p-3 sm:p-3.5 rounded-2xl border border-slate-200/80 flex sm:flex-col items-center justify-center gap-2.5 sm:gap-1 text-center">
                         <i class="fa-solid fa-swatchbook text-blue-600 text-base sm:text-lg shrink-0"></i>
-                        <p class="text-xs sm:text-[11px] font-black text-slate-800">{{ __('خامات أصلية فاخرة') }}</p>
+                        <p class="text-xs sm:text-[11px] font-black text-slate-800">{{ __('main.genuine_materials') }}</p>
                     </div>
                     <div class="bg-white p-3 sm:p-3.5 rounded-2xl border border-slate-200/80 flex sm:flex-col items-center justify-center gap-2.5 sm:gap-1 text-center">
                         <i class="fa-solid fa-wand-magic-sparkles text-amber-500 text-base sm:text-lg shrink-0"></i>
-                        <p class="text-xs sm:text-[11px] font-black text-slate-800">{{ __('تشطيبات مخصصة') }}</p>
+                        <p class="text-xs sm:text-[11px] font-black text-slate-800">{{ __('main.custom_finishes') }}</p>
                     </div>
                     <div class="bg-white p-3 sm:p-3.5 rounded-2xl border border-slate-200/80 flex sm:flex-col items-center justify-center gap-2.5 sm:gap-1 text-center">
                         <i class="fa-solid fa-truck-fast text-emerald-600 text-base sm:text-lg shrink-0"></i>
-                        <p class="text-xs sm:text-[11px] font-black text-slate-800">{{ __('توريد لجميع المناطق') }}</p>
+                        <p class="text-xs sm:text-[11px] font-black text-slate-800">{{ __('main.nationwide_delivery') }}</p>
                     </div>
                 </div>
 
@@ -119,10 +124,10 @@
                 <!-- Product Header & Description -->
                 <div class="bg-white rounded-3xl border border-slate-200/85 p-5 sm:p-8 shadow-sm space-y-4">
                     <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 font-semibold">
-                        <span>{{ __('كود المنتج:') }} <strong class="font-mono text-slate-700">#PRD-{{ str_pad($product->id, 3, '0', STR_PAD_LEFT) }}</strong></span>
+                        <span>{{ __('main.product_code') }} <strong class="font-mono text-slate-700">#PRD-{{ str_pad($product->id, 3, '0', STR_PAD_LEFT) }}</strong></span>
                         <span class="inline-flex items-center gap-1.5 text-emerald-600 font-bold">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span>{{ __('متاح للتنفيذ والتصنيع') }}</span>
+                            <span>{{ __('main.available_for_production') }}</span>
                         </span>
                     </div>
 
@@ -138,7 +143,7 @@
 
                     @if($product->description)
                     <div class="text-xs sm:text-sm text-slate-600 leading-relaxed space-y-2 pt-1">
-                        <h3 class="text-xs font-black text-slate-900 uppercase tracking-wider">{{ __('تفاصيل ووصف المنتج:') }}</h3>
+                        <h3 class="text-xs font-black text-slate-900 uppercase tracking-wider">{{ __('main.product_details_description') }}</h3>
                         <p class="whitespace-pre-line">{{ $product->description }}</p>
                     </div>
                     @endif
@@ -149,17 +154,17 @@
                         <a href="#product-quote-box"
                             class="flex-1 inline-flex items-center justify-center gap-2.5 px-5 sm:px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-700 via-blue-600 to-red-600 hover:from-blue-800 hover:to-red-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-700/20 transition-all">
                             <i class="fa-solid fa-file-invoice-dollar"></i>
-                            <span>{{ __('اطلب عرض سعر لهذا المنتج') }}</span>
+                            <span>{{ __('main.request_quote_for_product') }}</span>
                         </a>
                         @endif
 
                         @if(setting('whatsapp') || setting('mobile'))
-                        <a href="{{ whatsapp_link(__('مرحباً مطبعة نبراس العرب، أود الاستفسار وطلب تسعير لمنتج:') . ' ' . $product->name) }}"
+                        <a href="{{ whatsapp_link(__('main.whatsapp_product_msg') . ' ' . $product->name) }}"
                             target="_blank"
                             rel="noopener"
                             class="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all">
                             <i class="fa-brands fa-whatsapp text-lg"></i>
-                            <span>{{ __('استفسر عبر واتساب') }}</span>
+                            <span>{{ __('main.inquire_whatsapp') }}</span>
                         </a>
                         @endif
                     </div>
@@ -173,19 +178,25 @@
                             <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-sliders text-sm"></i>
                             </span>
-                            <span>{{ __('المواصفات الفنية والخيارات المتاحة') }}</span>
+                            <span>{{ __('main.technical_specifications') }}</span>
                         </h2>
-                        <span class="text-[11px] font-bold text-slate-400 shrink-0">{{ __('قابلة للتخصيص') }}</span>
+                        <span class="text-[11px] font-bold text-slate-400 shrink-0">{{ __('main.customizable') }}</span>
                     </div>
 
                     <div class="divide-y divide-slate-100">
                         @foreach($specs as $specKey => $specVal)
+                        @php
+                            $displaySpecKey = __('main.specs.' . $specKey);
+                            if ($displaySpecKey === 'main.specs.' . $specKey) {
+                                $displaySpecKey = $specKey;
+                            }
+                        @endphp
                         <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-xs sm:text-sm">
                             <span class="font-extrabold text-slate-500 flex items-center gap-2">
                                 <span class="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0"></span>
-                                <span>{{ $specKey }}</span>
+                                <span>{{ $displaySpecKey }}</span>
                             </span>
-                            <span class="font-bold text-slate-900 sm:text-left">{{ $specVal }}</span>
+                            <span class="font-bold text-slate-900 {{ $isRtl ? 'sm:text-left' : 'sm:text-right' }}">{{ $specVal }}</span>
                         </div>
                         @endforeach
                     </div>
@@ -199,13 +210,13 @@
 
                     <div class="relative z-10 border-b border-slate-800 pb-4">
                         <span class="inline-block px-3 py-0.5 rounded-full bg-red-600/20 border border-red-500/30 text-red-300 text-[11px] font-bold mb-1.5">
-                            {{ __('طلب تسعير مباشر') }}
+                            {{ __('main.direct_quote_title') }}
                         </span>
                         <h3 class="text-base sm:text-xl font-black text-white">
-                            {{ __('احصل على عرض سعر لـ') }} «{{ $product->name }}»
+                            {{ __('main.get_quote_for') }} «{{ $product->name }}»
                         </h3>
                         <p class="text-xs text-slate-400 mt-1">
-                            {{ __('حدد الكمية المطلوبة والمواصفات الخاصة بك وسنتواصل معك فوراً بعرض السعر.') }}
+                            {{ __('main.quote_form_desc') }}
                         </p>
                     </div>
 
@@ -215,17 +226,17 @@
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-slate-300 mb-1.5">{{ __('الاسم الكامل أو الجهة') }} <span class="text-red-400">*</span></label>
+                                <label class="block text-xs font-bold text-slate-300 mb-1.5">{{ __('main.customer_name') }} <span class="text-red-400">*</span></label>
                                 <input type="text"
                                     name="customer_name"
                                     value="{{ old('customer_name') }}"
                                     required
-                                    placeholder="{{ __('الاسم أو اسم الشركة...') }}"
+                                    placeholder="{{ __('main.customer_name_placeholder') }}"
                                     class="w-full px-4 py-2.5 rounded-xl bg-slate-950/90 border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
                             </div>
 
                             <div>
-                                <label class="block text-xs font-bold text-slate-300 mb-1.5">{{ __('رقم الجوال') }} <span class="text-red-400">*</span></label>
+                                <label class="block text-xs font-bold text-slate-300 mb-1.5">{{ __('main.phone') }} <span class="text-red-400">*</span></label>
                                 <input type="tel"
                                     name="phone"
                                     value="{{ old('phone') }}"
@@ -239,10 +250,10 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <div class="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
-                                    <label class="text-xs font-bold text-slate-300">{{ __('الكمية المطلوبة') }}</label>
+                                    <label class="text-xs font-bold text-slate-300">{{ __('main.quantity') }}</label>
                                     <div class="flex gap-1 flex-wrap">
                                         @foreach([100, 500, 1000] as $preset)
-                                        <button type="button" onclick="document.getElementById('prod_page_qty').value='{{ $preset }}'" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-blue-600 text-[10px] font-mono text-slate-300 hover:text-white transition-colors">{{ $preset }}</button>
+                                         <button type="button" onclick="document.getElementById('prod_page_qty').value='{{ $preset }}'" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-blue-600 text-[10px] font-mono text-slate-300 hover:text-white transition-colors">{{ $preset }}</button>
                                         @endforeach
                                     </div>
                                 </div>
@@ -251,12 +262,12 @@
                                     name="quantity"
                                     value="{{ old('quantity') }}"
                                     min="1"
-                                    placeholder="{{ __('مثال: 500') }}"
+                                    placeholder="{{ __('main.quantity_placeholder') }}"
                                     class="w-full px-4 py-2.5 rounded-xl bg-slate-950/90 border border-slate-700 text-sm font-mono text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
                             </div>
 
                             <div>
-                                <label class="block text-xs font-bold text-slate-300 mb-1.5">{{ __('البريد الإلكتروني (اختياري)') }}</label>
+                                <label class="block text-xs font-bold text-slate-300 mb-1.5">{{ __('main.email') }}</label>
                                 <input type="email"
                                     name="email"
                                     value="{{ old('email') }}"
@@ -267,17 +278,17 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-300 mb-1.5">{{ __('المقاسات المطلوبة أو ملاحظات إضافية') }}</label>
+                            <label class="block text-xs font-bold text-slate-300 mb-1.5">{{ __('main.notes_or_dimensions') }}</label>
                             <textarea name="notes"
                                 rows="3"
-                                placeholder="{{ __('اذكر المقاسات أو ألوان الطباعة أو التشطيب المطلوب...') }}"
+                                placeholder="{{ __('main.notes_placeholder') }}"
                                 class="w-full px-4 py-2.5 rounded-xl bg-slate-950/90 border border-slate-700 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">{{ old('notes') }}</textarea>
                         </div>
 
                         <button type="submit"
                             class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-500 hover:to-red-500 text-white font-black text-xs sm:text-sm shadow-xl flex items-center justify-center gap-2 transition-all">
                             <i class="fa-solid fa-paper-plane"></i>
-                            <span>{{ __('إرسال طلب التسعير لهذا المنتج') }}</span>
+                            <span>{{ __('main.send_product_quote') }}</span>
                         </button>
                     </form>
                 </div>
@@ -292,12 +303,12 @@
         <div class="mt-14 sm:mt-16 pt-10 sm:pt-12 border-t border-slate-200/80">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
                 <div>
-                    <span class="text-xs font-black text-blue-700 uppercase tracking-wider">{{ __('منتجات ذات صلة') }}</span>
-                    <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">{{ __('قد يهمك أيضاً من منتجات المطبعة') }}</h2>
+                    <span class="text-xs font-black text-blue-700 uppercase tracking-wider">{{ __('main.related_products') }}</span>
+                    <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">{{ __('main.you_might_also_like') }}</h2>
                 </div>
                 <a href="{{ route('website.products.index') }}" class="self-start sm:self-auto shrink-0 text-xs sm:text-sm font-bold text-blue-700 hover:text-red-600 flex items-center gap-1.5">
-                    <span>{{ __('عرض كل المنتجات') }}</span>
-                    <i class="fa-solid fa-arrow-left text-xs"></i>
+                    <span>{{ __('main.view_all') }}</span>
+                    <i class="fa-solid {{ $forwardArrowIcon }} text-xs"></i>
                 </a>
             </div>
 
@@ -332,4 +343,3 @@
 @endpush
 
 @endsection
-

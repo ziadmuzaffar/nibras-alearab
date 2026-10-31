@@ -169,6 +169,9 @@
 <!-- ==========================================================================
      3. CATEGORIES SECTION - PRINTING & PACKAGING DEPARTMENTS
      ========================================================================== -->
+@php
+    $isRtl = LaravelLocalization::getCurrentLocaleDirection() === 'rtl';
+@endphp
 <section id="categories-section" class="py-16 sm:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -177,19 +180,19 @@
             <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-extrabold mb-3">
                     <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                    <span>{{ __('أقسام وتخصصات المطبعة') }}</span>
+                    <span>{{ __('main.categories_badge') }}</span>
                 </div>
                 <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-                    {{ __('حلول طباعة وتغليف شاملة تحت سقف واحد') }}
+                    {{ __('main.categories_section_title') }}
                 </h2>
                 <p class="text-xs sm:text-base text-slate-500 mt-2 max-w-2xl">
-                    {{ __('نغطي كافة احتياجات العلامات التجارية والشركات والمؤسسات من التغليف الفاخر والمطبوعات الورقية إلى تجهيزات المعارض والهدايا الترويجية.') }}
+                    {{ __('main.categories_section_desc') }}
                 </p>
             </div>
             <a href="{{ route('website.products.index') }}"
                 class="self-start md:self-auto shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-slate-200 hover:border-blue-600 text-slate-800 hover:text-blue-700 text-xs sm:text-sm font-black shadow-2xs transition-all">
-                <span>{{ __('استعراض جميع الأقسام') }}</span>
-                <i class="fa-solid fa-arrow-left text-xs"></i>
+                <span>{{ __('main.browse_all_categories') }}</span>
+                <i class="fa-solid {{ $isRtl ? 'fa-arrow-left' : 'fa-arrow-right' }} text-xs"></i>
             </a>
         </div>
 
@@ -214,7 +217,7 @@
                     @endif
 
                     <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-slate-100 group-hover:bg-blue-50 text-slate-600 group-hover:text-blue-700 text-[10px] sm:text-[11px] font-extrabold font-mono whitespace-nowrap shrink-0 transition-colors">
-                        {{ $category->products_count }} {{ __('منتج') }}
+                        {{ $category->products_count }} {{ __('main.product_unit') }}
                     </span>
                 </div>
 
@@ -223,8 +226,8 @@
                         {{ $category->name }}
                     </h3>
                     <div class="mt-2.5 sm:mt-3 flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-400 group-hover:text-red-600 transition-colors">
-                        <span>{{ __('تصفح المنتجات') }}</span>
-                        <i class="fa-solid fa-arrow-left text-[10px] group-hover:-translate-x-1 transition-transform"></i>
+                        <span>{{ __('main.explore_category') }}</span>
+                        <i class="fa-solid {{ $isRtl ? 'fa-arrow-left group-hover:-translate-x-1' : 'fa-arrow-right group-hover:translate-x-1' }} text-[10px] transition-transform"></i>
                     </div>
                 </div>
             </a>

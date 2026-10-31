@@ -101,13 +101,13 @@ class CategoryController extends Controller
             'order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ], [
-            'name.required' => __('يرجى إدخال اسم التصنيف.'),
-            'name.max' => __('اسم التصنيف طويل جداً (الحد الأقصى 255 حرفاً).'),
-            'slug.unique' => __('الرابط المخصص (Slug) مستخدم بالفعل، يرجى اختيار رابط آخر.'),
-            'image.image' => __('الملف المرفق يجب أن يكون صورة صالحة.'),
-            'image.mimes' => __('صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.'),
-            'image.max' => __('حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.'),
-            'order.integer' => __('قيمة الترتيب يجب أن تكون رقماً صحيحاً.'),
+            'name.required' => __('main.category_name_required'),
+            'name.max' => __('main.category_name_max'),
+            'slug.unique' => __('main.category_slug_unique'),
+            'image.image' => __('main.category_image_invalid'),
+            'image.mimes' => __('main.category_image_mimes'),
+            'image.max' => __('main.category_image_max'),
+            'order.integer' => __('main.category_order_integer'),
         ]);
 
         // Auto generate slug if empty
@@ -158,7 +158,7 @@ class CategoryController extends Controller
 
         return redirect()
             ->route('admin.categories.index')
-            ->with('success', __('تم إضافة التصنيف ":name" بنجاح!', ['name' => $category->name]));
+            ->with('success', __('main.category_created_success', ['name' => $category->name]));
     }
 
     /**
@@ -218,13 +218,13 @@ class CategoryController extends Controller
             'order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ], [
-            'name.required' => __('يرجى إدخال اسم التصنيف.'),
-            'name.max' => __('اسم التصنيف طويل جداً (الحد الأقصى 255 حرفاً).'),
-            'slug.unique' => __('الرابط المخصص (Slug) مستخدم بالفعل في تصنيف آخر.'),
-            'image.image' => __('الملف المرفق يجب أن يكون صورة صالحة.'),
-            'image.mimes' => __('صيغ الصور المسموح بها هي: jpeg, png, jpg, webp, svg.'),
-            'image.max' => __('حجم الصورة لا يجب أن يتجاوز 3 ميغابايت.'),
-            'order.integer' => __('قيمة الترتيب يجب أن تكون رقماً صحيحاً.'),
+            'name.required' => __('main.category_name_required'),
+            'name.max' => __('main.category_name_max'),
+            'slug.unique' => __('main.category_slug_unique'),
+            'image.image' => __('main.category_image_invalid'),
+            'image.mimes' => __('main.category_image_mimes'),
+            'image.max' => __('main.category_image_max'),
+            'order.integer' => __('main.category_order_integer'),
         ]);
 
         // Process slug
@@ -292,7 +292,7 @@ class CategoryController extends Controller
 
         return redirect()
             ->route('admin.categories.index')
-            ->with('success', __('تم تحديث بيانات التصنيف ":name" بنجاح!', ['name' => $category->name]));
+            ->with('success', __('main.category_updated_success', ['name' => $category->name]));
     }
 
     /**
@@ -307,7 +307,7 @@ class CategoryController extends Controller
         if ($productsCount > 0) {
             return redirect()
                 ->route('admin.categories.index')
-                ->with('error', __('لا يمكن حذف التصنيف ":name" لوجود :count منتج مرتبط به. يرجى نقل أو حذف المنتجات أولاً.', ['name' => $name, 'count' => $productsCount]));
+                ->with('error', __('main.category_has_products_error', ['name' => $name, 'count' => $productsCount]));
         }
 
         // Delete image file if exists
@@ -319,7 +319,7 @@ class CategoryController extends Controller
 
         return redirect()
             ->route('admin.categories.index')
-            ->with('success', __('تم حذف التصنيف ":name" بنجاح.', ['name' => $name]));
+            ->with('success', __('main.category_deleted_success', ['name' => $name]));
     }
 
     /**
@@ -331,8 +331,8 @@ class CategoryController extends Controller
             'is_active' => !$category->is_active,
         ]);
 
-        $statusText = $category->is_active ? __('تفعيل') : __('تعطيل');
+        $statusText = $category->is_active ? __('main.category_status_enabled') : __('main.category_status_disabled');
 
-        return back()->with('success', __('تم :status التصنيف ":name" بنجاح.', ['status' => $statusText, 'name' => $category->name]));
+        return back()->with('success', __('main.category_status_toggled', ['status' => $statusText, 'name' => $category->name]));
     }
 }

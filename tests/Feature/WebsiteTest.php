@@ -48,6 +48,40 @@ test('product details page renders specifications and related products', functio
     $response->assertSee($product->name);
 });
 
+test('products catalog and details render bilingual content with spatie and mcamara localization in english', function () {
+    $product = Product::active()->first();
+
+    // 1. Catalog page in English
+    $catalogResponse = $this->get(route('website.products.index', ['lang' => 'en']));
+    $catalogResponse->assertStatus(200);
+    $catalogResponse->assertSee(__('main.catalog_hero_title', [], 'en'));
+    $catalogResponse->assertSee(__('main.printing_categories', [], 'en'));
+    $catalogResponse->assertSee($product->getTranslation('name', 'en'));
+
+    // 2. Product show page in English
+    $showResponse = $this->get(route('website.products.show', ['product' => $product->slug, 'lang' => 'en']));
+    $showResponse->assertStatus(200);
+    $showResponse->assertSee(__('main.technical_specifications', [], 'en'));
+    $showResponse->assertSee(__('main.available_for_production', [], 'en'));
+    $showResponse->assertSee($product->getTranslation('name', 'en'));
+});
+
+test('category page renders bilingual content with spatie and mcamara localization in english', function () {
+    $category = Category::active()->first();
+
+    $response = $this->get(route('website.categories.show', ['category' => $category->slug, 'lang' => 'en']));
+    $response->assertStatus(200);
+    $response->assertSee($category->getTranslation('name', 'en'));
+    $response->assertSee(__('main.printing_categories', [], 'en'));
+    $response->assertSee(__('main.all_categories', [], 'en'));
+});
+
+test('locale switch route correctly updates session and cookie', function () {
+    $response = $this->get(route('locale.switch', 'en'));
+    $response->assertRedirect();
+    $response->assertSessionHas('locale', 'en');
+});
+
 test('portfolio, about, and contact pages render successfully', function () {
     $this->get(route('website.portfolios.index'))->assertStatus(200);
     $this->get(route('website.about'))->assertStatus(200);

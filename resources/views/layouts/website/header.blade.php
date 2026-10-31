@@ -152,11 +152,11 @@ default => 'fa-gift',
             <!-- Action Buttons (Language + Search + WhatsApp + Request Quote + Mobile Menu Button) -->
             <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 <!-- Language Switcher -->
-                <a href="{{ route('locale.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
-                    title="{{ app()->getLocale() === 'ar' ? 'Switch to English' : 'التبديل إلى العربية' }}"
+                <a href="{{ route('locale.switch', LaravelLocalization::getCurrentLocale() === 'ar' ? 'en' : 'ar') }}"
+                    title="{{ LaravelLocalization::getCurrentLocale() === 'ar' ? 'Switch to English' : 'التبديل إلى العربية' }}"
                     class="inline-flex items-center justify-center gap-1.5 h-9 sm:h-10 px-2.5 sm:px-3 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200/80 text-xs font-black transition-all shrink-0">
                     <i class="fa-solid fa-globe text-blue-600 text-xs"></i>
-                    <span>{{ app()->getLocale() === 'ar' ? 'EN' : 'عربي' }}</span>
+                    <span>{{ LaravelLocalization::getCurrentLocale() === 'ar' ? 'EN' : 'عربي' }}</span>
                 </a>
 
                 <!-- Search Button -->
@@ -280,13 +280,13 @@ default => 'fa-gift',
         </a>
 
         <!-- Language Switcher in Mobile Drawer -->
-        <a href="{{ route('locale.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+        <a href="{{ route('locale.switch', LaravelLocalization::getCurrentLocale() === 'ar' ? 'en' : 'ar') }}"
             class="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-700 border border-slate-200/70 mt-2">
             <div class="flex items-center gap-3">
                 <i class="fa-solid fa-globe w-5 text-center text-blue-600"></i>
-                <span>{{ app()->getLocale() === 'ar' ? 'English Language' : 'اللغة العربية' }}</span>
+                <span>{{ LaravelLocalization::getCurrentLocale() === 'ar' ? 'English Language' : 'اللغة العربية' }}</span>
             </div>
-            <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 text-[10px] font-black">{{ app()->getLocale() === 'ar' ? 'EN' : 'AR' }}</span>
+            <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 text-[10px] font-black">{{ LaravelLocalization::getCurrentLocale() === 'ar' ? 'EN' : 'AR' }}</span>
         </a>
 
         <!-- Categories Section in Drawer -->

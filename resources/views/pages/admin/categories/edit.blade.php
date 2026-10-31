@@ -1,6 +1,12 @@
 @extends('layouts.dashboard.app')
 
-@section('title', __('تعديل التصنيف:') . ' ' . $category->name)
+@php
+    $isRtl = LaravelLocalization::getCurrentLocaleDirection() === 'rtl';
+    $nameAr = old('name', $category->getTranslation('name', 'ar', false) ?: $category->name);
+    $nameEn = old('name_en', $category->getTranslation('name', 'en', false));
+@endphp
+
+@section('title', __('main.edit_category') . ': ' . $category->name)
 
 @section('content')
 <div class="space-y-6">
@@ -9,18 +15,18 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-                <span>{{ __('تعديل التصنيف') }}</span>
+                <span>{{ __('main.edit_category') }}</span>
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1">{{ __('تحديث بيانات وخصائص التصنيف وترتيبه') }}</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">{{ __('main.edit_category_desc') }}</p>
         </div>
 
         <div class="flex items-center gap-3">
             <a href="{{ route('admin.categories.index') }}"
                 class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-slate-700 bg-white border border-slate-200/80 hover:bg-slate-50 hover:text-slate-900 shadow-sm transition-all duration-200 active:scale-[0.98]">
-                <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-4 h-4 {{ $isRtl ? 'rotate-0' : 'rotate-180' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                <span>{{ __('العودة للتصنيفات') }}</span>
+                <span>{{ __('main.back_to_categories') }}</span>
             </a>
         </div>
     </div>
@@ -38,34 +44,55 @@
             <!-- Main Information (Left on desktop RTL = 8 cols) -->
             <div class="lg:col-span-8 space-y-6">
 
-                <!-- Basic Fields Card -->
+                <!-- Basic Fields Card (Spatie Translatable Bilingual) -->
                 <div class="bg-white p-5 sm:p-7 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                        <span>{{ __('البيانات الأساسية') }}</span>
+                        <span>{{ __('main.basic_info') }}</span>
                     </h3>
 
-                    <!-- Name Field -->
-                    <div>
-                        <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            {{ __('اسم التصنيف') }} <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text"
-                            id="name"
-                            name="name"
-                            value="{{ old('name', $category->name) }}"
-                            required
-                            class="w-full px-4 py-3 rounded-xl border {{ $errors->has('name') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
-                        @error('name')
-                        <p class="text-xs text-red-600 mt-1.5 font-medium">{{ $message }}</p>
-                        @enderror
+                    <!-- Bilingual Names Grid (Arabic & English) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Name Field (Arabic) -->
+                        <div>
+                            <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                {{ __('main.category_name_ar') }} <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text"
+                                id="name"
+                                name="name"
+                                value="{{ $nameAr }}"
+                                required
+                                dir="rtl"
+                                class="w-full px-4 py-3 rounded-xl border {{ $errors->has('name') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
+                            @error('name')
+                            <p class="text-xs text-red-600 mt-1.5 font-medium">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Name Field (English) -->
+                        <div>
+                            <label for="name_en" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                {{ __('main.category_name_en') }}
+                            </label>
+                            <input type="text"
+                                id="name_en"
+                                name="name_en"
+                                value="{{ $nameEn }}"
+                                placeholder="{{ __('main.category_name_en_placeholder') }}"
+                                dir="ltr"
+                                class="w-full px-4 py-3 rounded-xl border {{ $errors->has('name_en') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
+                            @error('name_en')
+                            <p class="text-xs text-red-600 mt-1.5 font-medium">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
 
                     <!-- Slug Field -->
                     <div>
                         <label for="slug" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            {{ __('الرابط المخصص (Slug)') }}
-                            <span class="text-[11px] font-normal text-slate-400 mr-2">{{ __('(يُستخدم في روابط التصفح)') }}</span>
+                            {{ __('main.category_slug') }}
+                            <span class="text-[11px] font-normal text-slate-400 mr-2">{{ __('main.category_slug_hint_used') }}</span>
                         </label>
                         <input type="text"
                             id="slug"
@@ -82,10 +109,10 @@
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <label for="icon-input" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                {{ __('أيقونة التصنيف') }} <span class="text-blue-600 font-semibold">(Font Awesome)</span>
+                                {{ __('main.category_icon') }} <span class="text-blue-600 font-semibold">(Font Awesome)</span>
                             </label>
                             <a href="https://fontawesome.com/icons?o=r&m=free" target="_blank" rel="noopener noreferrer" class="text-[11px] font-medium text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
-                                <span>{{ __('تصفح مكتبة الأيقونات') }}</span>
+                                <span>{{ __('main.browse_icons') }}</span>
                                 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                             </a>
                         </div>
@@ -96,7 +123,7 @@
                             <!-- Icon Preview Box -->
                             <div id="icon-preview-box"
                                 class="w-12 h-12 shrink-0 rounded-xl bg-blue-50/90 border border-blue-200 text-blue-700 flex items-center justify-center shadow-sm transition-all"
-                                title="{{ __('معاينة الأيقونة') }}">
+                                title="{{ __('main.icon_preview') }}">
                                 <span id="icon-preview-icon" class="flex items-center justify-center">
                                     <x-category-icon :icon="$selectedIcon" class="w-6 h-6" />
                                 </span>
@@ -108,7 +135,7 @@
                                     id="icon-input"
                                     name="icon"
                                     value="{{ $selectedIcon }}"
-                                    placeholder="{{ __('مثال: fa-solid fa-box-open أو box') }}"
+                                    placeholder="{{ __('main.icon_placeholder') }}"
                                     dir="ltr"
                                     oninput="updateIconPreview(this.value)"
                                     class="w-full px-4 py-3 rounded-xl border {{ $errors->has('icon') ? 'border-red-400 bg-red-50/30' : 'border-slate-200 bg-slate-50/50' }} text-slate-800 text-sm font-mono text-left focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
@@ -130,7 +157,7 @@
                 <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-                        <span>{{ __('صورة الغلاف / التصنيف') }}</span>
+                        <span>{{ __('main.category_image') }}</span>
                     </h3>
 
                     <!-- Image Display / Replacement -->
@@ -140,7 +167,7 @@
                             <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
                                 <label class="cursor-pointer px-3 py-1.5 rounded-lg bg-white/90 hover:bg-white text-slate-900 text-xs font-bold shadow-md transition-all">
-                                    {{ __('تغيير الصورة') }}
+                                    {{ __('main.change_image') }}
                                     <input type="file"
                                         id="image-input"
                                         name="image"
@@ -159,16 +186,16 @@
                                 value="1"
                                 class="rounded border-slate-300 text-red-600 focus:ring-red-500">
                             <label for="remove_image" class="text-xs text-red-600 font-medium cursor-pointer">
-                                {{ __('حذف الصورة الحالية والاعتماد على الأيقونة') }}
+                                {{ __('main.remove_image') }}
                             </label>
                         </div>
                         @else
                         <div id="image-preview-wrapper" class="hidden relative w-full h-44 rounded-xl border border-slate-200 overflow-hidden bg-slate-100">
-                            <img id="image-preview" src="#" alt="{{ __('معاينة الصورة') }}" class="w-full h-full object-cover">
+                            <img id="image-preview" src="#" alt="{{ __('main.image_preview') }}" class="w-full h-full object-cover">
                             <button type="button"
                                 onclick="clearImageSelection()"
                                 class="absolute top-2 left-2 p-1.5 rounded-lg bg-red-600/90 text-white hover:bg-red-700 shadow-md transition-colors"
-                                title="{{ __('إزالة الصورة') }}">
+                                title="{{ __('main.remove_image') }}">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -181,8 +208,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <span class="text-xs font-bold text-slate-700">{{ __('اضغط لرفع صورة التصنيف') }}</span>
-                            <span class="text-[10px] text-slate-400 mt-1">{{ __('PNG, JPG, WEBP حتى 3MB') }}</span>
+                            <span class="text-xs font-bold text-slate-700">{{ __('main.upload_category_image') }}</span>
+                            <span class="text-[10px] text-slate-400 mt-1">{{ __('main.image_specs_hint') }}</span>
                             <input type="file"
                                 id="image-input"
                                 name="image"
@@ -202,13 +229,13 @@
                 <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
                     <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-slate-600"></span>
-                        <span>{{ __('إعدادات العرض') }}</span>
+                        <span>{{ __('main.display_settings') }}</span>
                     </h3>
 
                     <!-- Order -->
                     <div>
                         <label for="order" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            {{ __('ترتيب الظهور') }}
+                            {{ __('main.display_order') }}
                         </label>
                         <input type="number"
                             id="order"
@@ -222,8 +249,8 @@
                     <div class="pt-2">
                         <label class="flex items-center justify-between cursor-pointer p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:bg-slate-100/70 transition-colors">
                             <span class="flex flex-col">
-                                <span class="text-xs font-bold text-slate-800">{{ __('حالة التفعيل') }}</span>
-                                <span class="text-[11px] text-slate-500">{{ __('عرض التصنيف في المتجر وموقع العملاء') }}</span>
+                                <span class="text-xs font-bold text-slate-800">{{ __('main.activation_status') }}</span>
+                                <span class="text-[11px] text-slate-500">{{ __('main.activation_status_desc') }}</span>
                             </span>
                             <div class="relative inline-flex items-center">
                                 <input type="checkbox"
@@ -244,11 +271,11 @@
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                         </svg>
-                        <span>{{ __('حفظ التعديلات') }}</span>
+                        <span>{{ __('main.update_category') }}</span>
                     </button>
                     <a href="{{ route('admin.categories.index') }}"
                         class="block w-full py-2.5 text-center text-xs font-semibold text-slate-500 hover:text-slate-700 rounded-xl hover:bg-slate-50 transition-colors">
-                        {{ __('إلغاء التراجع') }}
+                        {{ __('main.cancel_return') }}
                     </a>
                 </div>
 
